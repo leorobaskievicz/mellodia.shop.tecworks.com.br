@@ -1,0 +1,31 @@
+# www.divacosmeticos.com.br robots.txt
+User-agent: *
+Allow: /
+Allow: /produtos/
+Allow: /categorias/
+Allow: /busca/
+Allow: /lojas/
+Allow: /sobre/
+Allow: /contato/
+Allow: /departamento/
+Allow: /busca/
+Allow: /marca/
+
+# Bloqueia páginas administrativas e de sistema
+Disallow: /admin/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /static/
+Disallow: /private/
+Disallow: /checkout/
+Disallow: /carrinho/
+Disallow: /minha-conta/
+Disallow: /login/
+Disallow: /cadastro/
+Disallow: /recuperar-senha/
+
+# Sitemap
+Sitemap: https://www.divacosmeticos.com.br/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 10 

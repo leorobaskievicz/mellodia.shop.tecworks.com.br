@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="459" height="152" viewBox="0 0 459 152">
+  <g id="Grupo_124" data-name="Grupo 124" transform="translate(-9710 469)">
+    <g id="padlock" transform="translate(9650.655 -469)">
+      <path id="Caminho_147" data-name="Caminho 147" d="M195.341,67.89V43.547a43.545,43.545,0,1,0-87.09,0V67.89m15.7,0V43.547a27.842,27.842,0,1,1,55.684,0V67.89" transform="translate(-34.492)" fill="#d3dae0"/>
+      <g id="Grupo_120" data-name="Grupo 120" transform="translate(73.759)">
+        <path id="Caminho_148" data-name="Caminho 148" d="M154.338.076C153.5.027,152.651,0,151.8,0a43.547,43.547,0,0,0-43.547,43.547V67.89h5.08V43.547A43.547,43.547,0,0,1,154.338.076Z" transform="translate(-108.251)" fill="#899ea8"/>
+        <path id="Caminho_149" data-name="Caminho 149" d="M267.163,53.28c-.856,0-1.7.041-2.54.117a27.877,27.877,0,0,1,25.3,27.727v24.343H295V81.124A27.871,27.871,0,0,0,267.163,53.28Z" transform="translate(-218.536 -37.577)" fill="#899ea8"/>
+      </g>
+      <rect id="Retângulo_19" data-name="Retângulo 19" width="115.919" height="83.011" transform="translate(59.345 67.89)" fill="#f79f00"/>
+      <rect id="Retângulo_20" data-name="Retângulo 20" width="10.16" height="83.011" transform="translate(59.345 67.89)" fill="#e48900"/>
+    </g>
+    <text id="SITE_100_SEGURO" data-name="SITE 100%
+SEGURO" transform="translate(9858 -400)" fill="#fff" font-size="71" font-family="Montserrat-Regular, Montserrat" letter-spacing="-0.07em"><tspan x="0" y="0">SITE 100%</tspan><tspan font-family="Montserrat-Bold, Montserrat" font-weight="700"><tspan x="0" y="65">SEGURO</tspan></tspan></text>
+  </g>
+</svg>

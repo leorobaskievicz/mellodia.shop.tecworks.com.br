@@ -1,4 +1,3 @@
-import algoliasearch from "algoliasearch";
 import { algoliasearch } from "algoliasearch";
 import recommendClient from "@/app/lib/algoliaRecommend";
 import Api from "@/app/lib/api";
@@ -112,17 +111,7 @@ async function getProdutoByNome(slug) {
 }
 
 // Função para buscar produto pelo nome dos departamentos
-async function getProdutoByDepartamento(
-  menu1,
-  menu2 = null,
-  menu3 = null,
-  page = 1,
-  perPage = 25,
-  marcas = null,
-  orderBy = "relevancia",
-  filtros = {},
-  fgTelevendas = false
-) {
+async function getProdutoByDepartamento(menu1, menu2 = null, menu3 = null, page = 1, perPage = 25, marcas = null, orderBy = "relevancia", filtros = {}, fgTelevendas = false) {
   const myapi = new Api();
 
   try {
@@ -242,9 +231,7 @@ async function getProdutoByDepartamento(
           FOTOS: [
             {
               id: 1509304,
-              link: !q.foto
-                ? "produto-sem-imagem.png"
-                : String(q.foto).replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
+              link: !q.foto ? "produto-sem-imagem.png" : String(q.foto).replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
               sequencia: 1,
             },
           ],
@@ -323,15 +310,7 @@ async function getProdutoByDepartamento(
 }
 
 // Função para buscar produto pela marca
-async function getProdutoByMarca(
-  marca,
-  page = 1,
-  perPage = 25,
-  sort = "relevancia",
-  filtros = {},
-  termo = "",
-  fgTelevendas = false
-) {
+async function getProdutoByMarca(marca, page = 1, perPage = 25, sort = "relevancia", filtros = {}, termo = "", fgTelevendas = false) {
   const myapi = new Api();
 
   try {
@@ -363,9 +342,7 @@ async function getProdutoByMarca(
 
       // 🎯 Filtro de departamentos
       if (filtros.departamentos && filtros.departamentos.length > 0) {
-        const departamentos = filtros.departamentos
-          .map((d) => `MENU1_DESCRICAO:"${d.replace(/"/g, '\\"')}"`)
-          .join(" OR ");
+        const departamentos = filtros.departamentos.map((d) => `MENU1_DESCRICAO:"${d.replace(/"/g, '\\"')}"`).join(" OR ");
         tmpFilters.push(`( ${departamentos} )`);
       }
 
@@ -435,9 +412,7 @@ async function getProdutoByMarca(
           FOTOS: [
             {
               id: 1509304,
-              link: !q.foto
-                ? "produto-sem-imagem.png"
-                : String(q.foto).replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
+              link: !q.foto ? "produto-sem-imagem.png" : String(q.foto).replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
               sequencia: 1,
             },
           ],
@@ -486,14 +461,7 @@ async function getProdutoByMarca(
 }
 
 // Função para buscar produto
-async function getProdutoBySearch(
-  termo,
-  page = 1,
-  perPage = 25,
-  sort = "relevancia",
-  filtros = {},
-  fgTelevendas = false
-) {
+async function getProdutoBySearch(termo, page = 1, perPage = 25, sort = "relevancia", filtros = {}, fgTelevendas = false) {
   const myapi = new Api();
 
   try {
@@ -524,9 +492,7 @@ async function getProdutoBySearch(
 
       // 🎯 Filtro de departamentos
       if (filtros.departamentos && filtros.departamentos.length > 0) {
-        const departamentos = filtros.departamentos
-          .map((d) => `MENU1_DESCRICAO:"${d.replace(/"/g, '\\"')}"`)
-          .join(" OR ");
+        const departamentos = filtros.departamentos.map((d) => `MENU1_DESCRICAO:"${d.replace(/"/g, '\\"')}"`).join(" OR ");
         tmpFilters.push(`( ${departamentos} )`);
       }
 
@@ -595,9 +561,7 @@ async function getProdutoBySearch(
           FOTOS: [
             {
               id: 1509304,
-              link: !q.foto
-                ? "produto-sem-imagem.png"
-                : String(q.foto).replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
+              link: !q.foto ? "produto-sem-imagem.png" : String(q.foto).replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
               sequencia: 1,
             },
           ],
@@ -1006,9 +970,7 @@ async function getProdutoByPromocao(page = 1, perPage = 50, sort = "relevancia",
 
       // 🎯 Filtro de departamentos
       if (filtros.departamentos && filtros.departamentos.length > 0) {
-        const departamentos = filtros.departamentos
-          .map((d) => `MENU1_DESCRICAO:"${d.replace(/"/g, '\\"')}"`)
-          .join(" OR ");
+        const departamentos = filtros.departamentos.map((d) => `MENU1_DESCRICAO:"${d.replace(/"/g, '\\"')}"`).join(" OR ");
         tmpFilters.push(`( ${departamentos} )`);
       }
 
@@ -1076,9 +1038,7 @@ async function getProdutoByPromocao(page = 1, perPage = 50, sort = "relevancia",
           FOTOS: [
             {
               id: 1509304,
-              link: !q.foto
-                ? "produto-sem-imagem.png"
-                : String(q.foto).replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
+              link: !q.foto ? "produto-sem-imagem.png" : String(q.foto).replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
               sequencia: 1,
             },
           ],
@@ -1126,14 +1086,7 @@ async function getProdutoByPromocao(page = 1, perPage = 50, sort = "relevancia",
 }
 
 // Função busca produtos de outlet
-async function getProdutoBySubgrupo(
-  subgrupo = "999",
-  page = 1,
-  perPage = 50,
-  sort = "relevancia",
-  filtros = {},
-  fgTelevendas = false
-) {
+async function getProdutoBySubgrupo(subgrupo = "999", page = 1, perPage = 50, sort = "relevancia", filtros = {}, fgTelevendas = false) {
   const myapi = new Api();
 
   try {
@@ -1171,9 +1124,7 @@ async function getProdutoBySubgrupo(
 
       // 🎯 Filtro de departamentos
       if (filtros.departamentos && filtros.departamentos.length > 0) {
-        const departamentos = filtros.departamentos
-          .map((d) => `MENU1_DESCRICAO:"${d.replace(/"/g, '\\"')}"`)
-          .join(" OR ");
+        const departamentos = filtros.departamentos.map((d) => `MENU1_DESCRICAO:"${d.replace(/"/g, '\\"')}"`).join(" OR ");
         tmpFilters.push(`( ${departamentos} )`);
       }
 
@@ -1241,9 +1192,7 @@ async function getProdutoBySubgrupo(
           FOTOS: [
             {
               id: 1509304,
-              link: !q.foto
-                ? "produto-sem-imagem.png"
-                : String(q.foto).replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
+              link: !q.foto ? "produto-sem-imagem.png" : String(q.foto).replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
               sequencia: 1,
             },
           ],
@@ -1326,9 +1275,7 @@ async function getProdutosRecomendados(codigoProduto) {
       FOTOS: [
         {
           id: 1509304,
-          link: !q.foto
-            ? "produto-sem-imagem.png"
-            : String(q.foto).replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
+          link: !q.foto ? "produto-sem-imagem.png" : String(q.foto).replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
           sequencia: 1,
         },
       ],
@@ -1374,9 +1321,7 @@ async function getProdutosSimilares(codigoProduto) {
       FOTOS: [
         {
           id: 1509304,
-          link: !q.foto
-            ? "produto-sem-imagem.png"
-            : String(q.foto).replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
+          link: !q.foto ? "produto-sem-imagem.png" : String(q.foto).replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
           sequencia: 1,
         },
       ],

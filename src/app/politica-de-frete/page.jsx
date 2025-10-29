@@ -10,7 +10,7 @@ export default function PoliticaDePrivacidade() {
         <h1> Política de Frete </h1>
 
         <p>
-          Na Diva Cosméticos, buscamos oferecer a melhor experiência de compra online. Confira abaixo as regras
+          Na Dricor, buscamos oferecer a melhor experiência de compra online. Confira abaixo as regras
           aplicáveis ao envio dos pedidos:
         </p>
 
@@ -35,7 +35,7 @@ export default function PoliticaDePrivacidade() {
           <h2 style={{ marginTop: "20px" }}> 4. Outras Regiões do Brasil </h2>
           <p>
             Pedidos destinados a regiões fora do alcance do motoboy são enviados por transportadoras credenciadas pela
-            Diva Cosméticos.
+            Dricor.
           </p>
           <p>
             O prazo e o valor do frete são calculados automaticamente no momento da compra, conforme o CEP informado.

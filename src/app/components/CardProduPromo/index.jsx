@@ -79,7 +79,7 @@ export default function CardProduPromo({ produ, intervaloSeg, remaining, setRema
           text:
             `Confira essa super promoção ${
               Number(produ.PRECO) !== Number(preco) ? `de ${Diversos.maskPreco(produ.PRECO)}` : ""
-            } por ${Diversos.maskPreco(preco)} na Diva Cosméticos` || "Confira este link!",
+            } por ${Diversos.maskPreco(preco)} na Dricor` || "Confira este link!",
           url: window.location.href,
         });
       } catch (error) {
@@ -140,7 +140,7 @@ export default function CardProduPromo({ produ, intervaloSeg, remaining, setRema
               : `${
                   String(produ.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1
                     ? ""
-                    : "https://cdn.divacosmeticos.com.br/"
+                    : "https://dricor.cdn.tecworks.com.br/"
                 }${!produ.FOTOS || produ.FOTOS.length <= 0 ? "produto-sem-imagem.png" : produ.FOTOS[0].link}`
           }
           alt={produ.NOME}

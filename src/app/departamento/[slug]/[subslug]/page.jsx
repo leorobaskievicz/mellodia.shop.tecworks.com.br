@@ -55,9 +55,9 @@ export default async function Departamento(props) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
-    url: `https://www.divacosmeticos.com.br/${Diversos.toSeoUrl(slug)}/${Diversos.toSeoUrl(subslug)}`,
+    url: `https://www.dricor.com.br/${Diversos.toSeoUrl(slug)}/${Diversos.toSeoUrl(subslug)}`,
     name: produtos?.[0]?.NOME,
-    image: produtos?.[0]?.FOTOS.map((q) => `${String(q.link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://cdn.divacosmeticos.com.br/"}${q.link}`),
+    image: produtos?.[0]?.FOTOS.map((q) => `${String(q.link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${q.link}`),
     description: `Melhor oferta de ${Diversos.capitalize(slug)}`,
     sku: produtos?.[0]?.CODIGO,
     mpn: produtos?.[0]?.REFERENCIA ? produtos?.[0]?.REFERENCIA : produtos?.[0]?.CODIGO,
@@ -81,7 +81,7 @@ export default async function Departamento(props) {
       availability: "http://schema.org/InStock",
       seller: {
         "@type": "Organization",
-        name: "Diva Cosméticos",
+        name: "Dricor",
       },
     },
   };

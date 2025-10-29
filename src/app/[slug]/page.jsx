@@ -28,15 +28,15 @@ export async function generateMetadata({ params }) {
     return {};
   }
 
-  const url = `https://www.divacosmeticos.com.br/${Diversos.toSeoUrl(produto.NOME)}`;
+  const url = `https://www.dricor.com.br/${Diversos.toSeoUrl(produto.NOME)}`;
   const image =
     produto.FOTOS?.[0]?.link
       ? (produto.FOTOS[0].link.startsWith("https://cdn.divacosmeticos")
           ? produto.FOTOS[0].link
-          : `https://cdn.divacosmeticos.com.br/${produto.FOTOS[0].link}`)
-      : "https://www.divacosmeticos.com.br/_next/image?url=%2Fproduto-sem-imagem.png&w=1200&q=90";
+          : `https://dricor.cdn.tecworks.com.br/${produto.FOTOS[0].link}`)
+      : "https://www.dricor.com.br/_next/image?url=%2Fproduto-sem-imagem.png&w=1200&q=90";
 
-  const title = `${produto.NOME} | Diva Cosméticos`;
+  const title = `${produto.NOME} | Dricor`;
   const description = `Melhor oferta de ${produto.NOME} com entrega rápida em todo o Brasil. Aproveite agora!`;
   const price = (produto.PREPRO > 0 && produto.PREPRO < produto.PRECO) ? produto.PREPRO : produto.PRECO;
 
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }) {
       title,
       description,
       images: [{ url: image }],
-      siteName: "Diva Cosméticos",
+      siteName: "Dricor",
     },
     twitter: {
       card: "summary_large_image",
@@ -113,9 +113,9 @@ export default async function Produto(props) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
-    url: `https://www.divacosmeticos.com.br/${Diversos.toSeoUrl(produto.NOME)}`,
+    url: `https://www.dricor.com.br/${Diversos.toSeoUrl(produto.NOME)}`,
     name: produto.NOME,
-    image: produto.FOTOS.map((q) => `${String(q.link).indexOf("https://cdn.divacosmeticos") > -1 ? q.link : "https://cdn.divacosmeticos.com.br/"}${q.link}`),
+    image: produto.FOTOS.map((q) => `${String(q.link).indexOf("https://cdn.divacosmeticos") > -1 ? q.link : "https://dricor.cdn.tecworks.com.br/"}${q.link}`),
     description: `Melhor oferta de ${Diversos.capitalize(produto.NOME)}`,
     sku: produto.CODIGO,
     mpn: produto.REFERENCIA ? produto.REFERENCIA : produto.CODIGO,
@@ -131,7 +131,7 @@ export default async function Produto(props) {
     review: {},
     offers: {
       "@type": "Offer",
-      url: `https://www.divacosmeticos.com.br/${Diversos.toSeoUrl(produto.NOME)}`,
+      url: `https://www.dricor.com.br/${Diversos.toSeoUrl(produto.NOME)}`,
       priceCurrency: "BRL",
       price: produto.PREPRO > 0 && produto.PREPRO < produto.PRECO ? produto.PREPRO : produto.PRECO,
       priceValidUntil: moment().add(1, "month").format("YYYY-MM-DD"),
@@ -139,15 +139,15 @@ export default async function Produto(props) {
       availability: "http://schema.org/InStock",
       seller: {
         "@type": "Organization",
-        name: "Diva Cosméticos",
+        name: "Dricor",
       },
     },
   };
 
-  const title = `${produto.NOME} | Diva Cosméticos`;
+  const title = `${produto.NOME} | Dricor`;
   const description = `Melhor oferta de ${produto.NOME} com entrega rápida em todo o Brasil. Aproveite agora!`;
-  const image = produto.FOTOS && produto.FOTOS.length > 0 && produto.FOTOS[0].link ? produto.FOTOS[0].link.indexOf("https://cdn.divacosmeticos") > -1 ? produto.FOTOS[0].link : `https://cdn.divacosmeticos.com.br/${produto.FOTOS[0].link}` : 'https://www.divacosmeticos.com.br/_next/image?url=%2Fproduto-sem-imagem.png&w=256&q=75';
-  const url = `https://www.divacosmeticos.com.br/${Diversos.toSeoUrl(produto.NOME)}`;
+  const image = produto.FOTOS && produto.FOTOS.length > 0 && produto.FOTOS[0].link ? produto.FOTOS[0].link.indexOf("https://cdn.divacosmeticos") > -1 ? produto.FOTOS[0].link : `https://dricor.cdn.tecworks.com.br/${produto.FOTOS[0].link}` : 'https://www.dricor.com.br/_next/image?url=%2Fproduto-sem-imagem.png&w=256&q=75';
+  const url = `https://www.dricor.com.br/${Diversos.toSeoUrl(produto.NOME)}`;
 
   return (
     <>

@@ -10,13 +10,13 @@ export default function PoliticaDePrivacidade() {
           <h2> Seção 1 - Informações Gerais </h2>
           <p>
             A presente Política de Privacidade contém informações sobre coleta, uso, armazenamento, tratamento e proteção dos dados pessoais dos usuários e visitantes do site{" "}
-            <b>www.divacosmeticos.com.br</b>, com a finalidade de demonstrar absoluta transparência quanto ao assunto e esclarecer a todos interessados sobre os tipos de dados que
+            <b>www.www.dricor.com.br</b>, com a finalidade de demonstrar absoluta transparência quanto ao assunto e esclarecer a todos interessados sobre os tipos de dados que
             são coletados, os motivos da coleta e a forma como os usuários podem gerenciar ou excluir as suas informações pessoais.
           </p>
           <p>
             Esta Política de Privacidade aplica-se a todos os usuários e visitantes do site
-            <b> www.divacosmeticos.com.br </b> e integra os Termos e Condições Gerais de Uso do site, devidamente inscrita no CNPJ sob o nº 49.212.829/0001-47, situado em Rua XV de
-            Novembro, 506 – Centro – Curitiba/PR , doravante nominada Diva Cosméticos.
+            <b> www.www.dricor.com.br </b> e integra os Termos e Condições Gerais de Uso do site, devidamente inscrita no CNPJ sob o nº 82.414.558/0001-88, situado em Rua XV de
+            Novembro, 506 – Centro – Curitiba/PR , doravante nominada Dricor.
           </p>
           <p>
             O presente documento foi elaborado em conformidade com a Lei Geral de Proteção de Dados Pessoais (Lei{" "}
@@ -43,18 +43,18 @@ export default function PoliticaDePrivacidade() {
           <ul>
             <li>
               Quando o usuário cria uma conta/perfil na plataforma
-              <b>www.divacosmeticos.com.br</b>: esses dados são os dados de identificação básicos, como e-mail, nome completo e cidade de residência. A partir deles, podemos
+              <b>www.www.dricor.com.br</b>: esses dados são os dados de identificação básicos, como e-mail, nome completo e cidade de residência. A partir deles, podemos
               identificar o usuário e o visitante, além de garantir uma maior segurança e bem-estar às suas necessidades. Ficam cientes os usuários e visitantes de que seu perfil
               na plataforma estará acessível a todos demais usuários e visitantes da plataforma.
             </li>
             <li>
-              Quando um usuário e visitante acessa OU páginas do site www.divacosmeticos.com.br: as informações sobre interação e acesso são coletadas pela empresa para garantir
+              Quando um usuário e visitante acessa OU páginas do site www.www.dricor.com.br: as informações sobre interação e acesso são coletadas pela empresa para garantir
               uma melhor experiência ao usuário e visitante. Estes dados podem tratar sobre as palavras-chaves utilizadas em uma busca, o compartilhamento de um documento
               específico, comentários, visualizações de páginas, perfis, a URL de onde o usuário e visitante provêm, o navegador que utilizam e seus IPs de acesso, dentre outras
               que poderão ser armazenadas e retidas.
             </li>
             <li>
-              Por intermédio de terceiro: a plataforma www.divacosmeticos.com.br recebe dados de terceiros, como Facebook e Google, quando um usuário faz login com o seu perfil de
+              Por intermédio de terceiro: a plataforma www.www.dricor.com.br recebe dados de terceiros, como Facebook e Google, quando um usuário faz login com o seu perfil de
               um desses sites. A utilização desses dados é autorizada previamente pelos usuários junto ao terceiro em questão.
             </li>
           </ul>
@@ -64,7 +64,7 @@ export default function PoliticaDePrivacidade() {
           <h2> SEÇÃO 3 - QUAIS DADOS PESSOAIS RECOLHEMOS SOBRE O USUÁRIO E VISITANTE? </h2>
           <p> Os dados pessoais do usuário e visitante recolhidos são os seguintes: </p>
           <ul>
-            <li>Dados para a criação da conta/perfil na plataforma www.divacosmeticos.com.br: e-mail, nome completo, CPF, endereço completo e telefone.</li>
+            <li>Dados para a criação da conta/perfil na plataforma www.www.dricor.com.br: e-mail, nome completo, CPF, endereço completo e telefone.</li>
             <li>
               Dados para otimização da navegação: acesso a páginas, palavras-chave utilizadas na busca, recomendações, comentários, interação com outros perfis e usuários, perfis
               seguidos, endereço de IP.
@@ -89,7 +89,7 @@ export default function PoliticaDePrivacidade() {
           <h2> SEÇÃO 3 - PARA QUE FINALIDADES UTILIZAMOS OS DADOS PESSOAIS DO USUÁRIO E VISITANTE? </h2>
           <p>
             {" "}
-            Os dados pessoais do usuário e do visitante coletados e armazenados pela plataforma <b>www.divacosmeticos.com.br</b> tem por finalidade:{" "}
+            Os dados pessoais do usuário e do visitante coletados e armazenados pela plataforma <b>www.www.dricor.com.br</b> tem por finalidade:{" "}
           </p>
           <ul>
             <li>
@@ -213,7 +213,7 @@ export default function PoliticaDePrivacidade() {
             das informações por ele disponibilizadas.
           </p>
           <p>
-            O usuário tem direito de retirar o seu consentimento a qualquer tempo, para tanto deve entrar em contato através do e-mail sac@divacosmeticos.com.br{" "}
+            O usuário tem direito de retirar o seu consentimento a qualquer tempo, para tanto deve entrar em contato através do e-mail sac@www.dricor.com.br{" "}
             <span> ou por correio enviado ao seguinte endereço: Rua Amaro da Santa Rita, 357 – Fanny – Curitiba/PR – CEP: 81030-230 </span>
           </p>
         </article>

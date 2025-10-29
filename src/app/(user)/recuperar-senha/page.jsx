@@ -72,7 +72,7 @@ export default function ResetSenha() {
       }
 
       await supabase.auth.resetPasswordForEmail(state.email, {
-        redirectTo: "https://www.divacosmeticos.com.br/atualiza-senha",
+        redirectTo: "https://www.dricor.com.br/atualiza-senha",
       });
 
       setMsg("success", "Sucesso", "Enviamos link de recuperação para seu e-mail. Você poderá utilizá-lo para fazer Login");

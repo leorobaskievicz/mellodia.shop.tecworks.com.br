@@ -32,7 +32,7 @@ export default function TopHeader({ children }) {
             src={`${
               String(topHeader[0].path_mobile && isMobile ? topHeader[0].path_mobile : topHeader[0].path).indexOf("https://cdn.divacosmeticos") > -1
                 ? ""
-                : "https://cdn.divacosmeticos.com.br/"
+                : "https://dricor.cdn.tecworks.com.br/"
             }${topHeader[0].path_mobile && isMobile ? topHeader[0].path_mobile : topHeader[0].path}`}
             alt={`Slide 0 ${topHeader[0].titulo}`}
             width={1220}

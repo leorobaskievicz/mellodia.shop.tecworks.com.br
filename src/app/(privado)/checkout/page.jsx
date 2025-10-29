@@ -616,7 +616,7 @@ export default function Checkout(props) {
                     }}
                   >
                     <Image
-                      src={`${String(row.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://cdn.divacosmeticos.com.br/"}${
+                      src={`${String(row.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
                         !row.FOTOS || row.FOTOS.length <= 0 ? "produto-sem-imagem.png" : row.FOTOS[0].link
                       }`}
                       className="compra-img"

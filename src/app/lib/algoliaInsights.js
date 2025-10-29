@@ -2,8 +2,8 @@
 import insights from "search-insights";
 
 insights("init", {
-  appId: "0ZL4K9YRHI",
-  apiKey: "e93eee44b5b8260b6baf2362ce668bda", // diferente da de busca
+  appId: process.env.NEXT_PUBLIC_ALGOLIA_APP_ID,
+  apiKey: process.env.NEXT_PUBLIC_ALGOLIA_RECOMMEND_API_KEY, // diferente da de busca
 });
 
 export default insights;

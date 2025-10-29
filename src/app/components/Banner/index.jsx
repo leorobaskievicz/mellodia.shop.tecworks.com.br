@@ -141,7 +141,7 @@ const Banner = memo(({ banners, fgHorizontalSmall, fgCards, fgDepartamentos, arr
                             src={`${
                               String(gifPath).indexOf("https://cdn.divacosmeticos") > -1
                                 ? ""
-                                : "https://cdn.divacosmeticos.com.br/"
+                                : "https://dricor.cdn.tecworks.com.br/"
                             }${gifPath}`}
                             alt={imageAlt}
                             loading={index === 0 || priority ? "eager" : "lazy"}
@@ -161,7 +161,7 @@ const Banner = memo(({ banners, fgHorizontalSmall, fgCards, fgDepartamentos, arr
                               srcSet={`${
                                 String(webpPath).indexOf("https://cdn.divacosmeticos") > -1
                                   ? ""
-                                  : "https://cdn.divacosmeticos.com.br/"
+                                  : "https://dricor.cdn.tecworks.com.br/"
                               }${webpPath}`}
                               type="image/webp"
                               style={{ borderRadius: 10 }}
@@ -170,7 +170,7 @@ const Banner = memo(({ banners, fgHorizontalSmall, fgCards, fgDepartamentos, arr
                               src={`${
                                 String(pngPath).indexOf("https://cdn.divacosmeticos") > -1
                                   ? ""
-                                  : "https://cdn.divacosmeticos.com.br/"
+                                  : "https://dricor.cdn.tecworks.com.br/"
                               }${pngPath}`}
                               alt={imageAlt}
                               loading={index === 0 || priority ? "eager" : "lazy"}
@@ -255,7 +255,7 @@ const Banner = memo(({ banners, fgHorizontalSmall, fgCards, fgDepartamentos, arr
                         src={`${
                           String(gifPath).indexOf("https://cdn.divacosmeticos") > -1
                             ? ""
-                            : "https://cdn.divacosmeticos.com.br/"
+                            : "https://dricor.cdn.tecworks.com.br/"
                         }${gifPath}`}
                         alt={imageAlt}
                         loading={index === 0 || priority ? "eager" : "lazy"}
@@ -275,7 +275,7 @@ const Banner = memo(({ banners, fgHorizontalSmall, fgCards, fgDepartamentos, arr
                           srcSet={`${
                             String(webpPath).indexOf("https://cdn.divacosmeticos") > -1
                               ? ""
-                              : "https://cdn.divacosmeticos.com.br/"
+                              : "https://dricor.cdn.tecworks.com.br/"
                           }${webpPath}`}
                           type="image/webp"
                           style={{ borderRadius: 10 }}
@@ -284,7 +284,7 @@ const Banner = memo(({ banners, fgHorizontalSmall, fgCards, fgDepartamentos, arr
                           src={`${
                             String(pngPath).indexOf("https://cdn.divacosmeticos") > -1
                               ? ""
-                              : "https://cdn.divacosmeticos.com.br/"
+                              : "https://dricor.cdn.tecworks.com.br/"
                           }${pngPath}`}
                           alt={imageAlt}
                           loading={index === 0 || priority ? "eager" : "lazy"}

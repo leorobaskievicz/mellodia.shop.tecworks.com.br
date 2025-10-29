@@ -193,20 +193,20 @@ const CartItem = memo((props) => {
               <source
                 srcSet={`${
                   !props.item.FOTOS || props.item.FOTOS.length <= 0
-                    ? "https://cdn.divacosmeticos.com.br/produto-sem-imagem.webp"
+                    ? "https://dricor.cdn.tecworks.com.br/produto-sem-imagem.webp"
                     : String(props.item.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1
                     ? props.item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
-                    : "https://cdn.divacosmeticos.com.br/" + props.item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
+                    : "https://dricor.cdn.tecworks.com.br/" + props.item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
                 }`}
                 type="image/webp"
               />
               <img
                 src={`${
                   !props.item.FOTOS || props.item.FOTOS.length <= 0
-                    ? "https://cdn.divacosmeticos.com.br/produto-sem-imagem.png"
+                    ? "https://dricor.cdn.tecworks.com.br/produto-sem-imagem.png"
                     : String(props.item.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1
                     ? props.item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
-                    : "https://cdn.divacosmeticos.com.br/" + props.item.FOTOS[0].link
+                    : "https://dricor.cdn.tecworks.com.br/" + props.item.FOTOS[0].link
                 }`}
                 alt={props.item.NOME}
                 loading="lazy"

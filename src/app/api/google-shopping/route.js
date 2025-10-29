@@ -1,6 +1,6 @@
 export async function GET() {
   try {
-    const res = await fetch(`https://cdn.divacosmeticos.com.br/google-shopping.xml?v=${Date.now()}`);
+    const res = await fetch(`https://dricor.cdn.tecworks.com.br/google-shopping.xml?v=${Date.now()}`);
 
     if (!res.ok) {
       throw new Error(`Erro ao buscar XML: ${res.status}`);

@@ -173,13 +173,13 @@ export default function CardProdu({ children, produ, idx, sx, algoliaReturn, ind
         ) : (
           <picture>
             <source
-              srcSet={`${String(produ.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://cdn.divacosmeticos.com.br/"}${
+              srcSet={`${String(produ.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
                 !produ.FOTOS || produ.FOTOS.length <= 0 ? "produto-sem-imagem.webp" : produ.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
               }`}
               type="image/webp"
             />
             <img
-              src={`${String(produ.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://cdn.divacosmeticos.com.br/"}${
+              src={`${String(produ.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
                 !produ.FOTOS || produ.FOTOS.length <= 0 ? "produto-sem-imagem.png" : produ.FOTOS[0].link
               }`}
               alt={produ.NOME}

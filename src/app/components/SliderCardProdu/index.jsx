@@ -115,7 +115,7 @@ export default function SliderCardProdu({
                   srcSet={`${
                     String(bannersLeft[0].path).indexOf("https://cdn.divacosmeticos") > -1
                       ? ""
-                      : "https://cdn.divacosmeticos.com.br/"
+                      : "https://dricor.cdn.tecworks.com.br/"
                   }${bannersLeft[0].path}`}
                   type="image/webp"
                   style={{ borderRadius: 10, width: "100%", height: 650 }}
@@ -124,7 +124,7 @@ export default function SliderCardProdu({
                   src={`${
                     String(bannersLeft[0].path).indexOf("https://cdn.divacosmeticos") > -1
                       ? ""
-                      : "https://cdn.divacosmeticos.com.br/"
+                      : "https://dricor.cdn.tecworks.com.br/"
                   }${bannersLeft[0].path}`}
                   alt={bannersLeft[0].path}
                   loading="eager"

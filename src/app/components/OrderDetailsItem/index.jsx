@@ -19,7 +19,7 @@ export default function OrderDetailsItem({ item }) {
               }}
             >
               <Image
-                src={`${String(item.produtoDados.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://cdn.divacosmeticos.com.br/"}${
+                src={`${String(item.produtoDados.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
                   item.produtoDados.FOTOS[0].link
                 }`}
                 alt={item.produtoDados.NOME}

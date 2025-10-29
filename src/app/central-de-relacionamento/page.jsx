@@ -214,9 +214,9 @@ export default function CentralRelacionamento() {
             <AccordionDetails>
               <Typography>
                 Se o seu pedido estiver fora do prazo de entrega, envie um e-mail para{" "}
-                <a href="mailto:sac@divacosmeticos.com.br" target="_blank" rel="noopener noreferrer">
+                <a href="mailto:sac@www.dricor.com.br" target="_blank" rel="noopener noreferrer">
                   {" "}
-                  sac@divacosmeticos.com.br{" "}
+                  sac@www.dricor.com.br{" "}
                 </a>{" "}
                 e vamos ajudar você! Se desejar, também poderá por lá solicitar alterações no seu pedido, demandas especiais e até cancelar o pedido, se for o caso.
               </Typography>
@@ -250,9 +250,9 @@ export default function CentralRelacionamento() {
               <Typography>
                 Faça seu login no site e clique em Minha Conta, ali você encontrará as opções para poder alterar seu cadastro. É só escolher a informação que deseja alterar. Caso
                 você tenha alguma dúvida ou dificuldade, poderá enviar um e-mail para{" "}
-                <a href="mailto:sac@divacosmeticos.com.br" target="_blank" rel="noopener noreferrer">
+                <a href="mailto:sac@www.dricor.com.br" target="_blank" rel="noopener noreferrer">
                   {" "}
-                  sac@divacosmeticos.com.br{" "}
+                  sac@www.dricor.com.br{" "}
                 </a>{" "}
                 que iremos te ajudar.
               </Typography>
@@ -356,7 +356,7 @@ export default function CentralRelacionamento() {
             <AccordionDetails>
               <Typography>
                 Quando um pedido é finalizado nenhuma alteração pode ser feita, mas se você precisar de alguma ajuda muito específica, envie e-mail para{" "}
-                <a href="mailto:sac@divacosmeticos.com.br"> sac@divacosmeticos.com.br </a> que vamos ajudar você com esclarecimentos.
+                <a href="mailto:sac@www.dricor.com.br"> sac@www.dricor.com.br </a> que vamos ajudar você com esclarecimentos.
               </Typography>
             </AccordionDetails>
           </Accordion>

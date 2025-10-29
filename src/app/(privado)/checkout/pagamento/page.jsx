@@ -205,7 +205,7 @@ function CheckoutPagamentoContent(props) {
           appState.carrinho[0].NOME,
           appState.carrinho[0].CODIGO,
           getTotal(),
-          "https://www.divacosmeticos.com.br/checkout/pagamento"
+          "https://www.dricor.com.br/checkout/pagamento"
         );
 
         setState((state) => ({ ...state, checkout1: false, checkout2: true }));
@@ -832,7 +832,7 @@ function CheckoutPagamentoContent(props) {
 
       setState((state) => ({
         ...state,
-        linkPagamento: `https://www.divacosmeticos.com.br/api/link-pagamento?d=${getCart.SESSION_ID}`,
+        linkPagamento: `https://www.dricor.com.br/api/link-pagamento?d=${getCart.SESSION_ID}`,
       }));
       setModalLinkPagamento(true);
 
@@ -1026,20 +1026,20 @@ function CheckoutPagamentoContent(props) {
                   <source
                     srcSet={`${
                       !item.FOTOS || item.FOTOS.length <= 0
-                        ? "https://cdn.divacosmeticos.com.br/produto-sem-imagem.webp"
+                        ? "https://dricor.cdn.tecworks.com.br/produto-sem-imagem.webp"
                         : String(item.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1
                         ? item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
-                        : "https://cdn.divacosmeticos.com.br/" + item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
+                        : "https://dricor.cdn.tecworks.com.br/" + item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
                     }`}
                     type="image/webp"
                   />
                   <img
                     src={`${
                       !item.FOTOS || item.FOTOS.length <= 0
-                        ? "https://cdn.divacosmeticos.com.br/produto-sem-imagem.png"
+                        ? "https://dricor.cdn.tecworks.com.br/produto-sem-imagem.png"
                         : String(item.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1
                         ? item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
-                        : "https://cdn.divacosmeticos.com.br/" + item.FOTOS[0].link
+                        : "https://dricor.cdn.tecworks.com.br/" + item.FOTOS[0].link
                     }`}
                     alt={item.NOME}
                     loading="lazy"
@@ -1443,7 +1443,7 @@ function CheckoutPagamentoContent(props) {
 
     // Start um timer de 10 segundos minutos para enviar carrinho para o controle de carrinho abandonado
     setTimeout(() => {
-      fetch("https://n8n.divacosmeticos.com.br/webhook/abandono-carrinho", {
+      fetch("https://n8n.www.dricor.com.br/webhook/abandono-carrinho", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

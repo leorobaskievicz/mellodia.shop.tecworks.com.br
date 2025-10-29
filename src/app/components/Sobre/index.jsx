@@ -7,7 +7,7 @@ export default function Sobre() {
   return (
     <Container maxWidth="lg">
       <Typography variant="h4" component="h1" gutterBottom>
-        Sobre a Diva Cosméticos
+        Sobre a Dricor
       </Typography>
       <Typography variant="body1" paragraph>
         A Diva é uma rede de lojas de cosméticos e salões de beleza que iniciou sua história em 2001. Estamos localizados no centro de Curitiba, Paraná, onde trabalhamos com uma

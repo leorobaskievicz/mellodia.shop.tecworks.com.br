@@ -237,10 +237,10 @@ const renderKits = (produto, kits) => {
                           <OptimizedImage
                             src={
                               q.itemDados && q.itemDados.FOTOS && q.itemDados.FOTOS.length > 0
-                                ? `${String(q.itemDados.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://cdn.divacosmeticos.com.br/"}${
+                                ? `${String(q.itemDados.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
                                     q.itemDados.FOTOS[0].link
                                   }`
-                                : `https://cdn.divacosmeticos.com.br/produto-sem-foto.png`
+                                : `https://dricor.cdn.tecworks.com.br/produto-sem-foto.png`
                             }
                             width={700}
                             height={700}
@@ -297,7 +297,7 @@ const renderKits = (produto, kits) => {
                     <a href={`/${Diversos.toSeoUrl(q.produtoDados?.NOME)}`} target="_self">
                       <div className="variacao-btn">
                         <OptimizedImage
-                          src={`${String(q.produtoDados.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://cdn.divacosmeticos.com.br/"}${
+                          src={`${String(q.produtoDados.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
                             q.produtoDados.FOTOS[0].link
                           }`}
                           width={700}
@@ -378,7 +378,7 @@ const renderVariacoes = (produto, variacoes, setSelectedImage, setSelectedVariac
                     >
                       {hasImage ? (
                         <OptimizedImage
-                          src={`https://cdn.divacosmeticos.com.br/${item.image}`}
+                          src={`https://dricor.cdn.tecworks.com.br/${item.image}`}
                           width={48}
                           height={48}
                           alt={item.attribute_value}
@@ -831,7 +831,7 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
           text:
             `Confira essa super promoção ${Number(produto.PRECO) !== Number(preco) ? `de ${Diversos.maskPreco(produto.PRECO)}` : ""} por ${Diversos.maskPreco(
               preco
-            )} na Diva Cosméticos` || "Confira este link!",
+            )} na Dricor` || "Confira este link!",
           url: window.location.href,
         });
       } catch (error) {
@@ -908,7 +908,7 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
 
     const buscaEstoqueLojas = async () => {
       setState((state) => ({ ...state, estoquesIsLoading: true }));
-      const response = await fetch(`https://api.divacosmeticos.com.br/admloja/produto/estoque?produto=${produto.CODIGO}`, {
+      const response = await fetch(`https://dricor.api.tecworks.com.br/admloja/produto/estoque?produto=${produto.CODIGO}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -994,14 +994,14 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                   >
                     <picture>
                       <source
-                        srcSet={`${String(item.link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://cdn.divacosmeticos.com.br/"}${item.link.replace(
+                        srcSet={`${String(item.link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${item.link.replace(
                           /\.[^/.]+$/,
                           ".webp"
                         )}`}
                         type="image/webp"
                       />
                       <img
-                        src={`${String(item.link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://cdn.divacosmeticos.com.br/"}${item.link}`}
+                        src={`${String(item.link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${item.link}`}
                         alt={produto.NOME}
                         loading="lazy"
                         style={{ maxWidth: "100%" }}
@@ -1027,8 +1027,8 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                       <ZoomImage
                         src={
                           selectedVariacao
-                            ? `${String(selectedImage).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://cdn.divacosmeticos.com.br/"}${selectedImage}`
-                            : `${String(selectedImage).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://cdn.divacosmeticos.com.br/"}${selectedImage.replace(
+                            ? `${String(selectedImage).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${selectedImage}`
+                            : `${String(selectedImage).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${selectedImage.replace(
                                 /\.[^/.]+$/,
                                 ".webp"
                               )}`
@@ -1038,14 +1038,14 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                     ) : (
                       <picture>
                         <source
-                          srcSet={`${String(selectedImage).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://cdn.divacosmeticos.com.br/"}${selectedImage.replace(
+                          srcSet={`${String(selectedImage).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${selectedImage.replace(
                             /\.[^/.]+$/,
                             ".webp"
                           )}`}
                           type="image/webp"
                         />
                         <img
-                          src={`${String(selectedImage).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://cdn.divacosmeticos.com.br/"}${selectedImage}`}
+                          src={`${String(selectedImage).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${selectedImage}`}
                           alt={produto.NOME}
                           loading="lazy"
                           style={{
@@ -1108,14 +1108,14 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                       >
                         <picture style={{ width: "100%", maxWidth: 500, height: "auto", objectFit: "contain" }}>
                           <source
-                            srcSet={`${String(item.link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://cdn.divacosmeticos.com.br/"}${item.link.replace(
+                            srcSet={`${String(item.link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${item.link.replace(
                               /\.[^/.]+$/,
                               ".webp"
                             )}`}
                             type="image/webp"
                           />
                           <img
-                            src={`${String(item.link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://cdn.divacosmeticos.com.br/"}${item.link}`}
+                            src={`${String(item.link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${item.link}`}
                             alt={produto.NOME}
                             loading="lazy"
                             style={{
@@ -1349,7 +1349,7 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
               <div className="w-100">
                 <Link href={`/marca/${Diversos.toSeoUrl(produto.MARCA)}`}>
                   <Image
-                    src={`https://cdn.divacosmeticos.com.br/${produto.bannerMarca?.path}`}
+                    src={`https://dricor.cdn.tecworks.com.br/${produto.bannerMarca?.path}`}
                     alt={`Logo da marca ${produto.MARCA}`}
                     loading="lazy"
                     width={150}
@@ -1861,7 +1861,7 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                 <Grid>
                   <Image
                     src={"/Rapunzel-Tônico-Capilar-Diva-Cosmeticos-250ml.jpg"}
-                    alt="Rapunzel Tônico Capilar Diva Cosméticos 250ml"
+                    alt="Rapunzel Tônico Capilar Dricor 250ml"
                     width={970}
                     height={600}
                     style={{

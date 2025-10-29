@@ -459,8 +459,8 @@ function MeuCadastro() {
                                   <Image
                                     src={
                                       row.FOTOS && row.FOTOS.length > 0
-                                        ? `${String(row.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://cdn.divacosmeticos.com.br/"}${row.FOTOS[0].link}`
-                                        : `https://cdn.divacosmeticos.com.br/produto-sem-imagem.png`
+                                        ? `${String(row.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${row.FOTOS[0].link}`
+                                        : `https://dricor.cdn.tecworks.com.br/produto-sem-imagem.png`
                                     }
                                     alt={row.NOME}
                                     fill

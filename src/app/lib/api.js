@@ -1,6 +1,6 @@
 class Api {
-  constructor(token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjgsImlhdCI6MTYwMjE2MjU4NH0.5pqJuHVcMMVrB0z7bZHdYdIgyeWgJXrEIZVGjAvNG2Y") {
-    this.url = "https://api.divacosmeticos.com.br";
+  constructor(token = process.env.NEXT_PUBLIC_API_TOKEN) {
+    this.url = "https://dricor.api.tecworks.com.br";
     // this.url = "http://127.0.0.1:3333";
     this.token = token;
   }

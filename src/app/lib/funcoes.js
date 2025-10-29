@@ -1,3 +1,4 @@
+import algoliasearch from "algoliasearch";
 import { algoliasearch } from "algoliasearch";
 import recommendClient from "@/app/lib/algoliaRecommend";
 import Api from "@/app/lib/api";
@@ -130,10 +131,10 @@ async function getProdutoByDepartamento(
     }
 
     if (fgTelevendas !== true) {
-      const searchClient = algoliasearch("0ZL4K9YRHI", "9dce6b1078349eb5234c895d3425eaee");
+      const searchClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY);
 
       const paramAlgolia = {
-        indexName: "produtos-site-diva",
+        indexName: `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}`,
         query: ``,
         hitsPerPage: perPage,
         page: page - 1,
@@ -193,19 +194,19 @@ async function getProdutoByDepartamento(
       if (orderBy !== "default" && orderBy !== "relevancia") {
         switch (orderBy) {
           case "preco_asc":
-            paramAlgolia.indexName = "produtos-site-diva-preco_asc";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-preco_asc`;
             break;
           case "preco_desc":
-            paramAlgolia.indexName = "produtos-site-diva-preco_desc";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-preco_desc`;
             break;
           case "nome_asc":
-            paramAlgolia.indexName = "produtos-site-diva-nome_asc";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-nome_asc`;
             break;
           case "nome_desc":
-            paramAlgolia.indexName = "produtos-site-diva-nome_desc";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-nome_desc`;
             break;
           case "stock_asc":
-            paramAlgolia.indexName = "produtos-site-diva-estoque";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-estoque`;
             break;
         }
       }
@@ -338,7 +339,7 @@ async function getProdutoByMarca(
       const searchClient = algoliasearch("0ZL4K9YRHI", "9dce6b1078349eb5234c895d3425eaee");
 
       const paramAlgolia = {
-        indexName: "produtos-site-diva",
+        indexName: `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}`,
         query: ``,
         hitsPerPage: perPage,
         page: page - 1,
@@ -388,19 +389,19 @@ async function getProdutoByMarca(
       if (sort !== "default" && sort !== "relevancia") {
         switch (sort) {
           case "preco_asc":
-            paramAlgolia.indexName = "produtos-site-diva-preco_asc";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-preco_asc`;
             break;
           case "preco_desc":
-            paramAlgolia.indexName = "produtos-site-diva-preco_desc";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-preco_desc`;
             break;
           case "nome_asc":
-            paramAlgolia.indexName = "produtos-site-diva-nome_asc";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-nome_asc`;
             break;
           case "nome_desc":
-            paramAlgolia.indexName = "produtos-site-diva-nome_desc";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-nome_desc`;
             break;
           case "stock_asc":
-            paramAlgolia.indexName = "produtos-site-diva-estoque";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-estoque`;
             break;
         }
       }
@@ -500,7 +501,7 @@ async function getProdutoBySearch(
       const searchClient = algoliasearch("0ZL4K9YRHI", "9dce6b1078349eb5234c895d3425eaee");
 
       const paramAlgolia = {
-        indexName: "produtos-site-diva",
+        indexName: `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}`,
         query: termo !== "frete-gratis" ? `${termo.replace(/-/g, " ")}` : "",
         hitsPerPage: perPage,
         page: page - 1,
@@ -549,19 +550,19 @@ async function getProdutoBySearch(
       if (sort !== "default" && sort !== "relevancia") {
         switch (sort) {
           case "preco_asc":
-            paramAlgolia.indexName = "produtos-site-diva-preco_asc";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-preco_asc`;
             break;
           case "preco_desc":
-            paramAlgolia.indexName = "produtos-site-diva-preco_desc";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-preco_desc`;
             break;
           case "nome_asc":
-            paramAlgolia.indexName = "produtos-site-diva-nome_asc";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-nome_asc`;
             break;
           case "nome_desc":
-            paramAlgolia.indexName = "produtos-site-diva-nome_desc";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-nome_desc`;
             break;
           case "stock_asc":
-            paramAlgolia.indexName = "produtos-site-diva-estoque";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-estoque`;
             break;
         }
       }
@@ -975,7 +976,7 @@ async function getProdutoByPromocao(page = 1, perPage = 50, sort = "relevancia",
       const searchClient = algoliasearch("0ZL4K9YRHI", "9dce6b1078349eb5234c895d3425eaee");
 
       const paramAlgolia = {
-        indexName: "produtos-site-diva",
+        indexName: `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}`,
         query: ``,
         hitsPerPage: perPage,
         page: page - 1,
@@ -1031,19 +1032,19 @@ async function getProdutoByPromocao(page = 1, perPage = 50, sort = "relevancia",
       if (sort !== "default" && sort !== "relevancia") {
         switch (sort) {
           case "preco_asc":
-            paramAlgolia.indexName = "produtos-site-diva-preco_asc";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-preco_asc`;
             break;
           case "preco_desc":
-            paramAlgolia.indexName = "produtos-site-diva-preco_desc";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-preco_desc`;
             break;
           case "nome_asc":
-            paramAlgolia.indexName = "produtos-site-diva-nome_asc";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-nome_asc`;
             break;
           case "nome_desc":
-            paramAlgolia.indexName = "produtos-site-diva-nome_desc";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-nome_desc`;
             break;
           case "stock_asc":
-            paramAlgolia.indexName = "produtos-site-diva-estoque";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-estoque`;
             break;
         }
       }
@@ -1140,7 +1141,7 @@ async function getProdutoBySubgrupo(
       const searchClient = algoliasearch("0ZL4K9YRHI", "9dce6b1078349eb5234c895d3425eaee");
 
       const paramAlgolia = {
-        indexName: "produtos-site-diva",
+        indexName: `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}`,
         query: ``,
         hitsPerPage: perPage,
         page: page - 1,
@@ -1196,19 +1197,19 @@ async function getProdutoBySubgrupo(
       if (sort !== "default" && sort !== "relevancia") {
         switch (sort) {
           case "preco_asc":
-            paramAlgolia.indexName = "produtos-site-diva-preco_asc";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-preco_asc`;
             break;
           case "preco_desc":
-            paramAlgolia.indexName = "produtos-site-diva-preco_desc";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-preco_desc`;
             break;
           case "nome_asc":
-            paramAlgolia.indexName = "produtos-site-diva-nome_asc";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-nome_asc`;
             break;
           case "nome_desc":
-            paramAlgolia.indexName = "produtos-site-diva-nome_desc";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-nome_desc`;
             break;
           case "stock_asc":
-            paramAlgolia.indexName = "produtos-site-diva-estoque";
+            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-estoque`;
             break;
         }
       }
@@ -1295,7 +1296,7 @@ async function getProdutosRecomendados(codigoProduto) {
   try {
     const response = await recommendClient.getRecommendations([
       {
-        indexName: "produtos-site-diva",
+        indexName: `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}`,
         objectID: String(codigoProduto),
         model: "related-products",
         threshold: 50,
@@ -1343,7 +1344,7 @@ async function getProdutosSimilares(codigoProduto) {
   try {
     const response = await recommendClient.getRecommendations([
       {
-        indexName: "produtos-site-diva",
+        indexName: `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}`,
         objectID: String(codigoProduto),
         model: "looking-similar",
         threshold: 50,

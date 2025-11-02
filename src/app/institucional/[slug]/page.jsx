@@ -86,7 +86,7 @@ export default function Institucional() {
                 Via E-mail
               </Link>
               <Link
-                href="https://api.whatsapp.com/send?l=pt&phone=+5541987533683&text=Ol%C3%A1.%20Estou%20fazendo%20contato%20atrav%C3%A9s%20do%20site%20www.dricor.com.br"
+                href="https://api.whatsapp.com/send?l=pt&phone=+5541988026971&text=Ol%C3%A1.%20Estou%20fazendo%20contato%20atrav%C3%A9s%20do%20site%20www.dricor.com.br"
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{

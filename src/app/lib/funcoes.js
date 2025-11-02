@@ -15,7 +15,7 @@ async function getBanners(tipo = 1, limit = 1) {
 
     return result.msg;
   } catch (error) {
-    console.log("Erro ao buscar banners:", error.message);
+    console.log("Erro ao buscar banners:", JSON.stringify(error.message));
     return [];
   }
 }
@@ -791,7 +791,7 @@ async function getFrete(cep, produtos) {
       produtos: produtos,
     };
 
-    const data = await myapi.post(`/shipping/modes/diva`, myParam);
+    const data = await myapi.post(`/shipping/modes/dricor`, myParam);
 
     if (!data || !data.status || !data.msg || data.msg.length <= 0) {
       throw new Error(`Nenhum variacao localizada`);

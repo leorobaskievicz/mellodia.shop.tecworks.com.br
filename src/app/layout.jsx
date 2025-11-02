@@ -118,14 +118,12 @@ export default function RootLayout({ children }) {
 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-        {/* <GoogleTagManager gtmId="AW-11199816836" /> */}
-        <GoogleTagManager gtmId="GTM-P7FFP62" />
+        {/* <GoogleTagManager gtmId="GTM-P7FFP62" /> */}
 
-        <noscript>
+        {/* <noscript>
           <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P7FFP62" height="0" width="0" style={{ display: "none", visibility: "hidden" }} title="Google Tag Manager" />
-        </noscript>
+        </noscript> */}
 
-        {/* <script src="https://apis.google.com/js/platform.js" defer async /> */}
         <Script src="https://apis.google.com/js/platform.js" strategy="lazyOnload" />
       </body>
     </html>

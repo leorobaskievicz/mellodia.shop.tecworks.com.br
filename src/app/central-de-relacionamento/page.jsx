@@ -402,7 +402,7 @@ export default function CentralRelacionamento() {
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 2 }}>
           <WhatsAppIcon sx={{ fontSize: 40, color: "success.main" }} />
-          <Typography variant="h6">41 98753-3683</Typography>
+          <Typography variant="h6">41 98802-6971</Typography>
         </Box>
         <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
           Seg. à Sex. das 9H às 18:00H

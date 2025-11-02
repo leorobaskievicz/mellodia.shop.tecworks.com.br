@@ -306,7 +306,7 @@ function CheckoutPagamentoContent(props) {
           fgTelevendas: appState.usuario && appState.usuario.vendedor && appState.usuario.vendedor.NOME ? true : false,
         };
 
-        const data = await api.post(`/shipping/modes/diva`, param, true);
+        const data = await api.post(`/shipping/modes/dricor`, param, true);
 
         if (data.status === false) {
           throw new Error("Não foi possível buscar opções de entrega.");
@@ -1027,7 +1027,7 @@ function CheckoutPagamentoContent(props) {
                     srcSet={`${
                       !item.FOTOS || item.FOTOS.length <= 0
                         ? "https://dricor.cdn.tecworks.com.br/produto-sem-imagem.webp"
-                        : String(item.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1
+                        : String(item.FOTOS[0].link).indexOf("https://dricor.cdn.tecworks") > -1
                         ? item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
                         : "https://dricor.cdn.tecworks.com.br/" + item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
                     }`}
@@ -1037,7 +1037,7 @@ function CheckoutPagamentoContent(props) {
                     src={`${
                       !item.FOTOS || item.FOTOS.length <= 0
                         ? "https://dricor.cdn.tecworks.com.br/produto-sem-imagem.png"
-                        : String(item.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1
+                        : String(item.FOTOS[0].link).indexOf("https://dricor.cdn.tecworks") > -1
                         ? item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
                         : "https://dricor.cdn.tecworks.com.br/" + item.FOTOS[0].link
                     }`}
@@ -2239,7 +2239,7 @@ function CheckoutPagamentoContent(props) {
                                 color: state.formFormaPgtoCodigo === 98 ? "primary.main" : "text.secondary",
                               }}
                             />
-                            <Typography>Link de pagamento (Diva)</Typography>
+                            <Typography>Link de pagamento (Dricor)</Typography>
                           </Box>
                         }
                       />

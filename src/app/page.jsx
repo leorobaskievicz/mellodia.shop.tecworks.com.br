@@ -103,15 +103,14 @@ Loading.displayName = "Loading";
 // Componente que carrega os dados
 async function HomeContent() {
   try {
-    const [banners, bannersCards, bannersHorizontal, bannersDepartamentos, bannersCardsDescontos, homeStruct] =
-      await Promise.all([
-        getBanners(1, 10),
-        getBanners(52, 10),
-        getBanners(50, 10),
-        getBanners(3, 10),
-        getBanners(53, 10),
-        getHomeEstrutura(),
-      ]);
+    const [banners, bannersCards, bannersHorizontal, bannersDepartamentos, bannersCardsDescontos, homeStruct] = await Promise.all([
+      getBanners(1, 10),
+      getBanners(52, 10),
+      getBanners(50, 10),
+      getBanners(3, 10),
+      getBanners(53, 10),
+      getHomeEstrutura(),
+    ]);
 
     const filteredBanners = banners.filter((banner) => banner.tipo === "1");
     const filteredBannersCards = bannersCards;
@@ -137,11 +136,7 @@ async function HomeContent() {
 
         {homeStruct[0] && (
           <LazyComponent>
-            <LazySliderCardProdu
-              title={homeStruct[0].titulo}
-              produtos={homeStruct[0].produtos}
-              link={homeStruct[0].link}
-            />
+            <LazySliderCardProdu title={homeStruct[0].titulo} produtos={homeStruct[0].produtos} link={homeStruct[0].link} />
           </LazyComponent>
         )}
 
@@ -151,11 +146,7 @@ async function HomeContent() {
 
         {homeStruct[1] && (
           <LazyComponent>
-            <LazySliderCardProdu
-              title={homeStruct[1].titulo}
-              produtos={homeStruct[1].produtos}
-              link={homeStruct[1].link}
-            />
+            <LazySliderCardProdu title={homeStruct[1].titulo} produtos={homeStruct[1].produtos} link={homeStruct[1].link} />
           </LazyComponent>
         )}
 
@@ -225,13 +216,7 @@ async function HomeContent() {
 
         {homeStruct.slice(7).map((section, index) => (
           <LazyComponent key={`section-${index + 2}`}>
-            <LazySliderCardProdu
-              title={section.titulo}
-              produtos={section.produtos}
-              link={section.link}
-              fgBanner
-              banners={section.banners || []}
-            />
+            <LazySliderCardProdu title={section.titulo} produtos={section.produtos} link={section.link} fgBanner banners={section.banners || []} />
           </LazyComponent>
         ))}
 

@@ -1,18 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import {
-  Grid,
-  Box,
-  Card,
-  CardMedia,
-  CardContent,
-  Typography,
-  CardActions,
-  Button,
-  LinearProgress,
-  IconButton,
-} from "@mui/material";
+import { Grid, Box, Card, CardMedia, CardContent, Typography, CardActions, Button, LinearProgress, IconButton } from "@mui/material";
 import {
   styleContainerContent,
   styleContainerCard,
@@ -51,10 +40,7 @@ export default function CardProduPromo({ produ, intervaloSeg, remaining, setRema
 
     dispatch({ type: "ADICIONAR_AO_CARRINHO", payload: { ...produ, qtd: 1, FOTOS: produ.FOTOS } });
     dispatch({ type: "SET_CART_OPEN", payload: true });
-    Diversos.sendCartData(state.usuario?.codigo, [
-      ...state.carrinho,
-      { ...produ, PRODUTO: produ.CODIGO, CODIGO: produ.CODIGO, qtd: 1, qty: 1 },
-    ]);
+    Diversos.sendCartData(state.usuario?.codigo, [...state.carrinho, { ...produ, PRODUTO: produ.CODIGO, CODIGO: produ.CODIGO, qtd: 1, qty: 1 }]);
   };
 
   const handleClickFavorite = (e) => {
@@ -77,9 +63,8 @@ export default function CardProduPromo({ produ, intervaloSeg, remaining, setRema
         await window.navigator.share({
           title: Diversos.capitalizeAllWords(produ.NOME) || window.document.title,
           text:
-            `Confira essa super promoção ${
-              Number(produ.PRECO) !== Number(preco) ? `de ${Diversos.maskPreco(produ.PRECO)}` : ""
-            } por ${Diversos.maskPreco(preco)} na Dricor` || "Confira este link!",
+            `Confira essa super promoção ${Number(produ.PRECO) !== Number(preco) ? `de ${Diversos.maskPreco(produ.PRECO)}` : ""} por ${Diversos.maskPreco(preco)} na Dricor` ||
+            "Confira este link!",
           url: window.location.href,
         });
       } catch (error) {
@@ -115,21 +100,11 @@ export default function CardProduPromo({ produ, intervaloSeg, remaining, setRema
           <ShareOutlinedIcon style={styleBtnActionIcon} />
         </IconButton>
 
-        <IconButton
-          style={{ ...styleBtnAction, left: 50, top: 35, zIndex: 3 }}
-          size="small"
-          onClick={handleClickFavorite}
-        >
-          {state.favoritos.includes(produ.CODIGO) ? (
-            <FavoriteIcon style={styleBtnActionIcon} />
-          ) : (
-            <FavoriteBorderIcon style={styleBtnActionIcon} />
-          )}
+        <IconButton style={{ ...styleBtnAction, left: 50, top: 35, zIndex: 3 }} size="small" onClick={handleClickFavorite}>
+          {state.favoritos.includes(produ.CODIGO) ? <FavoriteIcon style={styleBtnActionIcon} /> : <FavoriteBorderIcon style={styleBtnActionIcon} />}
         </IconButton>
 
-        {calcDesconto() > 0 ? (
-          <Typography style={{ ...styleTagDesconto, zIndex: 100 }}>{`-${calcDesconto()}%`}</Typography>
-        ) : null}
+        {calcDesconto() > 0 ? <Typography style={{ ...styleTagDesconto, zIndex: 100 }}>{`-${calcDesconto()}%`}</Typography> : null}
 
         <CardMedia
           component="img"
@@ -137,11 +112,9 @@ export default function CardProduPromo({ produ, intervaloSeg, remaining, setRema
           image={
             !produ.FOTOS || produ.FOTOS.length <= 0
               ? "/produto-sem-imagem.png"
-              : `${
-                  String(produ.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1
-                    ? ""
-                    : "https://dricor.cdn.tecworks.com.br/"
-                }${!produ.FOTOS || produ.FOTOS.length <= 0 ? "produto-sem-imagem.png" : produ.FOTOS[0].link}`
+              : `${String(produ.FOTOS[0].link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
+                  !produ.FOTOS || produ.FOTOS.length <= 0 ? "produto-sem-imagem.png" : produ.FOTOS[0].link
+                }`
           }
           alt={produ.NOME}
           sx={{ objectFit: "contain", backgroundColor: "white", mt: 5 }}
@@ -195,9 +168,7 @@ export default function CardProduPromo({ produ, intervaloSeg, remaining, setRema
           </Typography>
         </Box>
 
-        <Box sx={{ width: "100%", mb: 0, mt: 1, py: 0, px: 1, position: "relative" }}>
-          {/*<Countdown data={dataCountdown} size="xs" />*/}
-        </Box>
+        <Box sx={{ width: "100%", mb: 0, mt: 1, py: 0, px: 1, position: "relative" }}>{/*<Countdown data={dataCountdown} size="xs" />*/}</Box>
 
         <CardActions sx={{ width: "100%", flexDirection: "column" }}>
           <Button variant="contained" color="success" fullWidth onClick={handleClickAddToCart}>

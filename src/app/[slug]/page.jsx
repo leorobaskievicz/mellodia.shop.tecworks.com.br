@@ -29,16 +29,15 @@ export async function generateMetadata({ params }) {
   }
 
   const url = `https://www.dricor.com.br/${Diversos.toSeoUrl(produto.NOME)}`;
-  const image =
-    produto.FOTOS?.[0]?.link
-      ? (produto.FOTOS[0].link.startsWith("https://cdn.divacosmeticos")
-          ? produto.FOTOS[0].link
-          : `https://dricor.cdn.tecworks.com.br/${produto.FOTOS[0].link}`)
-      : "https://www.dricor.com.br/_next/image?url=%2Fproduto-sem-imagem.png&w=1200&q=90";
+  const image = produto.FOTOS?.[0]?.link
+    ? produto.FOTOS[0].link.startsWith("https://dricor.cdn.tecworks")
+      ? produto.FOTOS[0].link
+      : `https://dricor.cdn.tecworks.com.br/${produto.FOTOS[0].link}`
+    : "https://www.dricor.com.br/_next/image?url=%2Fproduto-sem-imagem.png&w=1200&q=90";
 
   const title = `${produto.NOME} | Dricor`;
   const description = `Melhor oferta de ${produto.NOME} com entrega rápida em todo o Brasil. Aproveite agora!`;
-  const price = (produto.PREPRO > 0 && produto.PREPRO < produto.PRECO) ? produto.PREPRO : produto.PRECO;
+  const price = produto.PREPRO > 0 && produto.PREPRO < produto.PRECO ? produto.PREPRO : produto.PRECO;
 
   return {
     title,
@@ -100,7 +99,7 @@ export default async function Produto(props) {
 
   if (!produto) {
     notFound();
-  } 
+  }
 
   const menu1 = await getMenu1(produto.COMPLEMENTO?.MENU1);
   const menu2 = await getMenu2(produto.COMPLEMENTO?.MENU1, produto.COMPLEMENTO?.MENU2);
@@ -115,7 +114,7 @@ export default async function Produto(props) {
     "@type": "Product",
     url: `https://www.dricor.com.br/${Diversos.toSeoUrl(produto.NOME)}`,
     name: produto.NOME,
-    image: produto.FOTOS.map((q) => `${String(q.link).indexOf("https://cdn.divacosmeticos") > -1 ? q.link : "https://dricor.cdn.tecworks.com.br/"}${q.link}`),
+    image: produto.FOTOS.map((q) => `${String(q.link).indexOf("https://dricor.cdn.tecworks") > -1 ? q.link : "https://dricor.cdn.tecworks.com.br/"}${q.link}`),
     description: `Melhor oferta de ${Diversos.capitalize(produto.NOME)}`,
     sku: produto.CODIGO,
     mpn: produto.REFERENCIA ? produto.REFERENCIA : produto.CODIGO,
@@ -146,7 +145,12 @@ export default async function Produto(props) {
 
   const title = `${produto.NOME} | Dricor`;
   const description = `Melhor oferta de ${produto.NOME} com entrega rápida em todo o Brasil. Aproveite agora!`;
-  const image = produto.FOTOS && produto.FOTOS.length > 0 && produto.FOTOS[0].link ? produto.FOTOS[0].link.indexOf("https://cdn.divacosmeticos") > -1 ? produto.FOTOS[0].link : `https://dricor.cdn.tecworks.com.br/${produto.FOTOS[0].link}` : 'https://www.dricor.com.br/_next/image?url=%2Fproduto-sem-imagem.png&w=256&q=75';
+  const image =
+    produto.FOTOS && produto.FOTOS.length > 0 && produto.FOTOS[0].link
+      ? produto.FOTOS[0].link.indexOf("https://dricor.cdn.tecworks") > -1
+        ? produto.FOTOS[0].link
+        : `https://dricor.cdn.tecworks.com.br/${produto.FOTOS[0].link}`
+      : "https://www.dricor.com.br/_next/image?url=%2Fproduto-sem-imagem.png&w=256&q=75";
   const url = `https://www.dricor.com.br/${Diversos.toSeoUrl(produto.NOME)}`;
 
   return (

@@ -141,7 +141,7 @@ export default function SliderCardBanner({ children, banners }) {
             sm={12}
             md={12}
             lg={12}
-            xl={12} 
+            xl={12}
             sx={{
               ...styleContainerBody,
               justifyContent: isMobile ? "flex-start" : "flex-start",
@@ -165,7 +165,7 @@ export default function SliderCardBanner({ children, banners }) {
                   return (
                     <Box sx={{ width: 222, height: 335, borderRadius: 1.5, p: 0 }} component={src.link && src.link !== "#" ? "a" : "div"} href={src.link}>
                       <Image
-                        src={`${String(webpPath).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${webpPath}`}
+                        src={`${String(webpPath).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${webpPath}`}
                         alt={imageAlt}
                         width={222}
                         height={330}

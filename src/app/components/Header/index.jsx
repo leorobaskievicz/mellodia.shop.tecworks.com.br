@@ -340,9 +340,9 @@ export default function Header({ children, menus = [], marcas = [] }) {
       </Suspense>
 
       <Box className="whats-app-link" sx={{ position: "fixed", bottom: 20, right: 20, zIndex: 1000 }}>
-        <Tooltip title="Fale conosco pelo WhatsApp (41) 9 8753-3683" placement="left">
+        <Tooltip title="Fale conosco pelo WhatsApp (41) 9 8802-6971" placement="left">
           <Link
-            href="https://api.whatsapp.com/send?l=pt&phone=+5541987533683&text=Ol%C3%A1.%20Estou%20fazendo%20contato%20atrav%C3%A9s%20do%20site%20www.dricor.com.br"
+            href="https://api.whatsapp.com/send?l=pt&phone=+5541988026971&text=Ol%C3%A1.%20Estou%20fazendo%20contato%20atrav%C3%A9s%20do%20site%20www.dricor.com.br"
             target="_blank"
             rel="noopener noreferrer"
           >

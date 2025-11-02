@@ -13,20 +13,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Colors } from "@/app/style.constants";
 
-export default function SliderCardProdu({
-  children,
-  title,
-  produtos,
-  link,
-  fgPromo,
-  fgBanner,
-  banners,
-  fgMarcas,
-  bannersLeft,
-  intervaloSeg,
-  remaining,
-  setRemaining,
-}) {
+export default function SliderCardProdu({ children, title, produtos, link, fgPromo, fgBanner, banners, fgMarcas, bannersLeft, intervaloSeg, remaining, setRemaining }) {
   const containerRef = useRef(null);
   const [activeDot, setActiveDot] = useState(0);
   const [totalDots, setTotalDots] = useState(0);
@@ -112,20 +99,12 @@ export default function SliderCardProdu({
             <a href={bannersLeft[0].link} target="_self">
               <picture>
                 <source
-                  srcSet={`${
-                    String(bannersLeft[0].path).indexOf("https://cdn.divacosmeticos") > -1
-                      ? ""
-                      : "https://dricor.cdn.tecworks.com.br/"
-                  }${bannersLeft[0].path}`}
+                  srcSet={`${String(bannersLeft[0].path).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${bannersLeft[0].path}`}
                   type="image/webp"
                   style={{ borderRadius: 10, width: "100%", height: 650 }}
                 />
                 <img
-                  src={`${
-                    String(bannersLeft[0].path).indexOf("https://cdn.divacosmeticos") > -1
-                      ? ""
-                      : "https://dricor.cdn.tecworks.com.br/"
-                  }${bannersLeft[0].path}`}
+                  src={`${String(bannersLeft[0].path).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${bannersLeft[0].path}`}
                   alt={bannersLeft[0].path}
                   loading="eager"
                   style={{
@@ -192,12 +171,7 @@ export default function SliderCardProdu({
                 }}
               >
                 {produtos.map((src, index) => (
-                  <CardProdu
-                    produ={src}
-                    idx={index}
-                    key={`produto-${index}`}
-                    sx={{ minWidth: { xs: "calc(50% - 8px)", sm: "calc(50% - 8px)", md: 200, lg: 200, xl: 200 } }}
-                  />
+                  <CardProdu produ={src} idx={index} key={`produto-${index}`} sx={{ minWidth: { xs: "calc(50% - 8px)", sm: "calc(50% - 8px)", md: 200, lg: 200, xl: 200 } }} />
                 ))}
               </Grid>
               <IconButton
@@ -308,12 +282,7 @@ export default function SliderCardProdu({
               : null}
             {!fgMarcas && !fgPromo
               ? produtos.map((src, index) => (
-                  <CardProdu
-                    produ={src}
-                    idx={index}
-                    key={`produto-${index}`}
-                    sx={{ minWidth: { xs: "calc(50% - 8px)", sm: "calc(50% - 8px)", md: 200, lg: 200, xl: 200 } }}
-                  />
+                  <CardProdu produ={src} idx={index} key={`produto-${index}`} sx={{ minWidth: { xs: "calc(50% - 8px)", sm: "calc(50% - 8px)", md: 200, lg: 200, xl: 200 } }} />
                 ))
               : null}
           </Grid>

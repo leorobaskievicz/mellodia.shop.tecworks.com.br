@@ -27,7 +27,7 @@ import {
   TableHead,
   TableBody,
   Paper,
-  Divider
+  Divider,
 } from "@mui/material";
 import dynamic from "next/dynamic";
 import { grey, green } from "@mui/material/colors";
@@ -35,12 +35,12 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
-import MopedIcon from '@mui/icons-material/Moped';
+import MopedIcon from "@mui/icons-material/Moped";
 import FlashOnIcon from "@mui/icons-material/FlashOn";
 import FireTruckIcon from "@mui/icons-material/FireTruck";
 import Link from "next/link";
 import { lazy } from "react";
-import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 import Image from "next/image";
 import moment from "moment";
 import { Diversos } from "@/app/lib/diversos";
@@ -57,7 +57,6 @@ import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
 
 // import Comentario from "@/app/components/Comentarios";
 const Comentario = dynamic(() => import("@/app/components/Comentarios"), { ssr: false });
@@ -204,7 +203,19 @@ Caracteristicas.displayName = "Caracteristicas";
 
 const renderKits = (produto, kits) => {
   return (
-    <Box sx={{ position: "relative", width: "100%", display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "flex-start", mt: 1, scrollBehavior: "smooth", "&::-webkit-scrollbar": { display: "none" } }}>
+    <Box
+      sx={{
+        position: "relative",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        justifyContent: "flex-start",
+        mt: 1,
+        scrollBehavior: "smooth",
+        "&::-webkit-scrollbar": { display: "none" },
+      }}
+    >
       {kits.length > 0 ? (
         <>
           {kits.length === 1 && Number(kits[0].PRODUTO) === Number(produto.CODIGO) ? (
@@ -237,7 +248,7 @@ const renderKits = (produto, kits) => {
                           <OptimizedImage
                             src={
                               q.itemDados && q.itemDados.FOTOS && q.itemDados.FOTOS.length > 0
-                                ? `${String(q.itemDados.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
+                                ? `${String(q.itemDados.FOTOS[0].link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
                                     q.itemDados.FOTOS[0].link
                                   }`
                                 : `https://dricor.cdn.tecworks.com.br/produto-sem-foto.png`
@@ -249,14 +260,12 @@ const renderKits = (produto, kits) => {
                           />
                           <hr />
 
-                          {
-                            Number(q.itemDados?.PREPRO_COMPL) > 0 && 
-                            Number(q.itemDados?.PREPRO_COMPL) < Number(q.itemDados?.PRECO) &&
-                            moment(q.itemDados?.INIPRO_COMPL, "DD/MM/YYYY").isValid() &&
-                            moment(q.itemDados?.INIPRO_COMPL, "DD/MM/YYYY").isSameOrBefore(moment()) &&
-                            moment(q.itemDados?.FIMPRO_COMPL, "DD/MM/YYYY").isValid() &&
-                            moment(q.itemDados?.FIMPRO_COMPL, "DD/MM/YYYY").isSameOrAfter(moment())
-                          ? (
+                          {Number(q.itemDados?.PREPRO_COMPL) > 0 &&
+                          Number(q.itemDados?.PREPRO_COMPL) < Number(q.itemDados?.PRECO) &&
+                          moment(q.itemDados?.INIPRO_COMPL, "DD/MM/YYYY").isValid() &&
+                          moment(q.itemDados?.INIPRO_COMPL, "DD/MM/YYYY").isSameOrBefore(moment()) &&
+                          moment(q.itemDados?.FIMPRO_COMPL, "DD/MM/YYYY").isValid() &&
+                          moment(q.itemDados?.FIMPRO_COMPL, "DD/MM/YYYY").isSameOrAfter(moment()) ? (
                             <div className="variacao-btn-price">
                               <span>{Diversos.maskPreco(Number(q.itemDados?.PRECO).toFixed(2))}</span>
                               {Diversos.maskPreco(Number(q.itemDados?.PREPRO_COMPL).toFixed(2))}
@@ -264,14 +273,12 @@ const renderKits = (produto, kits) => {
                                 <p className="variacao-btn-price-installment">{Diversos.getParcelas(q.itemDados?.PREPRO_COMPL, false).parcelas.pop().label} </p>
                               )}
                             </div>
-                          ) : 
-                          Number(q.itemDados?.PREPRO) > 0 && 
-                          Number(q.itemDados?.PREPRO) < Number(q.itemDados?.PRECO) &&
-                          moment(q.itemDados?.INIPRO, "DD/MM/YYYY").isValid() &&
-                          moment(q.itemDados?.INIPRO, "DD/MM/YYYY").isSameOrBefore(moment()) &&
-                          moment(q.itemDados?.FIMPRO, "DD/MM/YYYY").isValid() &&
-                          moment(q.itemDados?.FIMPRO, "DD/MM/YYYY").isSameOrAfter(moment())
-                          ? (
+                          ) : Number(q.itemDados?.PREPRO) > 0 &&
+                            Number(q.itemDados?.PREPRO) < Number(q.itemDados?.PRECO) &&
+                            moment(q.itemDados?.INIPRO, "DD/MM/YYYY").isValid() &&
+                            moment(q.itemDados?.INIPRO, "DD/MM/YYYY").isSameOrBefore(moment()) &&
+                            moment(q.itemDados?.FIMPRO, "DD/MM/YYYY").isValid() &&
+                            moment(q.itemDados?.FIMPRO, "DD/MM/YYYY").isSameOrAfter(moment()) ? (
                             <div className="variacao-btn-price">
                               <span>{Diversos.maskPreco(Number(q.itemDados?.PRECO).toFixed(2))}</span>
                               {Diversos.maskPreco(Number(q.itemDados?.PREPRO).toFixed(2))}
@@ -297,7 +304,7 @@ const renderKits = (produto, kits) => {
                     <a href={`/${Diversos.toSeoUrl(q.produtoDados?.NOME)}`} target="_self">
                       <div className="variacao-btn">
                         <OptimizedImage
-                          src={`${String(q.produtoDados.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
+                          src={`${String(q.produtoDados.FOTOS[0].link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
                             q.produtoDados.FOTOS[0].link
                           }`}
                           width={700}
@@ -402,7 +409,6 @@ const renderVariacoes = (produto, variacoes, setSelectedImage, setSelectedVariac
 };
 
 const renderCardFrete = (cep, setCep, fretes, calcularFrete, freteIsLoading) => {
-
   // REGRAS PARA O EXPRESSO
   const dataAtu = moment().utcOffset("-03:00");
   const dataLimMin = moment().utcOffset("-03:00").set({ hour: 9, minute: 0, second: 0, millisecond: 0 });
@@ -410,8 +416,8 @@ const renderCardFrete = (cep, setCep, fretes, calcularFrete, freteIsLoading) => 
   const diffMinTotal = dataLimMax.diff(dataAtu, "minutes");
   const diffHoras = Math.floor(diffMinTotal / 60);
   const diffMinutos = diffMinTotal % 60;
-  const fgDentroHorario = dataAtu.isBetween(dataLimMin, dataLimMax, null, '[)');
-  const fgDiaUtil = !['sat', 'sun'].includes(dataAtu.format("ddd").toLowerCase());
+  const fgDentroHorario = dataAtu.isBetween(dataLimMin, dataLimMax, null, "[)");
+  const fgDiaUtil = !["sat", "sun"].includes(dataAtu.format("ddd").toLowerCase());
   const fgMostraEntreExpressa = fgDentroHorario && fgDiaUtil;
 
   // REGRAS DO MOTOBOY
@@ -432,29 +438,63 @@ const renderCardFrete = (cep, setCep, fretes, calcularFrete, freteIsLoading) => 
 
   return (
     <>
-      {
-        fgMostraEntreExpressa ? (
-          <Box sx={{ position: "relative", width: "100%", height: 70, mt: 1, mb: 2, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", borderWidth: 1, borderStyle: "solid", borderColor: green[800], borderRadius: 1, p: 1 }}>
-            <Typography variant="body2" component="p" gutterBottom sx={{ fontSize: "1.45rem", py: 0, my: 0, fontWeight: "700", color: green[800], textAlign: "center" }}>
-              Receba em 2 horas!
-            </Typography>
+      {fgMostraEntreExpressa ? (
+        <Box
+          sx={{
+            position: "relative",
+            width: "100%",
+            height: 70,
+            mt: 1,
+            mb: 2,
+            textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            borderWidth: 1,
+            borderStyle: "solid",
+            borderColor: green[800],
+            borderRadius: 1,
+            p: 1,
+          }}
+        >
+          <Typography variant="body2" component="p" gutterBottom sx={{ fontSize: "1.45rem", py: 0, my: 0, fontWeight: "700", color: green[800], textAlign: "center" }}>
+            Receba em 2 horas!
+          </Typography>
+          <Typography variant="body2" component="p" gutterBottom sx={{ fontSize: "1.0rem", py: 0, my: 0, fontWeight: "400", color: grey[700], textAlign: "center", mb: 0 }}>
+            {`Comprando dentro das próximas ${diffHoras}h ${diffMinutos}min`}
+          </Typography>
+          <RocketLaunchIcon sx={{ fontSize: "2.2rem", color: green[800], position: "absolute", top: 15, right: 15 }} />
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            position: "relative",
+            width: "100%",
+            height: 70,
+            mt: 1,
+            mb: 2,
+            textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            borderWidth: 1,
+            borderStyle: "solid",
+            borderColor: green[800],
+            borderRadius: 1,
+            p: 1,
+          }}
+        >
+          <Typography variant="body2" component="p" gutterBottom sx={{ fontSize: "1.45rem", py: 0, my: 0, fontWeight: "700", color: green[800], textAlign: "center" }}>
+            {textoEntrega}
             <Typography variant="body2" component="p" gutterBottom sx={{ fontSize: "1.0rem", py: 0, my: 0, fontWeight: "400", color: grey[700], textAlign: "center", mb: 0 }}>
-              {`Comprando dentro das próximas ${diffHoras}h ${diffMinutos}min`}
+              {textoSub}
             </Typography>
-            <RocketLaunchIcon sx={{ fontSize: "2.2rem", color: green[800], position: "absolute", top: 15, right: 15 }} />
-          </Box>
-        ) : (
-          <Box sx={{ position: "relative", width: "100%", height: 70, mt: 1, mb: 2, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", borderWidth: 1, borderStyle: "solid", borderColor: green[800], borderRadius: 1, p: 1 }}>
-            <Typography variant="body2" component="p" gutterBottom sx={{ fontSize: "1.45rem", py: 0, my: 0, fontWeight: "700", color: green[800], textAlign: "center" }}>
-              {textoEntrega}
-              <Typography variant="body2" component="p" gutterBottom sx={{ fontSize: "1.0rem", py: 0, my: 0, fontWeight: "400", color: grey[700], textAlign: "center", mb: 0 }}>
-                {textoSub}
-              </Typography>
-            </Typography>
-            <MopedIcon sx={{ fontSize: "2.2rem", color: green[800], position: "absolute", top: 15, right: 15 }} />
-          </Box>
-        )
-      }
+          </Typography>
+          <MopedIcon sx={{ fontSize: "2.2rem", color: green[800], position: "absolute", top: 15, right: 15 }} />
+        </Box>
+      )}
       <Card sx={{ width: "100%", mx: "auto", mt: 0, p: 0, pl: 1.5, textAlign: "center" }}>
         <CardContent sx={{ width: "100%", p: 0 }}>
           <Typography variant="h6" component="div" gutterBottom>
@@ -505,13 +545,15 @@ const renderCardFrete = (cep, setCep, fretes, calcularFrete, freteIsLoading) => 
                   <Typography variant="body2" sx={{ textAlign: "center", fontWeight: "normal", fontSize: 12, fontFamily: "Jost", color: "black" }}>
                     {`Receba até:`}
                   </Typography>
-                  {
-                    moment().format("DD/MM/YYYY") === row.prazo
-                    ? <Typography variant="body2" sx={{ textAlign: "center", fontWeight: "700", fontSize: 14, fontFamily: "Jost", color: "green" }}>{String(row.nome).toLowerCase().indexOf('retira') > -1 ? "RETIRE" : "RECEBA"} AINDA HOJE</Typography>
-                    : <Typography variant="body2" sx={{ textAlign: "center", fontWeight: "normal", fontSize: 12, fontFamily: "Jost", color: "black" }}>
+                  {moment().format("DD/MM/YYYY") === row.prazo ? (
+                    <Typography variant="body2" sx={{ textAlign: "center", fontWeight: "700", fontSize: 14, fontFamily: "Jost", color: "green" }}>
+                      {String(row.nome).toLowerCase().indexOf("retira") > -1 ? "RETIRE" : "RECEBA"} AINDA HOJE
+                    </Typography>
+                  ) : (
+                    <Typography variant="body2" sx={{ textAlign: "center", fontWeight: "normal", fontSize: 12, fontFamily: "Jost", color: "black" }}>
                       {row.prazo}
                     </Typography>
-                  }
+                  )}
                 </Box>
                 <Box
                   sx={{
@@ -551,9 +593,21 @@ const renderCardBeneficios = () => {
       <Card sx={{ width: "100%", mx: "auto", mt: 2, p: 1.5, textAlign: "center", backgroundColor: grey[100] }}>
         <CardContent sx={{ width: "100%", p: 0 }}>
           <Typography variant="h6" component="div" gutterBottom sx={{ fontSize: "1.5rem", fontWeight: "700", color: grey[600] }}>
-            Benefícios Diva Para Você
+            Benefícios {process.env.NEXT_PUBLIC_STORE_NAME} Para Você
           </Typography>
-          <Box className="blink" sx={{ width: "100%", borderRadius: 1, backgroundColor: "primary.main", height: 45, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+          <Box
+            className="blink"
+            sx={{
+              width: "100%",
+              borderRadius: 1,
+              backgroundColor: "primary.main",
+              height: 45,
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <Typography variant="body2" component="p" gutterBottom sx={{ fontSize: "1.0rem", fontWeight: "500", color: "white", textAlign: "center" }}>
               GANHE FRETE GRÁTIS ACIMA DE R$ 99
             </Typography>
@@ -562,12 +616,33 @@ const renderCardBeneficios = () => {
             Válido para Sul e Sudeste.
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 1 }}>
-            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", width: '100%', borderColor: "primary.main", borderWidth: 1, borderStyle: "dotted", borderRadius: 1, height: 42, backgroundColor: "white" }}>
-              <Typography variant="body2" component="div" gutterBottom sx={{ fontSize: "1.0rem", fontWeight: "500", color: "primary.main", textAlign: "center", textTransform: "uppercase" }}>
-                CUPOM: DIVABRINDE
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "100%",
+                borderColor: "primary.main",
+                borderWidth: 1,
+                borderStyle: "dotted",
+                borderRadius: 1,
+                height: 42,
+                backgroundColor: "white",
+              }}
+            >
+              <Typography
+                variant="body2"
+                component="div"
+                gutterBottom
+                sx={{ fontSize: "1.0rem", fontWeight: "500", color: "primary.main", textAlign: "center", textTransform: "uppercase" }}
+              >
+                CUPOM: DRICORBRINDE
               </Typography>
             </Box>
-            <Button variant="contained" color="primary" size="large">Copiar</Button>
+            <Button variant="contained" color="primary" size="large">
+              Copiar
+            </Button>
           </Box>
           <Typography variant="body2" component="div" gutterBottom sx={{ fontSize: "0.8rem", fontWeight: "500", color: grey[600], my: 1, pl: 0.5, textAlign: "left" }}>
             Cupom válido em sua 1ª compra.
@@ -660,7 +735,7 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
     let prepro = 0;
 
     if (
-      produto.COMPLEMENTO && 
+      produto.COMPLEMENTO &&
       Number(produto.COMPLEMENTO.PRECO) > 0 &&
       Number(produto.COMPLEMENTO.PRECO) < Number(produto.PRECO) &&
       moment(produto.COMPLEMENTO.INIVALIDADE, "DD/MM/YYYY").isValid() &&
@@ -829,9 +904,8 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
         await window.navigator.share({
           title: Diversos.capitalizeAllWords(produto.NOME) || window.document.title,
           text:
-            `Confira essa super promoção ${Number(produto.PRECO) !== Number(preco) ? `de ${Diversos.maskPreco(produto.PRECO)}` : ""} por ${Diversos.maskPreco(
-              preco
-            )} na Dricor` || "Confira este link!",
+            `Confira essa super promoção ${Number(produto.PRECO) !== Number(preco) ? `de ${Diversos.maskPreco(produto.PRECO)}` : ""} por ${Diversos.maskPreco(preco)} na Dricor` ||
+            "Confira este link!",
           url: window.location.href,
         });
       } catch (error) {
@@ -862,19 +936,19 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
         threshold: 0.1,
       }
     );
-  
+
     if (comprarRef.current) observer.observe(comprarRef.current);
     if (comprarMobileRef.current) observer.observe(comprarMobileRef.current);
-  
+
     return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
     // Evita o scroll vertical da página
-    const container = document.getElementById('kits-container');
+    const container = document.getElementById("kits-container");
 
     if (container) {
-      container.addEventListener('wheel', (e) => {
+      container.addEventListener("wheel", (e) => {
         // Apenas se houver conteúdo scrollável horizontal
         if (e.deltaY !== 0) {
           e.preventDefault(); // Evita o scroll vertical da página
@@ -994,14 +1068,14 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                   >
                     <picture>
                       <source
-                        srcSet={`${String(item.link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${item.link.replace(
+                        srcSet={`${String(item.link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${item.link.replace(
                           /\.[^/.]+$/,
                           ".webp"
                         )}`}
                         type="image/webp"
                       />
                       <img
-                        src={`${String(item.link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${item.link}`}
+                        src={`${String(item.link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${item.link}`}
                         alt={produto.NOME}
                         loading="lazy"
                         style={{ maxWidth: "100%" }}
@@ -1012,7 +1086,10 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
               </ImageList>
 
               {/* Imagem principal destacada */}
-              <Box component="div" sx={{ width: "100%", display: {xs: "none", sm: "none", md: "flex", lg: "flex", xl: "flex"}, alignItems: "center", justifyContent: "center", p: 5 }}>
+              <Box
+                component="div"
+                sx={{ width: "100%", display: { xs: "none", sm: "none", md: "flex", lg: "flex", xl: "flex" }, alignItems: "center", justifyContent: "center", p: 5 }}
+              >
                 {!produto.FOTOS || produto.FOTOS.length <= 0 ? (
                   <OptimizedImage
                     src="/produto-sem-imagem.png"
@@ -1027,8 +1104,8 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                       <ZoomImage
                         src={
                           selectedVariacao
-                            ? `${String(selectedImage).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${selectedImage}`
-                            : `${String(selectedImage).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${selectedImage.replace(
+                            ? `${String(selectedImage).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${selectedImage}`
+                            : `${String(selectedImage).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${selectedImage.replace(
                                 /\.[^/.]+$/,
                                 ".webp"
                               )}`
@@ -1038,14 +1115,14 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                     ) : (
                       <picture>
                         <source
-                          srcSet={`${String(selectedImage).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${selectedImage.replace(
+                          srcSet={`${String(selectedImage).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${selectedImage.replace(
                             /\.[^/.]+$/,
                             ".webp"
                           )}`}
                           type="image/webp"
                         />
                         <img
-                          src={`${String(selectedImage).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${selectedImage}`}
+                          src={`${String(selectedImage).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${selectedImage}`}
                           alt={produto.NOME}
                           loading="lazy"
                           style={{
@@ -1061,11 +1138,22 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                 )}
               </Box>
 
-              <Box component="div" sx={{ backgroundColor: "transparent", width: "100%", display: {xs: "block", sm: "block", md: "none", lg: "none", xl: "none"}, alignItems: "center", justifyContent: "center", py: 5, px: 0  }}>
+              <Box
+                component="div"
+                sx={{
+                  backgroundColor: "transparent",
+                  width: "100%",
+                  display: { xs: "block", sm: "block", md: "none", lg: "none", xl: "none" },
+                  alignItems: "center",
+                  justifyContent: "center",
+                  py: 5,
+                  px: 0,
+                }}
+              >
                 <Swiper
                   navigation={{
                     nextEl: ".slider-custom-next",
-                    prevEl: ".slider-custom-prev"
+                    prevEl: ".slider-custom-prev",
                   }}
                   modules={[Navigation, Pagination]}
                   pagination={true}
@@ -1083,8 +1171,8 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                   breakpoints={breakpoints}
                   style={{ width: "100%", height: "100%", paddingBottom: 40, backgroundColor: "transparent" }}
                 >
-                    {produto.FOTOS.map((item, index) => (
-                      <SwiperSlide
+                  {produto.FOTOS.map((item, index) => (
+                    <SwiperSlide
                       key={index}
                       style={{
                         width: "100%",
@@ -1092,7 +1180,7 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                         maxWidth: "100%",
                         flex: "1 1 auto",
                         margin: "0",
-                        backgroundColor: "transparent"
+                        backgroundColor: "transparent",
                       }}
                     >
                       <Box
@@ -1103,19 +1191,19 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                           height: "100%",
                           borderRadius: 1.5,
                           overflow: "hidden",
-                          backgroundColor: "transparent"
+                          backgroundColor: "transparent",
                         }}
                       >
                         <picture style={{ width: "100%", maxWidth: 500, height: "auto", objectFit: "contain" }}>
                           <source
-                            srcSet={`${String(item.link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${item.link.replace(
+                            srcSet={`${String(item.link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${item.link.replace(
                               /\.[^/.]+$/,
                               ".webp"
                             )}`}
                             type="image/webp"
                           />
                           <img
-                            src={`${String(item.link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${item.link}`}
+                            src={`${String(item.link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${item.link}`}
                             alt={produto.NOME}
                             loading="lazy"
                             style={{
@@ -1145,7 +1233,7 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                 moment(produto.COMPLEMENTO.INIVALIDADE, "DD/MM/YYYY").format("YYYYMMDD") <= moment().format("YYYYMMDD") &&
                 moment(produto.COMPLEMENTO.FIMVALIDADE, "DD/MM/YYYY").isValid() &&
                 moment(produto.COMPLEMENTO.FIMVALIDADE, "DD/MM/YYYY").format("YYYYMMDD") >= moment().format("YYYYMMDD") && (
-                  <Button variant="outlined" size="small" color="success" sx={{ py: 0, px: 2, position: "absolute", top: 0, left: {xs: 10, sm: 10, md: 100, lg: 100, xl: 100} }}>
+                  <Button variant="outlined" size="small" color="success" sx={{ py: 0, px: 2, position: "absolute", top: 0, left: { xs: 10, sm: 10, md: 100, lg: 100, xl: 100 } }}>
                     Preço Exclusivo Site
                   </Button>
                 )}
@@ -1188,8 +1276,6 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
               }}
             >
               <Box>
-                
-
                 {produto.COMPLEMENTO &&
                 Number(produto.COMPLEMENTO.PRECO) > 0 &&
                 Number(produto.COMPLEMENTO.PRECO) < Number(produto.PRECO) &&
@@ -1227,34 +1313,34 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                   produto.PREPRO < produto.PRECO &&
                   moment(produto.INIPRO).format("YYYYMMDD") <= moment().format("YYYYMMDD") &&
                   moment(produto.FIMPRO).format("YYYYMMDD") >= moment().format("YYYYMMDD") ? (
-                    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", w: "100%" }}>
-                      <Typography variant="h4" fontFamily="Jost" fontWeight="500" fontSize="1.0rem" sx={{ textDecoration: "line-through", color: grey[700] }}>
-                        {" "}
-                        De: <span> {Diversos.maskPreco(produto.PRECO)} </span>{" "}
-                      </Typography>
-                      {produto.COMPLEMENTO && Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
-                        <>
-                          <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.3rem" sx={{ textDecoration: "none !important" }}>
-                            {" Por apenas: "}
-                          </Typography>
-                          <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                            {`${Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.pop().label}`}
-                          </Typography>
-                          <Typography variant="p" fontFamily="Jost" fontWeight="500" fontSize="1.0rem" sx={{ textDecoration: "none !important" }}>
-                            ou à vista por apenas {Diversos.maskPreco(produto.PREPRO)}
-                          </Typography>
-                        </>
-                      ) : (
-                        <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", w: "100%" }}>
-                          <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
-                            {" Por apenas: "}
-                          </Typography>
-                          <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="2.0rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                            {Diversos.maskPreco(produto.PREPRO)}
-                          </Typography>
-                        </Box>
-                      )}
-                    </Box>
+                  <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", w: "100%" }}>
+                    <Typography variant="h4" fontFamily="Jost" fontWeight="500" fontSize="1.0rem" sx={{ textDecoration: "line-through", color: grey[700] }}>
+                      {" "}
+                      De: <span> {Diversos.maskPreco(produto.PRECO)} </span>{" "}
+                    </Typography>
+                    {produto.COMPLEMENTO && Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
+                      <>
+                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.3rem" sx={{ textDecoration: "none !important" }}>
+                          {" Por apenas: "}
+                        </Typography>
+                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
+                          {`${Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.pop().label}`}
+                        </Typography>
+                        <Typography variant="p" fontFamily="Jost" fontWeight="500" fontSize="1.0rem" sx={{ textDecoration: "none !important" }}>
+                          ou à vista por apenas {Diversos.maskPreco(produto.PREPRO)}
+                        </Typography>
+                      </>
+                    ) : (
+                      <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", w: "100%" }}>
+                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
+                          {" Por apenas: "}
+                        </Typography>
+                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="2.0rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
+                          {Diversos.maskPreco(produto.PREPRO)}
+                        </Typography>
+                      </Box>
+                    )}
+                  </Box>
                 ) : (
                   <>
                     {produto.COMPLEMENTO && Diversos.getParcelas(produto.PRECO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
@@ -1373,7 +1459,6 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
             </p>
 
             <Box className="price-tag-container">
-
               {produto.COMPLEMENTO &&
               Number(produto.COMPLEMENTO.PRECO) > 0 &&
               Number(produto.COMPLEMENTO.PRECO) < Number(produto.PRECO) &&
@@ -1411,34 +1496,34 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                 produto.PREPRO < produto.PRECO &&
                 moment(produto.INIPRO).format("YYYYMMDD") <= moment().format("YYYYMMDD") &&
                 moment(produto.FIMPRO).format("YYYYMMDD") >= moment().format("YYYYMMDD") ? (
-                  <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", w: "100%" }}>
-                    <Typography variant="h4" fontFamily="Jost" fontWeight="500" fontSize="1.0rem" sx={{ textDecoration: "line-through", color: grey[700] }}>
-                      {" "}
-                      De: <span> {Diversos.maskPreco(produto.PRECO)} </span>{" "}
-                    </Typography>
-                    {produto.COMPLEMENTO && Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
-                      <>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important" }}>
-                          {" Por apenas: "}
-                        </Typography>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.8rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                          {`${Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.pop().label}`}
-                        </Typography>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="500" fontSize="1.0rem" sx={{ textDecoration: "none !important" }}>
-                          ou à vista por apenas {Diversos.maskPreco(produto.PREPRO)}
-                        </Typography>
-                      </>
-                    ) : (
-                      <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", w: "100%" }}>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
-                          {" Por apenas: "}
-                        </Typography>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="2.3rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                          {Diversos.maskPreco(produto.PREPRO)}
-                        </Typography>
-                      </Box>
-                    )}
-                  </Box>
+                <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", w: "100%" }}>
+                  <Typography variant="h4" fontFamily="Jost" fontWeight="500" fontSize="1.0rem" sx={{ textDecoration: "line-through", color: grey[700] }}>
+                    {" "}
+                    De: <span> {Diversos.maskPreco(produto.PRECO)} </span>{" "}
+                  </Typography>
+                  {produto.COMPLEMENTO && Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
+                    <>
+                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important" }}>
+                        {" Por apenas: "}
+                      </Typography>
+                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.8rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
+                        {`${Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.pop().label}`}
+                      </Typography>
+                      <Typography variant="p" fontFamily="Jost" fontWeight="500" fontSize="1.0rem" sx={{ textDecoration: "none !important" }}>
+                        ou à vista por apenas {Diversos.maskPreco(produto.PREPRO)}
+                      </Typography>
+                    </>
+                  ) : (
+                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", w: "100%" }}>
+                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
+                        {" Por apenas: "}
+                      </Typography>
+                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="2.3rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
+                        {Diversos.maskPreco(produto.PREPRO)}
+                      </Typography>
+                    </Box>
+                  )}
+                </Box>
               ) : (
                 <>
                   {produto.COMPLEMENTO && Diversos.getParcelas(produto.PRECO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
@@ -1535,8 +1620,8 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
             boxShadow: "0px -2px 4px rgba(0,0,0,0.1)",
           }}
         >
-          <Box style={{flex: 5, py: 0, m: 0}}>
-            <Box className="price-tag-container" sx={{py: '0 !important'}}>
+          <Box style={{ flex: 5, py: 0, m: 0 }}>
+            <Box className="price-tag-container" sx={{ py: "0 !important" }}>
               {produto.COMPLEMENTO &&
               Number(produto.COMPLEMENTO.PRECO) > 0 &&
               Number(produto.COMPLEMENTO.PRECO) < Number(produto.PRECO) &&
@@ -1574,34 +1659,34 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                 produto.PREPRO < produto.PRECO &&
                 moment(produto.INIPRO).format("YYYYMMDD") <= moment().format("YYYYMMDD") &&
                 moment(produto.FIMPRO).format("YYYYMMDD") >= moment().format("YYYYMMDD") ? (
-                  <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", w: "100%" }}>
-                    <Typography variant="h4" fontFamily="Jost" fontWeight="500" fontSize="0.8rem" sx={{ textDecoration: "line-through", color: grey[700] }}>
-                      {" "}
-                      De: <span> {Diversos.maskPreco(produto.PRECO)} </span>{" "}
-                    </Typography>
-                    {produto.COMPLEMENTO && Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
-                      <>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important" }}>
-                          {" Por apenas: "}
-                        </Typography>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                          {`${Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.pop().labelAbrev.replace("em até ", "")}`}
-                        </Typography>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="500" fontSize="0.8rem" sx={{ textDecoration: "none !important" }}>
-                          ou {Diversos.maskPreco(produto.PREPRO)}
-                        </Typography>
-                      </>
-                    ) : (
-                      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", w: "100%" }}>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
-                          {" Por apenas: "}
-                        </Typography>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                          {Diversos.maskPreco(produto.PREPRO)}
-                        </Typography>
-                      </Box>
-                    )}
-                  </Box>
+                <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", w: "100%" }}>
+                  <Typography variant="h4" fontFamily="Jost" fontWeight="500" fontSize="0.8rem" sx={{ textDecoration: "line-through", color: grey[700] }}>
+                    {" "}
+                    De: <span> {Diversos.maskPreco(produto.PRECO)} </span>{" "}
+                  </Typography>
+                  {produto.COMPLEMENTO && Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
+                    <>
+                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important" }}>
+                        {" Por apenas: "}
+                      </Typography>
+                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
+                        {`${Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.pop().labelAbrev.replace("em até ", "")}`}
+                      </Typography>
+                      <Typography variant="p" fontFamily="Jost" fontWeight="500" fontSize="0.8rem" sx={{ textDecoration: "none !important" }}>
+                        ou {Diversos.maskPreco(produto.PREPRO)}
+                      </Typography>
+                    </>
+                  ) : (
+                    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", w: "100%" }}>
+                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
+                        {" Por apenas: "}
+                      </Typography>
+                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
+                        {Diversos.maskPreco(produto.PREPRO)}
+                      </Typography>
+                    </Box>
+                  )}
+                </Box>
               ) : (
                 <>
                   {produto.COMPLEMENTO && Diversos.getParcelas(produto.PRECO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
@@ -1630,17 +1715,15 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
               )}
             </Box>
           </Box>
-          {
-            produto.ESTOQUE > 0 ? (
-              <Button variant="contained" color="success" size="small" fullWidth onClick={handleAddCart} sx={{ fontSize: "1.25rem", flex: 7 }}>
-                Comprar
-              </Button>
-            ) : (
-              <Button variant="contained" disabled color="secondary" size="small" fullWidth onClick={() => null} sx={{ fontSize: "1.25rem", flex: 7 }}>
-                Indisponível
-              </Button>
-            )
-          }
+          {produto.ESTOQUE > 0 ? (
+            <Button variant="contained" color="success" size="small" fullWidth onClick={handleAddCart} sx={{ fontSize: "1.25rem", flex: 7 }}>
+              Comprar
+            </Button>
+          ) : (
+            <Button variant="contained" disabled color="secondary" size="small" fullWidth onClick={() => null} sx={{ fontSize: "1.25rem", flex: 7 }}>
+              Indisponível
+            </Button>
+          )}
         </Box>
 
         {/* Botão fixo para desktop */}
@@ -1661,8 +1744,8 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
             boxShadow: "0px -2px 4px rgba(0,0,0,0.1)",
           }}
         >
-          <Box style={{flex: 1, py: 0, m: 0}}>
-            <Box className="price-tag-container" sx={{py: '0 !important'}}>
+          <Box style={{ flex: 1, py: 0, m: 0 }}>
+            <Box className="price-tag-container" sx={{ py: "0 !important" }}>
               {produto.COMPLEMENTO &&
               Number(produto.COMPLEMENTO.PRECO) > 0 &&
               Number(produto.COMPLEMENTO.PRECO) < Number(produto.PRECO) &&
@@ -1700,34 +1783,34 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                 produto.PREPRO < produto.PRECO &&
                 moment(produto.INIPRO).format("YYYYMMDD") <= moment().format("YYYYMMDD") &&
                 moment(produto.FIMPRO).format("YYYYMMDD") >= moment().format("YYYYMMDD") ? (
-                  <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", w: "100%" }}>
-                    <Typography variant="h4" fontFamily="Jost" fontWeight="500" fontSize="0.8rem" sx={{ textDecoration: "line-through", color: grey[700] }}>
-                      {" "}
-                      De: <span> {Diversos.maskPreco(produto.PRECO)} </span>{" "}
-                    </Typography>
-                    {produto.COMPLEMENTO && Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
-                      <>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important" }}>
-                          {" Por apenas: "}
-                        </Typography>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                          {`${Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.pop().labelAbrev.replace("em até ", "")}`}
-                        </Typography>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="500" fontSize="0.8rem" sx={{ textDecoration: "none !important" }}>
-                          ou {Diversos.maskPreco(produto.PREPRO)}
-                        </Typography>
-                      </>
-                    ) : (
-                      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", w: "100%" }}>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
-                          {" Por apenas: "}
-                        </Typography>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                          {Diversos.maskPreco(produto.PREPRO)}
-                        </Typography>
-                      </Box>
-                    )}
-                  </Box>
+                <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", w: "100%" }}>
+                  <Typography variant="h4" fontFamily="Jost" fontWeight="500" fontSize="0.8rem" sx={{ textDecoration: "line-through", color: grey[700] }}>
+                    {" "}
+                    De: <span> {Diversos.maskPreco(produto.PRECO)} </span>{" "}
+                  </Typography>
+                  {produto.COMPLEMENTO && Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
+                    <>
+                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important" }}>
+                        {" Por apenas: "}
+                      </Typography>
+                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
+                        {`${Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.pop().labelAbrev.replace("em até ", "")}`}
+                      </Typography>
+                      <Typography variant="p" fontFamily="Jost" fontWeight="500" fontSize="0.8rem" sx={{ textDecoration: "none !important" }}>
+                        ou {Diversos.maskPreco(produto.PREPRO)}
+                      </Typography>
+                    </>
+                  ) : (
+                    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", w: "100%" }}>
+                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
+                        {" Por apenas: "}
+                      </Typography>
+                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
+                        {Diversos.maskPreco(produto.PREPRO)}
+                      </Typography>
+                    </Box>
+                  )}
+                </Box>
               ) : (
                 <>
                   {produto.COMPLEMENTO && Diversos.getParcelas(produto.PRECO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
@@ -1756,20 +1839,18 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
               )}
             </Box>
           </Box>
-          {
-            produto.ESTOQUE > 0 ? (
-              <Button variant="contained" color="success" size="small" fullWidth onClick={handleAddCart} sx={{ fontSize: "1.25rem", flex: 1 }}>
-                Comprar
-              </Button>
-            ) : (
-              <Button variant="contained" disabled color="secondary" size="small" fullWidth onClick={() => null} sx={{ fontSize: "1.25rem", flex: 1 }}>
-                Indisponível
-              </Button>
-            )
-          }
+          {produto.ESTOQUE > 0 ? (
+            <Button variant="contained" color="success" size="small" fullWidth onClick={handleAddCart} sx={{ fontSize: "1.25rem", flex: 1 }}>
+              Comprar
+            </Button>
+          ) : (
+            <Button variant="contained" disabled color="secondary" size="small" fullWidth onClick={() => null} sx={{ fontSize: "1.25rem", flex: 1 }}>
+              Indisponível
+            </Button>
+          )}
         </Box>
 
-        <Grid container xs={12} sm={10} md={9} lg={9} xl={8} sx={{...styleContainerBody, mt: {xs: 0, sm: 0, md: 0}}}>
+        <Grid container xs={12} sm={10} md={9} lg={9} xl={8} sx={{ ...styleContainerBody, mt: { xs: 0, sm: 0, md: 0 } }}>
           <Grid item xs={12} sm={12} md={7} lg={7} xl={7} sx={{ pr: { xs: 0, sm: 0, md: 3, lg: 3, xl: 3 }, pl: { xs: 1, sm: 1, md: 0, lg: 0, xl: 0 } }}>
             <Typography color="primary" textAlign="left" variant="h3" fontFamily="Jost" fontWeight="400" fontSize="1.25rem">
               Detalhes
@@ -2013,7 +2094,7 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
       <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
         {state.recommendIsLoading ? <CircularProgress /> : <LazySliderCardProdu title="Outros clientes também viram..." produtos={state.recommendData} link="#" />}
       </Grid>
-      
+
       <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
         {state.similarIsLoading ? <CircularProgress /> : <LazySliderCardProdu title="Você pode gostar também de..." produtos={state.similarData} link="#" />}
       </Grid>

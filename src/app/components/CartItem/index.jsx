@@ -116,70 +116,25 @@ const CartItem = memo((props) => {
   let precoFinal = 0;
 
   if (props.item && props.item.promo) {
-    if (
-      props.item.promo.CDPRODU1 &&
-      !props.item.promo.CDPRODU2 &&
-      !props.item.promo.CDPRODU3 &&
-      !props.item.promo.CDPRODU4 &&
-      !props.item.promo.CDPRODU5
-    ) {
+    if (props.item.promo.CDPRODU1 && !props.item.promo.CDPRODU2 && !props.item.promo.CDPRODU3 && !props.item.promo.CDPRODU4 && !props.item.promo.CDPRODU5) {
       tipoPromo = 1;
-      preco1 =
-        props.item.promo.CDDESC1 > 0
-          ? props.item.PRECO - props.item.PRECO * (props.item.promo.CDDESC1 / 100)
-          : props.item.promo.CDPRECO1;
+      preco1 = props.item.promo.CDDESC1 > 0 ? props.item.PRECO - props.item.PRECO * (props.item.promo.CDDESC1 / 100) : props.item.promo.CDPRECO1;
       precoFinal = preco1 * props.item.promo.CDQTD1;
-    } else if (
-      props.item.promo.CDPRODU1 &&
-      props.item.promo.CDPRODU2 &&
-      !props.item.promo.CDPRODU3 &&
-      !props.item.promo.CDPRODU4 &&
-      !props.item.promo.CDPRODU5
-    ) {
+    } else if (props.item.promo.CDPRODU1 && props.item.promo.CDPRODU2 && !props.item.promo.CDPRODU3 && !props.item.promo.CDPRODU4 && !props.item.promo.CDPRODU5) {
       tipoPromo = 2;
-      preco1 =
-        props.item.promo.CDDESC1 > 0
-          ? props.item.PRECO - props.item.PRECO * (props.item.promo.CDDESC1 / 100)
-          : props.item.promo.CDPRECO1;
+      preco1 = props.item.promo.CDDESC1 > 0 ? props.item.PRECO - props.item.PRECO * (props.item.promo.CDDESC1 / 100) : props.item.promo.CDPRECO1;
       precoFinal = preco1 * props.item.promo.CDQTD1;
-    } else if (
-      props.item.promo.CDPRODU1 &&
-      props.item.promo.CDPRODU2 &&
-      props.item.promo.CDPRODU3 &&
-      !props.item.promo.CDPRODU4 &&
-      !props.item.promo.CDPRODU5
-    ) {
+    } else if (props.item.promo.CDPRODU1 && props.item.promo.CDPRODU2 && props.item.promo.CDPRODU3 && !props.item.promo.CDPRODU4 && !props.item.promo.CDPRODU5) {
       tipoPromo = 3;
-      preco1 =
-        props.item.promo.CDDESC1 > 0
-          ? props.item.PRECO - props.item.PRECO * (props.item.promo.CDDESC1 / 100)
-          : props.item.promo.CDPRECO1;
+      preco1 = props.item.promo.CDDESC1 > 0 ? props.item.PRECO - props.item.PRECO * (props.item.promo.CDDESC1 / 100) : props.item.promo.CDPRECO1;
       precoFinal = preco1 * props.item.promo.CDQTD1;
-    } else if (
-      props.item.promo.CDPRODU1 &&
-      props.item.promo.CDPRODU2 &&
-      props.item.promo.CDPRODU3 &&
-      props.item.promo.CDPRODU4 &&
-      !props.item.promo.CDPRODU5
-    ) {
+    } else if (props.item.promo.CDPRODU1 && props.item.promo.CDPRODU2 && props.item.promo.CDPRODU3 && props.item.promo.CDPRODU4 && !props.item.promo.CDPRODU5) {
       tipoPromo = 4;
-      preco1 =
-        props.item.promo.CDDESC1 > 0
-          ? props.item.PRECO - props.item.PRECO * (props.item.promo.CDDESC1 / 100)
-          : props.item.promo.CDPRECO1;
+      preco1 = props.item.promo.CDDESC1 > 0 ? props.item.PRECO - props.item.PRECO * (props.item.promo.CDDESC1 / 100) : props.item.promo.CDPRECO1;
       precoFinal = preco1 * props.item.promo.CDQTD1;
-    } else if (
-      props.item.promo.CDPRODU1 &&
-      props.item.promo.CDPRODU2 &&
-      props.item.promo.CDPRODU3 &&
-      props.item.promo.CDPRODU4 &&
-      props.item.promo.CDPRODU5
-    ) {
+    } else if (props.item.promo.CDPRODU1 && props.item.promo.CDPRODU2 && props.item.promo.CDPRODU3 && props.item.promo.CDPRODU4 && props.item.promo.CDPRODU5) {
       tipoPromo = 5;
-      preco1 =
-        props.item.promo.CDDESC1 > 0
-          ? props.item.PRECO - props.item.PRECO * (props.item.promo.CDDESC1 / 100)
-          : props.item.promo.CDPRECO1;
+      preco1 = props.item.promo.CDDESC1 > 0 ? props.item.PRECO - props.item.PRECO * (props.item.promo.CDDESC1 / 100) : props.item.promo.CDPRECO1;
       precoFinal = preco1 * props.item.promo.CDQTD1;
     }
   }
@@ -194,7 +149,7 @@ const CartItem = memo((props) => {
                 srcSet={`${
                   !props.item.FOTOS || props.item.FOTOS.length <= 0
                     ? "https://dricor.cdn.tecworks.com.br/produto-sem-imagem.webp"
-                    : String(props.item.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1
+                    : String(props.item.FOTOS[0].link).indexOf("https://dricor.cdn.tecworks") > -1
                     ? props.item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
                     : "https://dricor.cdn.tecworks.com.br/" + props.item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
                 }`}
@@ -204,7 +159,7 @@ const CartItem = memo((props) => {
                 src={`${
                   !props.item.FOTOS || props.item.FOTOS.length <= 0
                     ? "https://dricor.cdn.tecworks.com.br/produto-sem-imagem.png"
-                    : String(props.item.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1
+                    : String(props.item.FOTOS[0].link).indexOf("https://dricor.cdn.tecworks") > -1
                     ? props.item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
                     : "https://dricor.cdn.tecworks.com.br/" + props.item.FOTOS[0].link
                 }`}
@@ -223,11 +178,7 @@ const CartItem = memo((props) => {
 
         <Grid item xs={9} sx={{ pl: 1.25, textAlign: "left" }}>
           <Box sx={{ mx: 0 }}>
-            <Typography
-              variant="body1"
-              className="cart-item-name"
-              sx={{ fontSize: "14px", fontWeight: "bold", color: "#000", textAlign: "left" }}
-            >
+            <Typography variant="body1" className="cart-item-name" sx={{ fontSize: "14px", fontWeight: "bold", color: "#000", textAlign: "left" }}>
               {props.item.NOME}
               <small>{props.item.complemento}</small>
             </Typography>
@@ -262,12 +213,7 @@ const CartItem = memo((props) => {
               </Typography>
             </Grid>
             <Grid item xs={2}>
-              <IconButton
-                color="error"
-                title="Excluir item do carrinho"
-                className="cart-item-remove"
-                onClick={handleRemove}
-              >
+              <IconButton color="error" title="Excluir item do carrinho" className="cart-item-remove" onClick={handleRemove}>
                 <DeleteIcon className="cart-item-action" title="Excluir item" />
               </IconButton>
             </Grid>

@@ -63,7 +63,7 @@ export default function CardProdu({ children, produ, idx, sx, algoliaReturn, ind
 
   if (
     Number(produ.PREPRO_COMPL) > 0 &&
-    Number(produ.PREPRO_COMPL) < Number(produ.PRECO) && 
+    Number(produ.PREPRO_COMPL) < Number(produ.PRECO) &&
     moment(produ.INIPRO_COMPL, "DD/MM/YYYY").isValid() &&
     moment(produ.INIPRO_COMPL, "DD/MM/YYYY").format("YYYYMMDD") <= moment().format("YYYYMMDD") &&
     moment(produ.FIMPRO_COMPL, "DD/MM/YYYY").isValid() &&
@@ -173,13 +173,13 @@ export default function CardProdu({ children, produ, idx, sx, algoliaReturn, ind
         ) : (
           <picture>
             <source
-              srcSet={`${String(produ.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
+              srcSet={`${String(produ.FOTOS[0].link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
                 !produ.FOTOS || produ.FOTOS.length <= 0 ? "produto-sem-imagem.webp" : produ.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
               }`}
               type="image/webp"
             />
             <img
-              src={`${String(produ.FOTOS[0].link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
+              src={`${String(produ.FOTOS[0].link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
                 !produ.FOTOS || produ.FOTOS.length <= 0 ? "produto-sem-imagem.png" : produ.FOTOS[0].link
               }`}
               alt={produ.NOME}
@@ -195,11 +195,12 @@ export default function CardProdu({ children, produ, idx, sx, algoliaReturn, ind
       </Box>
 
       <CardContent sx={styleContainerCardContent}>
-        {String(produ.NOMESUBGRUPO).trim().toLowerCase() === "desativados" || Number(produ.SUBGRUPO) === 999 && (
-          <Button variant="contained" size="small" color="primary" sx={{ p: 0 }}>
-            Outlet
-          </Button>
-        )}
+        {String(produ.NOMESUBGRUPO).trim().toLowerCase() === "desativados" ||
+          (Number(produ.SUBGRUPO) === 999 && (
+            <Button variant="contained" size="small" color="primary" sx={{ p: 0 }}>
+              Outlet
+            </Button>
+          ))}
 
         {Number(preco) === Number(produ.PREPRO_COMPL) && (
           <Button variant="outlined" size="small" color="success" sx={{ py: 0, px: 1 }}>
@@ -213,7 +214,7 @@ export default function CardProdu({ children, produ, idx, sx, algoliaReturn, ind
         <Typography variant="h3" sx={styleContainerCardContentSubtitle}>
           {Diversos.capitalizeAllWords(String(produ.NOME).toLowerCase())}
         </Typography>
-        <Typography variant="p" sx={{...styleContainerCardContentSubtitle, fontSize: "0.7rem", fontWeight: "500", textAlign: "left" }}>
+        <Typography variant="p" sx={{ ...styleContainerCardContentSubtitle, fontSize: "0.7rem", fontWeight: "500", textAlign: "left" }}>
           Cód.: {String(produ.CODIGO)}
         </Typography>
         <Box sx={{ height: 10 }} />
@@ -225,10 +226,14 @@ export default function CardProdu({ children, produ, idx, sx, algoliaReturn, ind
               {parcelas && parcelas.length > 1 ? (
                 <>
                   {/* sx={styleContainerCardPriceParcelado} */}
-                  <Typography variant="h6" color="success" sx={{...styleContainerCardPricePor, color: "success.main", fontSize: {xs: "1.0rem", sm: "1.0rem", md: "1.2rem", lg: "1.2rem", xl: "1.2rem"}}}> 
+                  <Typography
+                    variant="h6"
+                    color="success"
+                    sx={{ ...styleContainerCardPricePor, color: "success.main", fontSize: { xs: "1.0rem", sm: "1.0rem", md: "1.2rem", lg: "1.2rem", xl: "1.2rem" } }}
+                  >
                     {parcelas?.pop()?.labelAbrev}
                   </Typography>
-                  <Typography variant="h6" color="primary" sx={{...styleContainerCardPriceDe, textDecoration: "none !important"}}>
+                  <Typography variant="h6" color="primary" sx={{ ...styleContainerCardPriceDe, textDecoration: "none !important" }}>
                     {Diversos.maskPreco(preco)}
                   </Typography>
                 </>
@@ -237,20 +242,23 @@ export default function CardProdu({ children, produ, idx, sx, algoliaReturn, ind
                   {Diversos.maskPreco(preco)}
                 </Typography>
               )}
-              
             </Box>
           ) : (
             <Box sx={styleContainerCardPrice}>
               <Typography variant="h6" color="primary" sx={styleContainerCardPriceDe}>
                 {Diversos.maskPreco(produ.PRECO)}
               </Typography>
-              
+
               {parcelas && parcelas.length > 1 ? (
                 <>
-                  <Typography variant="h6" color="primary" sx={{...styleContainerCardPricePor, color: "success.main", fontSize: {xs: "1.0rem", sm: "1.0rem", md: "1.2rem", lg: "1.2rem", xl: "1.2rem"}}}>
+                  <Typography
+                    variant="h6"
+                    color="primary"
+                    sx={{ ...styleContainerCardPricePor, color: "success.main", fontSize: { xs: "1.0rem", sm: "1.0rem", md: "1.2rem", lg: "1.2rem", xl: "1.2rem" } }}
+                  >
                     {parcelas?.pop()?.labelAbrev}
                   </Typography>
-                  <Typography variant="h6" color="primary" sx={{...styleContainerCardPriceDe, textDecoration: "none !important"}}>
+                  <Typography variant="h6" color="primary" sx={{ ...styleContainerCardPriceDe, textDecoration: "none !important" }}>
                     {Diversos.maskPreco(preco)}
                   </Typography>
                 </>
@@ -269,21 +277,36 @@ export default function CardProdu({ children, produ, idx, sx, algoliaReturn, ind
         ) : null}
 
         <Typography variant="h6" color="primary" sx={styleContainerCardPriceDescricao}>
-          {Diversos.capitalizeSentece(String(produ.DESCRICAO1).toLowerCase())}
+          {Diversos.capitalizeSentece(String(produ.DESCRICAO1 || "").toLowerCase())}
         </Typography>
       </CardContent>
       {produ.ESTOQUE > 0 ? (
-        <Button variant="contained" color="primary" size="small" fullWidth onClick={handleClickAddToCart} sx={{...styleComprarBtn, width: "93%", my: 1, mx: 'auto', height: "35px", position: "absolute", bottom: 0, left: 0, right: 0}}>
-          <ShoppingBagOutlinedIcon sx={{fontSize: "1rem", mr: 0.5}} />
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          fullWidth
+          onClick={handleClickAddToCart}
+          sx={{ ...styleComprarBtn, width: "93%", my: 1, mx: "auto", height: "35px", position: "absolute", bottom: 0, left: 0, right: 0 }}
+        >
+          <ShoppingBagOutlinedIcon sx={{ fontSize: "1rem", mr: 0.5 }} />
           Comprar
         </Button>
       ) : (
-        <Button variant="contained" color="secondary" size="small" fullWidth onClick={() => null} sx={{...styleComprarBtn, width: "93%", my: 1, mx: 'auto', height: "35px", position: "absolute", bottom: 0, left: 0, right: 0}} disabled>
-          <ShoppingBagOutlinedIcon sx={{fontSize: "1rem", mr: 0.5}} />
+        <Button
+          variant="contained"
+          color="secondary"
+          size="small"
+          fullWidth
+          onClick={() => null}
+          sx={{ ...styleComprarBtn, width: "93%", my: 1, mx: "auto", height: "35px", position: "absolute", bottom: 0, left: 0, right: 0 }}
+          disabled
+        >
+          <ShoppingBagOutlinedIcon sx={{ fontSize: "1rem", mr: 0.5 }} />
           Indisponível
         </Button>
       )}
-      
+
       {/* <CardActions className="styleContainerCardActions" sx={styleContainerCardActions}>
         
         <Button variant="text" color="dark" fullWidth size="small" sx={{ mt: 1 }} onClick={handleClick}>

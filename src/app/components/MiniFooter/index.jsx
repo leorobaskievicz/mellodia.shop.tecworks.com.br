@@ -41,7 +41,7 @@ export default function Footer({ children }) {
           </Box>
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={3} xl={3} sx={{ ...styleContainerContentItem, alignItems: { xs: "center", md: "flex-start" }, mt: { xs: 2, md: 0 } }}>
-          <Typography sx={styleContainerContentItemTitle}>Siga {process.env.NEXT_PUBLIC_STORE_NAME || 'nossa loja'}</Typography>
+          <Typography sx={styleContainerContentItemTitle}>Siga {process.env.NEXT_PUBLIC_STORE_NAME || "nossa loja"}</Typography>
           <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around" }}>
             {process.env.NEXT_PUBLIC_FACEBOOK_URL && (
               <Link
@@ -49,7 +49,7 @@ export default function Footer({ children }) {
                 href={process.env.NEXT_PUBLIC_FACEBOOK_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                title={`Siga ${process.env.NEXT_PUBLIC_STORE_NAME || 'nossa loja'} no Facebook!`}
+                title={`Siga ${process.env.NEXT_PUBLIC_STORE_NAME || "nossa loja"} no Facebook!`}
               >
                 {" "}
                 <FacebookIcon sx={{ fontSize: "2.2rem" }} />{" "}
@@ -60,7 +60,7 @@ export default function Footer({ children }) {
                 href={process.env.NEXT_PUBLIC_INSTAGRAM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                title={`Siga ${process.env.NEXT_PUBLIC_STORE_NAME || 'nossa loja'} no Instagram!`}
+                title={`Siga ${process.env.NEXT_PUBLIC_STORE_NAME || "nossa loja"} no Instagram!`}
               >
                 {" "}
                 <Instagram sx={{ fontSize: "2.2rem" }} />{" "}
@@ -88,18 +88,19 @@ export default function Footer({ children }) {
       <Grid item xs={12} sm={12} md={9} lg={8} xl={8} sx={styleContainerContent}>
         <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ ...styleContainerContentItem, textAlign: "center" }}>
           <Typography variant="overline" sx={{ fontSize: "0.8rem", pt: 1.3, textAlign: "center", lineHeight: 1.5 }}>
-            Copyright © 2025 {process.env.NEXT_PUBLIC_SITE_URL || 'site'}. Todos os direitos reservados. Todo o conteúdo do site, todas as fotos, imagens, logotipos, marcas, dizeres, som, software, conjunto
-            imagem, layout, trade dress, aqui veiculados são de propriedade exclusiva de {process.env.NEXT_PUBLIC_STORE_NAME || 'nossa loja'}. É vedada qualquer reprodução, total ou parcial, de qualquer elemento de
-            identidade, sem expressa autorização. A violação de qualquer direito mencionado implicará na responsabilização cível e criminal nos termos da Lei. Os preços dos
-            produtos estão sujeitos a alteração sem aviso prévio.
+            Copyright © 2025 {process.env.NEXT_PUBLIC_SITE_URL || "site"}. Todos os direitos reservados. Todo o conteúdo do site, todas as fotos, imagens, logotipos, marcas,
+            dizeres, som, software, conjunto imagem, layout, trade dress, aqui veiculados são de propriedade exclusiva de {process.env.NEXT_PUBLIC_STORE_NAME || "nossa loja"}. É
+            vedada qualquer reprodução, total ou parcial, de qualquer elemento de identidade, sem expressa autorização. A violação de qualquer direito mencionado implicará na
+            responsabilização cível e criminal nos termos da Lei. Os preços dos produtos estão sujeitos a alteração sem aviso prévio.
           </Typography>
         </Grid>
       </Grid>
       <Grid item xs={12} sm={12} md={9} lg={8} xl={8} sx={styleContainerContent}>
         <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ ...styleContainerContentItem, textAlign: "center" }}>
           <Typography variant="overline" sx={{ fontSize: "0.8rem", pt: 0.2, textAlign: "center", lineHeight: 1.5 }}>
-            {process.env.NEXT_PUBLIC_STORE_NAME || 'A loja'} se reserva o direito de corrigir qualquer possível erro de digitação ou gráfico e caso haja divergências entre os valores ofertados nos e-mails
-            promocionais e valores do site, prevalecem as informações do site. {process.env.NEXT_PUBLIC_STORE_ADDRESS} - CNPJ {process.env.NEXT_PUBLIC_STORE_CNPJ}.
+            {process.env.NEXT_PUBLIC_STORE_NAME || "A loja"} se reserva o direito de corrigir qualquer possível erro de digitação ou gráfico e caso haja divergências entre os
+            valores ofertados nos e-mails promocionais e valores do site, prevalecem as informações do site. {process.env.NEXT_PUBLIC_STORE_ADDRESS} - CNPJ{" "}
+            {process.env.NEXT_PUBLIC_STORE_CNPJ}.
           </Typography>
         </Grid>
       </Grid>
@@ -107,9 +108,6 @@ export default function Footer({ children }) {
         <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ ...styleContainerContentItem, textAlign: "center", alignItems: "center", justifyContent: "center" }}>
           <Typography variant="overline" sx={{ fontSize: "0.7rem", pt: 0.2, textAlign: "center" }}>
             Desenvolvido por
-            <a href="https://www.rm9brasil.com.br/" target="_blank" rel="noopener noreferrer">
-              <Image src="/agencia-rm9-02.svg" alt="RM9" width={100} height={30} style={{ height: 20, width: "auto", marginRight: 10, marginLeft: 10 }} />
-            </a>
             <a href="https://www.tecworks.com.br/" target="_blank" rel="noopener noreferrer">
               <Image src="/tecworks-branca.png" alt="TecWorks" width={100} height={30} style={{ height: 20, width: "auto" }} />
             </a>

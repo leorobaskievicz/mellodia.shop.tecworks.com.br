@@ -25,7 +25,7 @@ export default function Televendas() {
             </Box>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <WhatsAppIcon sx={{ mr: 1, color: "primary.main" }} />
-              <Typography variant="body1">(41) 98753-3683</Typography>
+              <Typography variant="body1">(41) 98802-6971</Typography>
             </Box>
           </Paper>
         </Grid>

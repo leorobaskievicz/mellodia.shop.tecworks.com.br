@@ -95,7 +95,7 @@ export default async function Departamento(props) {
     "@type": "Product",
     url: `https://www.dricor.com.br/${Diversos.toSeoUrl(slug)}`,
     name: produtos?.[0]?.NOME,
-    image: produtos?.[0]?.FOTOS.map((q) => `${String(q.link).indexOf("https://cdn.divacosmeticos") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${q.link}`),
+    image: produtos?.[0]?.FOTOS.map((q) => `${String(q.link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${q.link}`),
     description: `Melhor oferta de ${Diversos.capitalize(slug)}`,
     sku: produtos?.[0]?.CODIGO,
     mpn: produtos?.[0]?.REFERENCIA ? produtos?.[0]?.REFERENCIA : produtos?.[0]?.CODIGO,

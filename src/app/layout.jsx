@@ -36,7 +36,7 @@ const jostSans = Jost({
 
 export const metadata = {
   title: process.env.NEXT_PUBLIC_STORE_NAME || "Loja Online",
-  description: process.env.NEXT_PUBLIC_STORE_DESCRIPTION || "Promoções, compre online, conheça nossas lojas e muito mais...",
+  description: process.env.NEXT_PUBLIC_STORE_DESCRIPTION || "Promoções, compre online, conheça nossas lojas e muito mais....",
   keywords: process.env.NEXT_PUBLIC_STORE_KEYWORDS || "loja online, e-commerce",
   robots: {
     index: true,

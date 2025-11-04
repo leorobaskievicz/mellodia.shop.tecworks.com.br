@@ -466,7 +466,7 @@ async function getProdutoBySearch(termo, page = 1, perPage = 25, sort = "relevan
 
   try {
     if (fgTelevendas !== true) {
-      const searchClient = algoliasearch("0ZL4K9YRHI", "9dce6b1078349eb5234c895d3425eaee");
+      const searchClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY);
 
       const paramAlgolia = {
         indexName: `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}`,
@@ -561,7 +561,7 @@ async function getProdutoBySearch(termo, page = 1, perPage = 25, sort = "relevan
           FOTOS: [
             {
               id: 1509304,
-              link: !q.foto ? "produto-sem-imagem.png" : String(q.foto).replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
+              link: !q.foto ? "produto-sem-imagem.png" : q.foto,
               sequencia: 1,
             },
           ],

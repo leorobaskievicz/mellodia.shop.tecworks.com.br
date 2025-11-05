@@ -121,7 +121,7 @@ export default async function Busca(props) {
     },
     brand: {
       "@type": "Brand",
-      name: produtos?.[0]?.MARCA ? produtos?.[0]?.MARCA : "Diva",
+      name: produtos?.[0]?.MARCA ? produtos?.[0]?.MARCA : "Dricor",
     },
     review: {},
     offers: {

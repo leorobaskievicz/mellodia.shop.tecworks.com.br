@@ -73,7 +73,7 @@ export default function Institucional() {
             </Typography>
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
               <Link
-                href="mailto:sac@divacosmeticos.com"
+                href="mailto:vendas@dricor.com.br"
                 sx={{
                   display: "flex",
                   alignItems: "center",

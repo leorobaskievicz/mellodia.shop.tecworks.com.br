@@ -557,7 +557,7 @@ export const Diversos = {
         name: cliente.nome,
         email: cliente.email,
         phone: cliente.telefone,
-        gateway: "Diva Cosmeticos",
+        gateway: "Dricor",
         transaction_id: "",
         offer_id: null,
         status,

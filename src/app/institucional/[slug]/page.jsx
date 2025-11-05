@@ -25,10 +25,10 @@ export default function Institucional() {
   }
 
   const menuItems = [
-    { href: "sobre", label: "Sobre a Diva" },
+    { href: "sobre", label: "Sobre a Dricor" },
     { href: "lojas", label: "Nossas Lojas" },
-    { href: "saloes", label: "Nosso Salão" },
-    { href: "televendas", label: "Televendas" },
+    // { href: "saloes", label: "Nosso Salão" },
+    // { href: "televendas", label: "Televendas" },
     { href: "atendimento", label: "Atendimento" },
     { href: "trabalhe-conosco", label: "Trabalhe conosco" },
   ];
@@ -109,7 +109,7 @@ export default function Institucional() {
                 Fale Conosco
               </Typography>
               <Typography variant="h5" color="primary" gutterBottom>
-                (41) 2170-7272
+                (41) 9 8802-6971
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Segunda à sexta das 9h às 18:00h
@@ -123,11 +123,11 @@ export default function Institucional() {
             <Sobre />
           ) : pathname === "/institucional/lojas" ? (
             <Lojas />
-          ) : pathname === "/institucional/saloes" ? (
-            <Saloes />
-          ) : pathname === "/institucional/televendas" ? (
-            <Televendas />
-          ) : pathname === "/institucional/atendimento" ? (
+          ) : // ) : pathname === "/institucional/saloes" ? (
+          //   <Saloes />
+          // ) : pathname === "/institucional/televendas" ? (
+          //   <Televendas />
+          pathname === "/institucional/atendimento" ? (
             <Atendimento />
           ) : pathname === "/institucional/trabalhe-conosco" ? (
             <TrabalheConosco />

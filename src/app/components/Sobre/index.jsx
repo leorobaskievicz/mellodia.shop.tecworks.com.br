@@ -9,7 +9,7 @@ export default function Sobre() {
       <Typography variant="h4" component="h1" gutterBottom>
         Sobre a Dricor
       </Typography>
-      <Typography variant="body1" paragraph>
+      {/* <Typography variant="body1" paragraph>
         A Diva é uma rede de lojas de cosméticos e salões de beleza que iniciou sua história em 2001. Estamos localizados no centro de Curitiba, Paraná, onde trabalhamos com uma
         diversidade de mais de 100 marcas nacionais e internacionais de produtos e com os melhores preços do mercado.
       </Typography>
@@ -79,7 +79,7 @@ export default function Sobre() {
             </Paper>
           </Link>
         </Grid>
-      </Grid>
+      </Grid> */}
     </Container>
   );
 }

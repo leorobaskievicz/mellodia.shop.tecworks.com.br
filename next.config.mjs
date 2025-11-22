@@ -8,7 +8,7 @@ const withBundleAnalyzer = createBundleAnalyzer({
 const nextConfig = {
   generateBuildId: async () => Date.now().toString(),
   reactStrictMode: true,
-  swcMinify: true,
+  swcMinify: false,
   staticPageGenerationTimeout: 180,
   compress: true,
   images: {

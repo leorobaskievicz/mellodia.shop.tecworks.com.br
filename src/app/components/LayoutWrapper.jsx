@@ -100,7 +100,7 @@ const MiniLayout = memo(({ children }) => (
     }}
     disableGutters
   >
-    <PopupRoleta />
+    {/* <PopupRoleta /> */}
     <LazyComponent>
       <LazyMiniHeader />
     </LazyComponent>

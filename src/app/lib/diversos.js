@@ -591,7 +591,7 @@ export const Diversos = {
 
   gerarLinkWhatsApp: (param, appState, state) => {
     // Número do WhatsApp (com código do país, sem + ou espaços)
-    const numeroWhatsApp = "5541999261087"; // Altere para o número correto
+    const numeroWhatsApp = "5541988026971"; // Altere para o número correto
 
     // Formatar produtos
     let produtosTexto = "";

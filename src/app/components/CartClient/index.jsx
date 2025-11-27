@@ -168,13 +168,13 @@ export default function CartClient(props) {
                 px: 0,
                 width: "100%",
                 height: "auto",
-                maxHeight: {xs: "calc(100vh - 375px)", sm: "calc(100vh - 375px)", md: "calc(100vh - 300px)"},
+                maxHeight: { xs: "calc(100vh - 375px)", sm: "calc(100vh - 375px)", md: "calc(100vh - 300px)" },
                 overflowY: "auto",
                 overflowX: "hidden",
                 position: "relative",
                 mt: 2,
-                scrollBehavior: "smooth", 
-                "&::-webkit-scrollbar": { display: "none"  }
+                scrollBehavior: "smooth",
+                "&::-webkit-scrollbar": { display: "none" },
               }}
             >
               {stateApp.carrinho.map((row, index) => (
@@ -184,14 +184,14 @@ export default function CartClient(props) {
 
             <Container className="cart-continue-container">
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   {CardPromocaoIphone({
                     show: true,
                     handleClose: () => null,
                     totalCard: getCartTotal(),
                     ehMobile: false,
                   })}
-                </Grid>
+                </Grid> */}
 
                 <Grid item xs={12}>
                   <Box sx={{ width: "100%", textAlign: "center" }}>
@@ -216,9 +216,9 @@ export default function CartClient(props) {
                       right: 10,
                     }}
                   >
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                       <FreteGratisBar />
-                    </Grid>
+                    </Grid> */}
 
                     <Grid item xs={12} md={6}>
                       <Button variant="outlined" fullWidth size="large" className="cart-btn-checkout-back" onClick={() => dispatchApp({ type: "SET_CART_OPEN", payload: false })}>

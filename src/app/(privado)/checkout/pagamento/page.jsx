@@ -758,6 +758,138 @@ function CheckoutPagamentoContent(props) {
       return 0;
     }
 
+    if (!state.customer.email) {
+      setMsg("error", "Atenção", "Por favor informe seu E-MAIL.");
+      return 0;
+    }
+
+    if (!state.customer.celular) {
+      setMsg("error", "Atenção", "Por favor informe seu CELULAR.");
+      return 0;
+    }
+
+    setState((state) => ({
+      ...state,
+      formIsLoading: true,
+      formHasError: false,
+      formHasErrorMsg: null,
+    }));
+
+    try {
+      let parcelas = 1;
+
+      if (state.formFormaPgtoCodigo !== 1) {
+        parcelas = 1;
+      } else if (state.instalments.length > 0) {
+        parcelas = state.cartao.parcela;
+      } else {
+        parcelas = 1;
+      }
+
+      let desconto = state.valorDesc ? state.valorDesc : 0.0;
+
+      const param = {
+        fgNovoLayout: true,
+        cliente: state.customer.codigo,
+        clienteDados: state.customer,
+        fgNovoCliente: true,
+        items: [],
+        formapg: state.formFormaPgtoCodigo,
+        desconto: desconto ? desconto : 0,
+        cupom: state.codigoDesc ? state.codigoDesc : null,
+        frete: {
+          servico: state.freteSelectedNome,
+          prazo: state.freteSelectedPrazo,
+          valor: state.freteSelectedPreco,
+          filial: state.formFormaEntregaLoja,
+        },
+        total: getTotal(),
+        cartao: [
+          {
+            numero: "",
+            validade: "",
+            cvv: "",
+            salva: false,
+            parcelas,
+            valor: getTotal(),
+          },
+        ],
+        pagseguroSenderHash: state.pagseguroSenderHash,
+        clearSaleSession: state.sessionUsuario,
+        pix: null,
+        repres: appState && appState.usuario && appState.usuario.vendedor && appState.usuario.vendedor.CODIGO ? appState.usuario.vendedor.CODIGO : state.vendedor,
+        recaptchaToken, // Token do reCAPTCHA para validação no backend
+      };
+
+      if (state.formFormaPgtoCodigo === 1) {
+        param.cartao[0].numero = Diversos.getnums(state.cartao.numero);
+        param.cartao[0].validade = state.cartao.validade;
+        param.cartao[0].cvv = Diversos.getnums(state.cartao.cvv);
+      }
+
+      const tmpProdutos = [];
+
+      for (let i = 0; i < appState.carrinho.length; i++) {
+        let preco = appState.carrinho[i].PREPRO > 0 && appState.carrinho[i].PREPRO < appState.carrinho[i].PRECO ? appState.carrinho[i].PREPRO : appState.carrinho[i].PRECO;
+
+        tmpProdutos.push({
+          codigo: appState.carrinho[i].CODIGO,
+          quantidade: appState.carrinho[i].qtd,
+          valor: preco,
+          complemento: appState.carrinho[i].complemento,
+        });
+      }
+
+      param.items = tmpProdutos;
+
+      // Gerar o link
+      const linkWhatsApp = Diversos.gerarLinkWhatsApp(param, appState, state);
+
+      // Opção 1: Abrir em nova aba
+      window.open(linkWhatsApp, "_blank");
+
+      // Opção 2: Redirecionar
+      window.location.href = linkWhatsApp;
+    } catch (e) {
+      console.error(e);
+      setMsg("error", "Atenção", e.message);
+    } finally {
+      setState((state) => ({ ...state, formIsLoading: false }));
+    }
+  };
+
+  const handleFormPagamento = async (event) => {
+    event.preventDefault();
+
+    // Validação reCAPTCHA invisível
+    if (!executeRecaptcha) {
+      setMsg("error", "Atenção", "Sistema de segurança não está pronto. Tente novamente.");
+      return 0;
+    }
+
+    let recaptchaToken;
+    try {
+      recaptchaToken = await executeRecaptcha("checkout_payment");
+      if (!recaptchaToken) {
+        setMsg("error", "Atenção", "Falha na validação de segurança. Tente novamente.");
+        return 0;
+      }
+    } catch (error) {
+      console.error("Erro no reCAPTCHA:", error);
+      setMsg("error", "Atenção", "Erro na validação de segurança. Tente novamente.");
+      return 0;
+    }
+
+    if (getCartTotal() <= 0) {
+      setMsg("error", "Atenção", "Valor total do carrinho inválido.");
+      return 0;
+    }
+
+    if (appState.carrinho.length <= 0) {
+      setMsg("error", "Atenção", "Seu carrinho está vazio.");
+      return 0;
+    }
+
     if (!state.freteSelectedNome) {
       setMsg("error", "Atenção", "Opção de entrega não selecionada.");
       return 0;
@@ -1067,7 +1199,7 @@ function CheckoutPagamentoContent(props) {
               <Typography variant="body1">{Diversos.maskPreco(getCartTotal())}</Typography>
             </Box>
 
-            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            {/* <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <Typography variant="body1">Frete</Typography>
               <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 2 }}>
                 {appState.usuario && appState.usuario.codigo && appState.usuario.vendedor && appState.usuario.vendedor.CODIGO && (
@@ -1271,7 +1403,7 @@ function CheckoutPagamentoContent(props) {
                   />
                 </Box>
               </>
-            )}
+            )} */}
 
             <Divider />
 
@@ -1282,11 +1414,11 @@ function CheckoutPagamentoContent(props) {
               </Typography>
             </Box>
 
-            <Paper elevation={0} sx={{ py: 0 }}>
+            {/* <Paper elevation={0} sx={{ py: 0 }}>
               <Typography variant="body2" color="text.secondary" gutterBottom>
                 *** Após a compra, você receberá um e-mail com o link para acompanhar o status do seu pedido.
               </Typography>
-            </Paper>
+            </Paper> */}
 
             <Divider />
 
@@ -1593,7 +1725,7 @@ function CheckoutPagamentoContent(props) {
             <Stack spacing={0}>
               {!appState.usuario || !appState.usuario.codigo ? (
                 <>
-                  <Paper elevation={0} sx={{ p: 0 }} id="login-btn-checkout">
+                  {/* <Paper elevation={0} sx={{ p: 0 }} id="login-btn-checkout">
                     <Button variant="outlined" fullWidth color="primary" size="large" startIcon={<LoginIcon />} onClick={() => router.push("/login?checkout=true")}>
                       Fazer login ou se cadastrar
                     </Button>
@@ -1602,7 +1734,7 @@ function CheckoutPagamentoContent(props) {
                     <Typography variant="body2" color="text.secondary">
                       ou compre diretamente abaixo
                     </Typography>
-                  </Divider>
+                  </Divider> */}
 
                   {/* CPF */}
                   <Paper elevation={0} sx={{ p: 0 }}>
@@ -1831,7 +1963,7 @@ function CheckoutPagamentoContent(props) {
                     />
                   </Grid>
 
-                  <Grid item xs={12} sm={12}>
+                  {/* <Grid item xs={12} sm={12}>
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -1848,17 +1980,17 @@ function CheckoutPagamentoContent(props) {
                       label={<Typography variant="body2">Salvar minhas informações para futuras compras</Typography>}
                       disabled={state.formIsLoading}
                     />
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Paper>
-
+              {/*
               <Divider sx={{ my: 2 }}>
                 <Typography variant="body2" color="text.secondary">
                   Selecione abaixo a forma de entrega
                 </Typography>
               </Divider>
 
-              {/* Pagamento */}
+              {/* Pagamento 
               <Paper elevation={0} sx={{ py: 0 }}>
                 <Typography variant="h6" gutterBottom>
                   Forma de Entrega *
@@ -1939,7 +2071,7 @@ function CheckoutPagamentoContent(props) {
                                 height={34}
                                 style={{ marginRight: 10 }}
                               />
-                              */}
+                              
                               <Typography sx={{ fontWeight: "bold", fontSize: "0.95rem" }}>{row.nome}</Typography>
                             </Box>
                           }
@@ -2079,7 +2211,7 @@ function CheckoutPagamentoContent(props) {
                 </Typography>
               </Divider>
 
-              {/* Pagamento */}
+              {/* Pagamento
               <Paper elevation={0} sx={{ py: 0 }}>
                 <Typography variant="h6" gutterBottom>
                   Forma de Pagamento *
@@ -2389,7 +2521,7 @@ function CheckoutPagamentoContent(props) {
                   *** Após a compra, você receberá um e-mail com o link para acompanhar o status do seu pedido.
                 </Typography>
               </Paper>
-
+              */}
               <Divider sx={{ mt: 5 }} />
 
               <Button

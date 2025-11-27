@@ -1403,14 +1403,14 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                   />
                 </div>
 
-                {renderCardFrete(
+                {/* {renderCardFrete(
                   Diversos.maskCEP(state.freteCep),
                   (text) => setState((state) => ({ ...state, freteCep: Diversos.getnums(text) })),
                   state.freteData,
                   () => getShippingModes(state.freteCep)
                 )}
 
-                {renderCardBeneficios()}
+                {renderCardBeneficios()} */}
               </Box>
             </Box>
 
@@ -1591,14 +1591,14 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
               <br />
             </p>
 
-            {renderCardFrete(
+            {/* {renderCardFrete(
               Diversos.maskCEP(state.freteCep),
               (text) => setState((state) => ({ ...state, freteCep: Diversos.getnums(text) })),
               state.freteData,
               () => getShippingModes(state.freteCep)
             )}
 
-            {renderCardBeneficios()}
+            {renderCardBeneficios()} */}
           </Grid>
         </Grid>
 

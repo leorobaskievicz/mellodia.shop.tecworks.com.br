@@ -70,7 +70,7 @@ export default function Footer({ children }) {
           </List>
         </Grid>
         <Grid item xs={6} sm={6} md={2} lg={3} xl={3} sx={styleContainerContentItem}>
-          <Typography sx={styleContainerContentItemTitle}>Minha Conta</Typography>
+          {/* <Typography sx={styleContainerContentItemTitle}>Minha Conta</Typography>
           <List dense>
             <ListItem sx={styleContainerContentItemListItem}>
               <ListItemText primary="Dados pessoais" sx={styleContainerContentItemButton} onClick={() => router.push("/perfil/editar/info")} />
@@ -84,7 +84,7 @@ export default function Footer({ children }) {
             <ListItem sx={styleContainerContentItemListItem}>
               <ListItemText primary="Meus pedidos" sx={styleContainerContentItemButton} onClick={() => router.push("/consulta-pedidos")} />
             </ListItem>
-          </List>
+          </List> */}
           <Typography sx={styleContainerContentItemTitle}>Relacionamento com o Cliente</Typography>
           <Button variant="contained" size="large" color="primary" sx={{ px: 4, mt: 1 }} onClick={() => router.push("/institucional/atendimento")}>
             Atendimento

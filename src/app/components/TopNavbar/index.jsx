@@ -22,9 +22,9 @@ export default function TopNavbar({ children }) {
             Precisa de ajuda?
           </Button>
 
-          <Typography sx={{ px: 3 }}>|</Typography>
+          {/* <Typography sx={{ px: 3 }}>|</Typography> */}
 
-          <Button type="text" color="dark" size="small" sx={{ ...styleContainerButton, display: { xs: "block", md: "flex" } }} component={Link} href="/consulta-pedidos">
+          {/* <Button type="text" color="dark" size="small" sx={{ ...styleContainerButton, display: { xs: "block", md: "flex" } }} component={Link} href="/consulta-pedidos">
             <ShoppingBag style={styleContainerButtonIcon} />
             Meus Pedidos
           </Button>
@@ -32,7 +32,7 @@ export default function TopNavbar({ children }) {
           <Button type="text" color="dark" size="small" sx={{ ...styleContainerButton, display: { xs: "block", md: "flex" } }} component={Link} href="/meu-cadastro#grid-favoritos">
             <Favorite style={styleContainerButtonIcon} />
             Favoritos
-          </Button>
+          </Button> */}
         </Box>
       </Grid>
     </Grid>

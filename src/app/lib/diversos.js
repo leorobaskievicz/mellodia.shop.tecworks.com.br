@@ -588,4 +588,72 @@ export const Diversos = {
       console.error(e.message);
     }
   },
+
+  gerarLinkWhatsApp: (param, appState, state) => {
+    // Número do WhatsApp (com código do país, sem + ou espaços)
+    const numeroWhatsApp = "5541999261087"; // Altere para o número correto
+
+    // Formatar produtos
+    let produtosTexto = "";
+    param.items.forEach((item, index) => {
+      const produtoCarrinho = appState.carrinho.find((p) => p.CODIGO === item.codigo);
+      const nomeProduto = produtoCarrinho ? produtoCarrinho.NOME : `Produto ${item.codigo}`;
+      produtosTexto += `${index + 1}. ${nomeProduto}\n`;
+      produtosTexto += `   Qtd: ${item.quantidade} x R$ ${item.valor.toFixed(2).replace(".", ",")}\n`;
+      produtosTexto += `   Subtotal: R$ ${(item.quantidade * item.valor).toFixed(2).replace(".", ",")}\n\n`;
+    });
+
+    // Formatar forma de pagamento
+    let formaPgtoTexto = "";
+    switch (param.formapg) {
+      case 1:
+        formaPgtoTexto = "Cartão de Crédito";
+        break;
+      case 10:
+        formaPgtoTexto = "PIX";
+        break;
+      case 11:
+        formaPgtoTexto = "Boleto";
+        break;
+      default:
+        formaPgtoTexto = "Não informado";
+    }
+
+    // Montar mensagem
+    const mensagem = `
+*🛒 NOVO PEDIDO*
+━━━━━━━━━━━━━━━━━━
+
+*📋 DADOS DO CLIENTE*
+Nome: ${state.customer.nome || param.clienteDados.nome}
+CPF: ${state.customer.cpf || param.clienteDados.cpf}
+Telefone: ${state.customer.celular || param.clienteDados.celular}
+E-mail: ${state.customer.email || param.clienteDados.email}
+
+*📍 ENDEREÇO DE ENTREGA*
+${state.customer.rua || param.clienteDados.rua}, ${state.customer.numero || param.clienteDados.numero}
+${state.customer.complemento ? `Complemento: ${state.customer.complemento}` : ""}
+Bairro: ${state.customer.bairro || param.clienteDados.bairro}
+${state.customer.cidade || param.clienteDados.cidade} - ${state.customer.estado || param.clienteDados.estado}
+CEP: ${state.customer.cep || param.clienteDados.cep}
+
+*🛍️ PRODUTOS*
+${produtosTexto}
+
+*💰 RESUMO*
+${param.desconto > 0 ? `Desconto: R$ ${param.desconto.toFixed(2).replace(".", ",")}` : ""}
+${param.cupom ? `Cupom: ${param.cupom}` : ""}
+*TOTAL: R$ ${param.total.toFixed(2).replace(".", ",")}*
+
+━━━━━━━━━━━━━━━━━━
+`.trim();
+
+    // Codificar mensagem para URL
+    const mensagemCodificada = encodeURIComponent(mensagem);
+
+    // Gerar link
+    const link = `https://wa.me/${numeroWhatsApp}?text=${mensagemCodificada}`;
+
+    return link;
+  },
 };

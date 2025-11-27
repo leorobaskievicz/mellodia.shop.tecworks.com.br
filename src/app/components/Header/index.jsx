@@ -186,7 +186,7 @@ export default function Header({ children, menus = [], marcas = [] }) {
         </>
       ) : (
         <>
-          <Box sx={{ width: "100%", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-start", mt: 1, p: 0.9 }}>
+          {/* <Box sx={{ width: "100%", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-start", mt: 1, p: 0.9 }}>
             <Button variant="contained" size="large" color="primary" fullWidth onClick={() => router.push("/login")}>
               Acessar minha conta
             </Button>
@@ -212,11 +212,11 @@ export default function Header({ children, menus = [], marcas = [] }) {
             <Button variant="text" size="medium" color="primary" fullWidth sx={{ flex: 5 }} onClick={() => router.push("/cadastro")}>
               Cadastrar.
             </Button>
-          </Box>
+          </Box> */}
         </>
       )}
       <List fullWidth sx={{ width: "100%" }}>
-        <ListItem disablePadding>
+        {/* <ListItem disablePadding>
           <ListItemButton size="small" onClick={() => router.push("/meu-cadastro")}>
             <ListItemIcon>
               <PersonOutlineIcon />
@@ -239,7 +239,7 @@ export default function Header({ children, menus = [], marcas = [] }) {
             </ListItemIcon>
             <ListItemText primary="Favoritos" />
           </ListItemButton>
-        </ListItem>
+        </ListItem> */}
         <ListItem disablePadding>
           <ListItemButton size="small" onClick={() => router.push("/institucional/atendimento")}>
             <ListItemIcon>
@@ -304,19 +304,17 @@ export default function Header({ children, menus = [], marcas = [] }) {
   );
 
   useEffect(() => {
-    dispatch({ type: "HANDLE_ROLETA", payload: false });
-    const handleBeforeUnload = () => {
-      navigator.sendBeacon(
-        "https://dricor.api.tecworks.com.br/cart/heartbeat",
-        new Blob([JSON.stringify({ session_id: localStorage.getItem("session_id") })], { type: "application/json" })
-      );
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
+    // dispatch({ type: "HANDLE_ROLETA", payload: false });
+    // const handleBeforeUnload = () => {
+    //   navigator.sendBeacon(
+    //     "https://dricor.api.tecworks.com.br/cart/heartbeat",
+    //     new Blob([JSON.stringify({ session_id: localStorage.getItem("session_id") })], { type: "application/json" })
+    //   );
+    // };
+    // window.addEventListener("beforeunload", handleBeforeUnload);
+    // return () => {
+    //   window.removeEventListener("beforeunload", handleBeforeUnload);
+    // };
   }, []);
 
   useEffect(() => {
@@ -476,7 +474,7 @@ export default function Header({ children, menus = [], marcas = [] }) {
             gap: 1,
           }}
         >
-          <Box
+          {/* <Box
             sx={{ position: "relative", flex: 1 }}
             onMouseLeave={() => {
               closeTimer.current = setTimeout(() => {
@@ -516,7 +514,7 @@ export default function Header({ children, menus = [], marcas = [] }) {
                 {renderMenuLocalizacao()}
               </Paper>
             ) : null}
-          </Box>
+          </Box> */}
 
           <Box
             sx={{ position: "relative", flex: 1 }}
@@ -632,7 +630,7 @@ export default function Header({ children, menus = [], marcas = [] }) {
       </Popover> */}
 
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-        <Box sx={{ width: "100%", height: "auto", bgcolor: "primary.main", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-start", p: 2 }}>
+        {/* <Box sx={{ width: "100%", height: "auto", bgcolor: "primary.main", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-start", p: 2 }}>
           {state.usuario && state.usuario.codigo ? (
             <>
               <AccountCircleIcon sx={{ fontSize: "2rem", color: "white", mr: 1.5 }} />
@@ -658,7 +656,7 @@ export default function Header({ children, menus = [], marcas = [] }) {
               </Button>
             </>
           )}
-        </Box>
+        </Box> */}
         <Box sx={{ width: 300, px: 2, pt: 0, overflowY: "auto", overflowX: "hidden" }}>
           <List>
             <ListSubheader sx={{ p: 1.5, mx: -2, bgcolor: "grey.100" }}>
@@ -766,11 +764,11 @@ export default function Header({ children, menus = [], marcas = [] }) {
               </Typography>
             </ListSubheader>
 
-            <ListItem disablePadding>
+            {/* <ListItem disablePadding>
               <Box sx={{ width: "100%" }}>{renderMenuLocalizacao(true)}</Box>
-            </ListItem>
+            </ListItem> */}
 
-            <ListItem disablePadding>
+            {/* <ListItem disablePadding>
               <ListItemButton
                 onClick={() => {
                   setDrawerOpen(false);
@@ -824,7 +822,7 @@ export default function Header({ children, menus = [], marcas = [] }) {
                 </ListItemIcon>
                 <ListItemText primary="Favoritos" />
               </ListItemButton>
-            </ListItem>
+            </ListItem> */}
 
             <ListItem disablePadding>
               <ListItemButton

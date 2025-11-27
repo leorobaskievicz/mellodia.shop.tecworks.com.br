@@ -5,8 +5,6 @@ import { Box, Container, Grid, Typography, List, ListItem, ListItemText, Link, P
 import { WhatsApp as WhatsAppIcon, Email as EmailIcon, Phone as PhoneIcon, ArrowDownward as ArrowDownIcon } from "@mui/icons-material";
 import Sobre from "@/app/components/Sobre";
 import Lojas from "@/app/components/Lojas";
-import Saloes from "@/app/components/Saloes";
-import Televendas from "@/app/components/Televendas";
 import Atendimento from "@/app/components/Atendimento";
 import TrabalheConosco from "@/app/components/TrabalheConosco";
 

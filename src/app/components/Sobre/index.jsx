@@ -9,77 +9,24 @@ export default function Sobre() {
       <Typography variant="h4" component="h1" gutterBottom>
         Sobre a Dricor
       </Typography>
-      {/* <Typography variant="body1" paragraph>
-        A Diva é uma rede de lojas de cosméticos e salões de beleza que iniciou sua história em 2001. Estamos localizados no centro de Curitiba, Paraná, onde trabalhamos com uma
-        diversidade de mais de 100 marcas nacionais e internacionais de produtos e com os melhores preços do mercado.
-      </Typography>
-
-      <Box sx={{ mb: 4 }}>
-        <Image src="/sobre-diva.png" width={1000} height={100} alt="Banner Sobre a Diva" style={{ width: "100%", height: "auto" }} />
-      </Box>
-
       <Typography variant="body1" paragraph>
-        Para atender as necessidades das consumidoras em relação aos produtos de beleza, trazemos marcas de qualidade e oferecemos um modelo de negócio em que as lojas e os salões
-        estão sempre localizados no mesmo lugar. Nós temos como intuito de nossa rede atender a todas as pessoas com confiança, preços dignos e o mais importante atendê-las
-        personalizadamente e respondendo a questões particulares em todas nossas redes socias e por WhatsApp.
+        A empresa Dricor Armarinhos é uma empresa especializada no comércio atacadista e varejista de artigos de armarinhos e aviamentos.
       </Typography>
-
-      <Grid container spacing={4} sx={{ mb: 4 }}>
-        <Grid item xs={12} md={6}>
-          <Paper elevation={2} sx={{ p: 3, height: "100%" }}>
-            <Box sx={{ mb: 2 }}>
-              <Image src="/missao.png" width={500} height={100} alt="Nossa Missão" style={{ width: "100%", height: "auto" }} />
-            </Box>
-            <Typography variant="body1">
-              A nossa missão é transformar a beleza das pessoas. Levando aos nossos clientes as melhores marcas e serviços, com um atendimento de qualidade e personalizado.
-            </Typography>
-          </Paper>
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <Paper elevation={2} sx={{ p: 3, height: "100%" }}>
-            <Box sx={{ mb: 2 }}>
-              <Image src="/visao.png" width={500} height={100} alt="Nossa Visão" style={{ width: "100%", height: "auto" }} />
-            </Box>
-            <Typography variant="body1">Ser uma empresa reconhecida pela qualidade dos produtos e serviços oferecidos.</Typography>
-          </Paper>
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={4} sx={{ mb: 4 }}>
-        <Grid item xs={12} md={6}>
-          <Paper elevation={2} sx={{ p: 3 }}>
-            <Box sx={{ mb: 2 }}>
-              <Image src="/nossos-valores.png" width={500} height={100} alt="Nossos Valores" style={{ width: "100%", height: "auto" }} />
-            </Box>
-            <Box sx={{ display: "flex", alignItems: "flex-start", mt: 2 }}>
-              <StarIcon sx={{ mr: 1, color: "primary.main" }} />
-              <Box>
-                <Typography variant="h6" gutterBottom>
-                  Valores
-                </Typography>
-                <List>
-                  <ListItem>Compromisso</ListItem>
-                  <ListItem>Satisfação</ListItem>
-                  <ListItem>Ética</ListItem>
-                  <ListItem>Transparência</ListItem>
-                  <ListItem>Respeito</ListItem>
-                </List>
-              </Box>
-            </Box>
-          </Paper>
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={4}>
-        <Grid item xs={12} md={6}>
-          <Link href="/institucional/lojas" sx={{ textDecoration: "none" }}>
-            <Paper elevation={2} sx={{ p: 3, textAlign: "center" }}>
-              <Image src="/conheca-lojas.png" width={500} height={500} alt="Nossas Lojas" style={{ width: "100%", height: "auto" }} />
-            </Paper>
-          </Link>
-        </Grid>
-      </Grid> */}
+      <Typography variant="body1" paragraph>
+        Fundada em 1993 na cidade de Curitiba Paraná, dispomos de 32 anos de tradição e qualidade na comercialização de nossos produtos, oferecendo uma ampla loja no Boqueirão.
+      </Typography>
+      <Typography variant="body1" paragraph>
+        A Dricor Armarinhos começou com uma história de dedicação e respeito ao cliente que transformou a pequena Dricor Armarinhos em um dos maiores atacadistas e varejistas de
+        todo o Brasil.
+      </Typography>
+      <Typography variant="body1" paragraph>
+        Somos uma empresa comprometida com o sucesso de nossos clientes e buscamos cultivar uma relação duradoura com nossos clientes, baseada na qualidade do atendimento, no
+        respeito e sempre buscando oferecer o melhor aos nossos clientes.
+      </Typography>
+      <Typography variant="body1" paragraph>
+        Para melhor atender as necessidades dos nossos clientes, além do atendimento no balcão ou por whatsapp. Entre em contato e faça já o seu pedido! Atendemos clientes de todo
+        o Brasil, oferecendo sempre produtos de alta qualidade, das melhores marcas e com os melhores preços do mercado!
+      </Typography>
     </Container>
   );
 }

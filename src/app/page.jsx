@@ -130,7 +130,6 @@ async function HomeContent() {
         </LazyComponent>
 
         <LazyComponent>
-          {/* <LazySliderCardBanner banners={filteredBannersCards} /> */}
           <LazyPromocaoRelampagoHome />
         </LazyComponent>
 

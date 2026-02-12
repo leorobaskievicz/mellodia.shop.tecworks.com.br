@@ -1,5 +1,5 @@
 {
-  "name": "br.com.dricor",
+  "name": "br.com.mellodiashop",
   "version": "2.0.0",
   "private": true,
   "scripts": {
@@ -44,5 +44,5 @@
     "eslint-config-next": "15.1.7",
     "typescript": "5.7.3"
   },
-  "description": "Loja de armarinhos em Curitiba"
+  "description": "E-commerce da Distribuidora Mellodia"
 }

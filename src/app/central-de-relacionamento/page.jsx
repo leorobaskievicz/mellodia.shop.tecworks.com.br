@@ -122,7 +122,7 @@ export default function CentralRelacionamento() {
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                Ao identificar um produto danificado no pedido, entre em contato com a Dricor através do Fale Conosco. Anexando uma foto do produto avariado. Após o envio você
+                Ao identificar um produto danificado no pedido, entre em contato com a mellodia através do Fale Conosco. Anexando uma foto do produto avariado. Após o envio você
                 receberá um retorno com todas as orientações sobre a troca/devolução. O prazo para informar o recebimento de um item danificado no pedido é de até 7 dias corridos a
                 contar da data de entrega do pedido.
               </Typography>
@@ -135,7 +135,7 @@ export default function CentralRelacionamento() {
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                Se após a conferência do pedido for identificado a falta de itens, entre em contato com a Dricor através do Fale Conosco. Você receberá um retorno com todas as
+                Se após a conferência do pedido for identificado a falta de itens, entre em contato com a mellodia através do Fale Conosco. Você receberá um retorno com todas as
                 orientações sobre a reposição. O prazo para informar a falta de itens no pedido é de 3 dias corridos a contar da entrega do pedido.
               </Typography>
             </AccordionDetails>
@@ -147,7 +147,7 @@ export default function CentralRelacionamento() {
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                Ao identificar um produto diferente do comprado, entre em contato com a Dricor através do Fale Conosco. anexando uma foto do produto recebido. Após o envio você
+                Ao identificar um produto diferente do comprado, entre em contato com a mellodia através do Fale Conosco. anexando uma foto do produto recebido. Após o envio você
                 receberá um retorno com todas as orientações sobre a troca/devolução.
               </Typography>
             </AccordionDetails>
@@ -214,9 +214,9 @@ export default function CentralRelacionamento() {
             <AccordionDetails>
               <Typography>
                 Se o seu pedido estiver fora do prazo de entrega, envie um e-mail para{" "}
-                <a href="mailto:sac@www.dricor.com.br" target="_blank" rel="noopener noreferrer">
+                <a href="mailto:sac@www.mellodia.com.br" target="_blank" rel="noopener noreferrer">
                   {" "}
-                  sac@www.dricor.com.br{" "}
+                  sac@www.mellodia.com.br{" "}
                 </a>{" "}
                 e vamos ajudar você! Se desejar, também poderá por lá solicitar alterações no seu pedido, demandas especiais e até cancelar o pedido, se for o caso.
               </Typography>
@@ -250,9 +250,9 @@ export default function CentralRelacionamento() {
               <Typography>
                 Faça seu login no site e clique em Minha Conta, ali você encontrará as opções para poder alterar seu cadastro. É só escolher a informação que deseja alterar. Caso
                 você tenha alguma dúvida ou dificuldade, poderá enviar um e-mail para{" "}
-                <a href="mailto:sac@www.dricor.com.br" target="_blank" rel="noopener noreferrer">
+                <a href="mailto:sac@www.mellodia.com.br" target="_blank" rel="noopener noreferrer">
                   {" "}
-                  sac@www.dricor.com.br{" "}
+                  sac@www.mellodia.com.br{" "}
                 </a>{" "}
                 que iremos te ajudar.
               </Typography>
@@ -343,7 +343,7 @@ export default function CentralRelacionamento() {
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                A Dricor aceita pagamento por Cartão de Crédito. No cartão de crédito você pode parcelar as compras em até 6x sem juros em todos os departamentos desde que a
+                A mellodia aceita pagamento por Cartão de Crédito. No cartão de crédito você pode parcelar as compras em até 6x sem juros em todos os departamentos desde que a
                 parcela mínima seja de R$ 30,00.
               </Typography>
             </AccordionDetails>
@@ -356,7 +356,7 @@ export default function CentralRelacionamento() {
             <AccordionDetails>
               <Typography>
                 Quando um pedido é finalizado nenhuma alteração pode ser feita, mas se você precisar de alguma ajuda muito específica, envie e-mail para{" "}
-                <a href="mailto:sac@www.dricor.com.br"> sac@www.dricor.com.br </a> que vamos ajudar você com esclarecimentos.
+                <a href="mailto:sac@www.mellodia.com.br"> sac@www.mellodia.com.br </a> que vamos ajudar você com esclarecimentos.
               </Typography>
             </AccordionDetails>
           </Accordion>
@@ -402,7 +402,7 @@ export default function CentralRelacionamento() {
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 2 }}>
           <WhatsAppIcon sx={{ fontSize: 40, color: "success.main" }} />
-          <Typography variant="h6">41 98802-6971</Typography>
+          <Typography variant="h6">41 xxx-xxxx</Typography>
         </Box>
         <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
           Seg. à Sex. das 9H às 18:00H

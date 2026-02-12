@@ -23,8 +23,8 @@ export default function Institucional() {
   }
 
   const menuItems = [
-    { href: "sobre", label: "Sobre a Dricor" },
-    { href: "lojas", label: "Nossas Lojas" },
+    { href: "sobre", label: "Sobre a Nós" },
+    // { href: "lojas", label: "Nossas Lojas" },
     // { href: "saloes", label: "Nosso Salão" },
     // { href: "televendas", label: "Televendas" },
     { href: "atendimento", label: "Atendimento" },
@@ -71,7 +71,7 @@ export default function Institucional() {
             </Typography>
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
               <Link
-                href="mailto:vendas@dricor.com.br"
+                href="mailto:vendas@mellodia.com.br"
                 sx={{
                   display: "flex",
                   alignItems: "center",
@@ -84,7 +84,7 @@ export default function Institucional() {
                 Via E-mail
               </Link>
               <Link
-                href="https://api.whatsapp.com/send?l=pt&phone=+5541988026971&text=Ol%C3%A1.%20Estou%20fazendo%20contato%20atrav%C3%A9s%20do%20site%20www.dricor.com.br"
+                href="https://api.whatsapp.com/send?l=pt&phone=+xxx&text=Ol%C3%A1.%20Estou%20fazendo%20contato%20atrav%C3%A9s%20do%20site%20mellodia"
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{
@@ -107,7 +107,7 @@ export default function Institucional() {
                 Fale Conosco
               </Typography>
               <Typography variant="h5" color="primary" gutterBottom>
-                (41) 9 8802-6971
+                (41) 9 xxx-xxxx
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Segunda à sexta das 9h às 18:00h

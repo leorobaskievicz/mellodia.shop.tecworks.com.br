@@ -1,7 +1,6 @@
 class Api {
   constructor(token = process.env.NEXT_PUBLIC_API_TOKEN) {
-    this.url = "https://dricor.api.tecworks.com.br";
-    // this.url = "http://127.0.0.1:3333";
+    this.url = "https://mellodia.shop.api.tecworks.com.br";
     this.token = token;
   }
 

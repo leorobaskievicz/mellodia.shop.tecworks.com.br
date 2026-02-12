@@ -13,7 +13,7 @@ const theme = createTheme({
       paper: "#ffffff", // Fundo de cartões/brancos
     },
     primary: {
-      main: "#353B7C",
+      main: "#ff8500",
     },
     secondary: {
       main: "#F2F2F2",

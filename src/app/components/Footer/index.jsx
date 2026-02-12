@@ -48,12 +48,6 @@ export default function Footer({ children }) {
               <ListItemText primary="Termos de Uso" sx={styleContainerContentItemButton} onClick={() => router.push("/politica-de-privacidade")} />
             </ListItem>
             <ListItem sx={styleContainerContentItemListItem}>
-              <ListItemText primary="Outlet" sx={styleContainerContentItemButton} onClick={() => router.push("/outlet")} />
-            </ListItem>
-            <ListItem sx={styleContainerContentItemListItem}>
-              <ListItemText primary="Nossas lojas" sx={styleContainerContentItemButton} onClick={() => router.push("/institucional/lojas")} />
-            </ListItem>
-            <ListItem sx={styleContainerContentItemListItem}>
               <ListItemText primary="Quem somos" sx={styleContainerContentItemButton} onClick={() => router.push("/institucional/sobre")} />
             </ListItem>
             {/* <ListItem sx={styleContainerContentItemListItem}>
@@ -65,7 +59,7 @@ export default function Footer({ children }) {
           <Typography sx={styleContainerContentItemTitle}>Departamentos</Typography>
           <List dense>
             <ListItem sx={styleContainerContentItemListItem}>
-              <ListItemText primary="Linhas" sx={styleContainerContentItemButton} onClick={() => router.push("/departamento/linhas")} />
+              <ListItemText primary="xxx" sx={styleContainerContentItemButton} onClick={() => router.push("/departamento/xxx")} />
             </ListItem>
           </List>
         </Grid>
@@ -99,16 +93,7 @@ export default function Footer({ children }) {
           <Typography sx={styleContainerContentItemTitle}>Marcas</Typography>
           <List dense>
             <ListItem sx={styleContainerContentItemListItem}>
-              <ListItemText primary="Singer" sx={styleContainerContentItemButton} onClick={() => router.push("/marca/singer")} />
-            </ListItem>
-            <ListItem sx={styleContainerContentItemListItem}>
-              <ListItemText primary="Linhanyl" sx={styleContainerContentItemButton} onClick={() => router.push("/marca/linhanyl")} />
-            </ListItem>
-            <ListItem sx={styleContainerContentItemListItem}>
-              <ListItemText primary="Projoelho" sx={styleContainerContentItemButton} onClick={() => router.push("/marca/projoelho")} />
-            </ListItem>
-            <ListItem sx={styleContainerContentItemListItem}>
-              <ListItemText primary="Graziano" sx={styleContainerContentItemButton} onClick={() => router.push("/marca/graziano")} />
+              <ListItemText primary="XXX" sx={styleContainerContentItemButton} onClick={() => router.push("/marca/xxx")} />
             </ListItem>
           </List>
         </Grid>

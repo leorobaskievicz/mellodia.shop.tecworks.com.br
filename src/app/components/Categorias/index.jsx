@@ -6,12 +6,11 @@ import { styleContainer, styleContainerBody, styleContainerButton } from "./styl
 
 export default function Categorias({ children }) {
   const btns = [
-    { title: "OUTLET", link: "/outlet" },
-    { title: "ESCOLHA SEU CUPOM", link: "#" },
     { title: "LINHA PROFISSIONAL", link: "/departamento/profissionais" },
     { title: "SUPER PROMOÇÕES", link: "/promocoes" },
-    { title: "FRETE GRÁTIS", link: "/busca/frete-gratis" },
-    { title: "+ DESCONTO NO APP", link: "/app-diva" },
+    { title: "BELEZA", link: "/" },
+    { title: "DEPILATORIOS", link: "/" },
+    { title: "MASCULINO", link: "/" },
   ];
 
   return (

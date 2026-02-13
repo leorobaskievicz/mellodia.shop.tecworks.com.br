@@ -791,7 +791,7 @@ async function getFrete(cep, produtos) {
       produtos: produtos,
     };
 
-    const data = await myapi.post(`/shipping/modes/dricor`, myParam);
+    const data = await myapi.post(`/shipping/modes/mellodia`, myParam);
 
     if (!data || !data.status || !data.msg || data.msg.length <= 0) {
       throw new Error(`Nenhum variacao localizada`);

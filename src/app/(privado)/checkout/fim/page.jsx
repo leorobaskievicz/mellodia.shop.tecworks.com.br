@@ -68,7 +68,7 @@ export default function CheckoutFim() {
       event: "purchase",
       ecommerce: {
         transaction_id: state.pedido.pedido,
-        affiliation: "www.www.dricor.com.br",
+        affiliation: "www.www.mellodia.com.br",
         value: !total || total <= 0 || isNaN(total) ? 0.01 : total,
         tax: "0",
         shipping: state.pedido.frete,

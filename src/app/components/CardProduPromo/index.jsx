@@ -63,7 +63,7 @@ export default function CardProduPromo({ produ, intervaloSeg, remaining, setRema
         await window.navigator.share({
           title: Diversos.capitalizeAllWords(produ.NOME) || window.document.title,
           text:
-            `Confira essa super promoção ${Number(produ.PRECO) !== Number(preco) ? `de ${Diversos.maskPreco(produ.PRECO)}` : ""} por ${Diversos.maskPreco(preco)} na Dricor` ||
+            `Confira essa super promoção ${Number(produ.PRECO) !== Number(preco) ? `de ${Diversos.maskPreco(produ.PRECO)}` : ""} por ${Diversos.maskPreco(preco)} na mellodia` ||
             "Confira este link!",
           url: window.location.href,
         });
@@ -112,7 +112,7 @@ export default function CardProduPromo({ produ, intervaloSeg, remaining, setRema
           image={
             !produ.FOTOS || produ.FOTOS.length <= 0
               ? "/produto-sem-imagem.png"
-              : `${String(produ.FOTOS[0].link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
+              : `${String(produ.FOTOS[0].link).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${
                   !produ.FOTOS || produ.FOTOS.length <= 0 ? "produto-sem-imagem.png" : produ.FOTOS[0].link
                 }`
           }

@@ -1,4 +1,4 @@
-# www.dricor.com.br robots.txt
+# www.mellodia.com.br robots.txt
 User-agent: *
 Allow: /
 Allow: /produtos/
@@ -25,7 +25,7 @@ Disallow: /cadastro/
 Disallow: /recuperar-senha/
 
 # Sitemap
-Sitemap: https://www.dricor.com.br/sitemap.xml
+Sitemap: https://www.mellodia.com.br/sitemap.xml
 
 # Crawl-delay
 Crawl-delay: 10 

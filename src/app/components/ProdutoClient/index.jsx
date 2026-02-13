@@ -104,7 +104,7 @@ const OptimizedLink = memo(({ href, children, className, onClick }) => {
         setIsLoading(false);
       });
     },
-    [href, onClick, router]
+    [href, onClick, router],
   );
 
   return (
@@ -248,10 +248,10 @@ const renderKits = (produto, kits) => {
                           <OptimizedImage
                             src={
                               q.itemDados && q.itemDados.FOTOS && q.itemDados.FOTOS.length > 0
-                                ? `${String(q.itemDados.FOTOS[0].link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
+                                ? `${String(q.itemDados.FOTOS[0].link).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${
                                     q.itemDados.FOTOS[0].link
                                   }`
-                                : `https://dricor.cdn.tecworks.com.br/produto-sem-foto.png`
+                                : `https://mellodia.shop.cdn.tecworks.com.br/produto-sem-foto.png`
                             }
                             width={700}
                             height={700}
@@ -297,14 +297,14 @@ const renderKits = (produto, kits) => {
                         </div>
                       </a>
                     </Tooltip>
-                  )
+                  ),
                 )
               : kits.map((q, idx) => (
                   <Tooltip key={`variacao-${idx}`} placement="top" arrow title={q.produtoDados?.NOME}>
                     <a href={`/${Diversos.toSeoUrl(q.produtoDados?.NOME)}`} target="_self">
                       <div className="variacao-btn">
                         <OptimizedImage
-                          src={`${String(q.produtoDados.FOTOS[0].link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
+                          src={`${String(q.produtoDados.FOTOS[0].link).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${
                             q.produtoDados.FOTOS[0].link
                           }`}
                           width={700}
@@ -385,7 +385,7 @@ const renderVariacoes = (produto, variacoes, setSelectedImage, setSelectedVariac
                     >
                       {hasImage ? (
                         <OptimizedImage
-                          src={`https://dricor.cdn.tecworks.com.br/${item.image}`}
+                          src={`https://mellodia.shop.cdn.tecworks.com.br/${item.image}`}
                           width={48}
                           height={48}
                           alt={item.attribute_value}
@@ -399,7 +399,7 @@ const renderVariacoes = (produto, variacoes, setSelectedImage, setSelectedVariac
                     </Box>
                   </Tooltip>
                 );
-              })
+              }),
             )}
           </Box>
         </>
@@ -637,7 +637,7 @@ const renderCardBeneficios = () => {
                 gutterBottom
                 sx={{ fontSize: "1.0rem", fontWeight: "500", color: "primary.main", textAlign: "center", textTransform: "uppercase" }}
               >
-                CUPOM: DRICORBRINDE
+                CUPOM: mellodiaBRINDE
               </Typography>
             </Box>
             <Button variant="contained" color="primary" size="large">
@@ -835,7 +835,7 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
           }));
         });
     },
-    [produto.CODIGO, state.freteCep]
+    [produto.CODIGO, state.freteCep],
   );
 
   const getRecommend = useCallback(async () => {
@@ -891,7 +891,7 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
         dispatchContext({ type: "ADICIONAR_FAVORITO", payload: produto.CODIGO });
       }
     },
-    [produto.CODIGO, stateContext.favoritos, dispatchContext]
+    [produto.CODIGO, stateContext.favoritos, dispatchContext],
   );
 
   const handleClickShare = async (e) => {
@@ -904,7 +904,7 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
         await window.navigator.share({
           title: Diversos.capitalizeAllWords(produto.NOME) || window.document.title,
           text:
-            `Confira essa super promoção ${Number(produto.PRECO) !== Number(preco) ? `de ${Diversos.maskPreco(produto.PRECO)}` : ""} por ${Diversos.maskPreco(preco)} na Dricor` ||
+            `Confira essa super promoção ${Number(produto.PRECO) !== Number(preco) ? `de ${Diversos.maskPreco(produto.PRECO)}` : ""} por ${Diversos.maskPreco(preco)} na mellodia` ||
             "Confira este link!",
           url: window.location.href,
         });
@@ -934,7 +934,7 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
       {
         root: null,
         threshold: 0.1,
-      }
+      },
     );
 
     if (comprarRef.current) observer.observe(comprarRef.current);
@@ -982,7 +982,7 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
 
     const buscaEstoqueLojas = async () => {
       setState((state) => ({ ...state, estoquesIsLoading: true }));
-      const response = await fetch(`https://dricor.api.tecworks.com.br/admloja/produto/estoque?produto=${produto.CODIGO}`, {
+      const response = await fetch(`https://mellodia.api.tecworks.com.br/admloja/produto/estoque?produto=${produto.CODIGO}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -1017,7 +1017,7 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
           },
       { label: Diversos.capitalizeAllWords(produto.NOME), href: `/${Diversos.toSeoUrl(produto.NOME)}` },
     ],
-    [produto]
+    [produto],
   );
 
   const breakpoints = { 0: { slidesPerView: 1, spaceBetween: 5 } };
@@ -1068,14 +1068,14 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                   >
                     <picture>
                       <source
-                        srcSet={`${String(item.link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${item.link.replace(
+                        srcSet={`${String(item.link).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${item.link.replace(
                           /\.[^/.]+$/,
-                          ".webp"
+                          ".webp",
                         )}`}
                         type="image/webp"
                       />
                       <img
-                        src={`${String(item.link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${item.link}`}
+                        src={`${String(item.link).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${item.link}`}
                         alt={produto.NOME}
                         loading="lazy"
                         style={{ maxWidth: "100%" }}
@@ -1104,10 +1104,10 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                       <ZoomImage
                         src={
                           selectedVariacao
-                            ? `${String(selectedImage).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${selectedImage}`
-                            : `${String(selectedImage).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${selectedImage.replace(
+                            ? `${String(selectedImage).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${selectedImage}`
+                            : `${String(selectedImage).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${selectedImage.replace(
                                 /\.[^/.]+$/,
-                                ".webp"
+                                ".webp",
                               )}`
                         }
                         alt={produto.NOME}
@@ -1115,14 +1115,14 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                     ) : (
                       <picture>
                         <source
-                          srcSet={`${String(selectedImage).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${selectedImage.replace(
+                          srcSet={`${String(selectedImage).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${selectedImage.replace(
                             /\.[^/.]+$/,
-                            ".webp"
+                            ".webp",
                           )}`}
                           type="image/webp"
                         />
                         <img
-                          src={`${String(selectedImage).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${selectedImage}`}
+                          src={`${String(selectedImage).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${selectedImage}`}
                           alt={produto.NOME}
                           loading="lazy"
                           style={{
@@ -1196,14 +1196,14 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                       >
                         <picture style={{ width: "100%", maxWidth: 500, height: "auto", objectFit: "contain" }}>
                           <source
-                            srcSet={`${String(item.link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${item.link.replace(
+                            srcSet={`${String(item.link).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${item.link.replace(
                               /\.[^/.]+$/,
-                              ".webp"
+                              ".webp",
                             )}`}
                             type="image/webp"
                           />
                           <img
-                            src={`${String(item.link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${item.link}`}
+                            src={`${String(item.link).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${item.link}`}
                             alt={produto.NOME}
                             loading="lazy"
                             style={{
@@ -1435,7 +1435,7 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
               <div className="w-100">
                 <Link href={`/marca/${Diversos.toSeoUrl(produto.MARCA)}`}>
                   <Image
-                    src={`https://dricor.cdn.tecworks.com.br/${produto.bannerMarca?.path}`}
+                    src={`https://mellodia.shop.cdn.tecworks.com.br/${produto.bannerMarca?.path}`}
                     alt={`Logo da marca ${produto.MARCA}`}
                     loading="lazy"
                     width={150}
@@ -1942,7 +1942,7 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                 <Grid>
                   <Image
                     src={"/Rapunzel-Tônico-Capilar-Diva-Cosmeticos-250ml.jpg"}
-                    alt="Rapunzel Tônico Capilar Dricor 250ml"
+                    alt="Rapunzel Tônico Capilar mellodia 250ml"
                     width={970}
                     height={600}
                     style={{

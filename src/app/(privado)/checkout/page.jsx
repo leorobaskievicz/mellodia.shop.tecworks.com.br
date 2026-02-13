@@ -616,7 +616,7 @@ export default function Checkout(props) {
                     }}
                   >
                     <Image
-                      src={`${String(row.FOTOS[0].link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
+                      src={`${String(row.FOTOS[0].link).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${
                         !row.FOTOS || row.FOTOS.length <= 0 ? "produto-sem-imagem.png" : row.FOTOS[0].link
                       }`}
                       className="compra-img"

@@ -14,11 +14,11 @@ const nextConfig = {
   images: {
     unoptimized: false,
     remotePatterns: [
-      { protocol: "https", hostname: "www.dricor.com.br" },
-      { protocol: "https", hostname: "dricor.api.tecworks.com.br" },
+      { protocol: "https", hostname: "www.mellodia.com.br" },
+      { protocol: "https", hostname: "mellodia.api.tecworks.com.br" },
       { protocol: "https", hostname: "api.tecworks.com.br" },
       { protocol: "https", hostname: "dvy6d7mpp8is.cloudfront.net" },
-      { protocol: "https", hostname: "dricor.cdn.tecworks.com.br" },
+      { protocol: "https", hostname: "mellodia.shop.cdn.tecworks.com.br" },
       { protocol: "https", hostname: "play.google.com" },
       { protocol: "https", hostname: "apisite.tecworks.com.br" },
     ],

@@ -77,9 +77,9 @@ export default async function Outlet(props) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
-    url: `https://www.dricor.com.br/${Diversos.toSeoUrl(slug)}`,
+    url: `https://www.mellodia.com.br/${Diversos.toSeoUrl(slug)}`,
     name: produtos?.[0]?.NOME,
-    image: produtos?.[0]?.FOTOS.map((q) => `${String(q.link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${q.link}`),
+    image: produtos?.[0]?.FOTOS.map((q) => `${String(q.link).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${q.link}`),
     description: `Melhor oferta de ${Diversos.capitalize(slug)}`,
     sku: produtos?.[0]?.CODIGO,
     mpn: produtos?.[0]?.REFERENCIA ? produtos?.[0]?.REFERENCIA : produtos?.[0]?.CODIGO,
@@ -90,7 +90,7 @@ export default async function Outlet(props) {
     },
     brand: {
       "@type": "Brand",
-      name: produtos?.[0]?.MARCA ? produtos?.[0]?.MARCA : "Dricor",
+      name: produtos?.[0]?.MARCA ? produtos?.[0]?.MARCA : "mellodia",
     },
     review: {},
     offers: {
@@ -103,7 +103,7 @@ export default async function Outlet(props) {
       availability: "http://schema.org/InStock",
       seller: {
         "@type": "Organization",
-        name: "Dricor",
+        name: "mellodia",
       },
     },
   };
@@ -129,7 +129,7 @@ export default async function Outlet(props) {
               color="black"
               sx={{ fontSize: "1.7rem", fontWeight: "600", pl: 2, pt: 1, textAlign: { xs: "center", sm: "center", md: "left", lg: "left", xl: "left" } }}
             >
-              Outlet Dricor
+              Outlet mellodia
             </Typography>
           </Grid>
 
@@ -165,7 +165,7 @@ export default async function Outlet(props) {
 
           <Grid container xs={12} sm={12} md={12} lg={12} xl={12} sx={styleContainerBody}>
             <LazyComponent>
-              <LazyVitrine produtos={produtos} title="Outlet Dricor" algoliaReturn={algoliaReturn} page={"outlet"} />
+              <LazyVitrine produtos={produtos} title="Outlet mellodia" algoliaReturn={algoliaReturn} page={"outlet"} />
             </LazyComponent>
           </Grid>
 

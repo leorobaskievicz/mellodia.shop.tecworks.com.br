@@ -205,7 +205,7 @@ function CheckoutPagamentoContent(props) {
           appState.carrinho[0].NOME,
           appState.carrinho[0].CODIGO,
           getTotal(),
-          "https://www.dricor.com.br/checkout/pagamento"
+          "https://www.mellodia.com.br/checkout/pagamento",
         );
 
         setState((state) => ({ ...state, checkout1: false, checkout2: true }));
@@ -306,7 +306,7 @@ function CheckoutPagamentoContent(props) {
           fgTelevendas: appState.usuario && appState.usuario.vendedor && appState.usuario.vendedor.NOME ? true : false,
         };
 
-        const data = await api.post(`/shipping/modes/dricor`, param, true);
+        const data = await api.post(`/shipping/modes/mellodia`, param, true);
 
         if (data.status === false) {
           throw new Error("Não foi possível buscar opções de entrega.");
@@ -949,7 +949,7 @@ function CheckoutPagamentoContent(props) {
           telefone: state.customer.celular,
           celular: state.customer.celular,
         },
-        true
+        true,
       );
 
       // BUSCA LINK DO CARRINHO PARA ENVIAR AO CLIENTE
@@ -964,7 +964,7 @@ function CheckoutPagamentoContent(props) {
 
       setState((state) => ({
         ...state,
-        linkPagamento: `https://www.dricor.com.br/api/link-pagamento?d=${getCart.SESSION_ID}`,
+        linkPagamento: `https://www.mellodia.com.br/api/link-pagamento?d=${getCart.SESSION_ID}`,
       }));
       setModalLinkPagamento(true);
 
@@ -1158,20 +1158,20 @@ function CheckoutPagamentoContent(props) {
                   <source
                     srcSet={`${
                       !item.FOTOS || item.FOTOS.length <= 0
-                        ? "https://dricor.cdn.tecworks.com.br/produto-sem-imagem.webp"
-                        : String(item.FOTOS[0].link).indexOf("https://dricor.cdn.tecworks") > -1
-                        ? item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
-                        : "https://dricor.cdn.tecworks.com.br/" + item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
+                        ? "https://mellodia.shop.cdn.tecworks.com.br/produto-sem-imagem.webp"
+                        : String(item.FOTOS[0].link).indexOf("https://mellodia.shop.cdn.tecworks") > -1
+                          ? item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
+                          : "https://mellodia.shop.cdn.tecworks.com.br/" + item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
                     }`}
                     type="image/webp"
                   />
                   <img
                     src={`${
                       !item.FOTOS || item.FOTOS.length <= 0
-                        ? "https://dricor.cdn.tecworks.com.br/produto-sem-imagem.png"
-                        : String(item.FOTOS[0].link).indexOf("https://dricor.cdn.tecworks") > -1
-                        ? item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
-                        : "https://dricor.cdn.tecworks.com.br/" + item.FOTOS[0].link
+                        ? "https://mellodia.shop.cdn.tecworks.com.br/produto-sem-imagem.png"
+                        : String(item.FOTOS[0].link).indexOf("https://mellodia.shop.cdn.tecworks") > -1
+                          ? item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
+                          : "https://mellodia.shop.cdn.tecworks.com.br/" + item.FOTOS[0].link
                     }`}
                     alt={item.NOME}
                     loading="lazy"
@@ -1575,7 +1575,7 @@ function CheckoutPagamentoContent(props) {
 
     // Start um timer de 10 segundos minutos para enviar carrinho para o controle de carrinho abandonado
     setTimeout(() => {
-      fetch("https://n8n.www.dricor.com.br/webhook/abandono-carrinho", {
+      fetch("https://n8n.www.mellodia.com.br/webhook/abandono-carrinho", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -2371,7 +2371,7 @@ function CheckoutPagamentoContent(props) {
                                 color: state.formFormaPgtoCodigo === 98 ? "primary.main" : "text.secondary",
                               }}
                             />
-                            <Typography>Link de pagamento (Dricor)</Typography>
+                            <Typography>Link de pagamento (mellodia)</Typography>
                           </Box>
                         }
                       />

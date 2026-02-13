@@ -457,7 +457,7 @@ export const Diversos = {
           origem: "site",
           session_id,
         },
-        true
+        true,
       );
 
       if (!response || !response.status) {
@@ -486,7 +486,7 @@ export const Diversos = {
     cupomDesconto = null,
     desconto = null,
     freteGratis = null,
-    vendedor = null
+    vendedor = null,
   ) => {
     // gera ou recupera session_id no localStorage
     let session_id = localStorage.getItem("session_id");
@@ -512,7 +512,7 @@ export const Diversos = {
           frete_gratis: freteGratis,
           vendedor: vendedor,
         },
-        true
+        true,
       )
       .then((response) => {
         if (!response || !response.status) {
@@ -557,7 +557,7 @@ export const Diversos = {
         name: cliente.nome,
         email: cliente.email,
         phone: cliente.telefone,
-        gateway: "Dricor",
+        gateway: "mellodia",
         transaction_id: "",
         offer_id: null,
         status,

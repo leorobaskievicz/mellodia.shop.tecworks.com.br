@@ -74,7 +74,7 @@ export default async function Promocoes(props) {
       grupos: typeof gruposParam === "string" ? [gruposParam] : gruposParam,
       preco: typeof precoParam === "string" ? [precoParam] : precoParam,
     },
-    Boolean(fgTelevendasParam)
+    Boolean(fgTelevendasParam),
   );
 
   if (!produtos) {
@@ -84,9 +84,9 @@ export default async function Promocoes(props) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
-    url: `https://www.dricor.com.br/${Diversos.toSeoUrl(slug)}`,
+    url: `https://www.mellodia.com.br/${Diversos.toSeoUrl(slug)}`,
     name: produtos?.[0]?.NOME,
-    image: produtos?.[0]?.FOTOS.map((q) => `${String(q.link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${q.link}`),
+    image: produtos?.[0]?.FOTOS.map((q) => `${String(q.link).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${q.link}`),
     description: `Melhor oferta de ${Diversos.capitalize(slug)}`,
     sku: produtos?.[0]?.CODIGO,
     mpn: produtos?.[0]?.REFERENCIA ? produtos?.[0]?.REFERENCIA : produtos?.[0]?.CODIGO,
@@ -97,7 +97,7 @@ export default async function Promocoes(props) {
     },
     brand: {
       "@type": "Brand",
-      name: produtos?.[0]?.MARCA ? produtos?.[0]?.MARCA : "Dricor",
+      name: produtos?.[0]?.MARCA ? produtos?.[0]?.MARCA : "mellodia",
     },
     review: {},
     offers: {
@@ -110,7 +110,7 @@ export default async function Promocoes(props) {
       availability: "http://schema.org/InStock",
       seller: {
         "@type": "Organization",
-        name: "Dricor",
+        name: "mellodia",
       },
     },
   };

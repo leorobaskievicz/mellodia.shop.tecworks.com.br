@@ -173,13 +173,13 @@ export default function CardProdu({ children, produ, idx, sx, algoliaReturn, ind
         ) : (
           <picture>
             <source
-              srcSet={`${String(produ.FOTOS[0].link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
+              srcSet={`${String(produ.FOTOS[0].link).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${
                 !produ.FOTOS || produ.FOTOS.length <= 0 ? "produto-sem-imagem.webp" : produ.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
               }`}
               type="image/webp"
             />
             <img
-              src={`${String(produ.FOTOS[0].link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
+              src={`${String(produ.FOTOS[0].link).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${
                 !produ.FOTOS || produ.FOTOS.length <= 0 ? "produto-sem-imagem.png" : produ.FOTOS[0].link
               }`}
               alt={produ.NOME}

@@ -138,7 +138,7 @@ const Banner = memo(({ banners, fgHorizontalSmall, fgCards, fgDepartamentos, arr
                       <Box style={CountdownContainer}>
                         {rawPath.includes(".gif") ? (
                           <img
-                            src={`${String(gifPath).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${gifPath}`}
+                            src={`${String(gifPath).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${gifPath}`}
                             alt={imageAlt}
                             loading={index === 0 || priority ? "eager" : "lazy"}
                             style={{
@@ -154,12 +154,12 @@ const Banner = memo(({ banners, fgHorizontalSmall, fgCards, fgDepartamentos, arr
                         ) : (
                           <picture>
                             <source
-                              srcSet={`${String(webpPath).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${webpPath}`}
+                              srcSet={`${String(webpPath).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${webpPath}`}
                               type="image/webp"
                               style={{ borderRadius: 10 }}
                             />
                             <img
-                              src={`${String(pngPath).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${pngPath}`}
+                              src={`${String(pngPath).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${pngPath}`}
                               alt={imageAlt}
                               loading={index === 0 || priority ? "eager" : "lazy"}
                               style={{
@@ -240,7 +240,7 @@ const Banner = memo(({ banners, fgHorizontalSmall, fgCards, fgDepartamentos, arr
                   >
                     {rawPath.includes(".gif") ? (
                       <img
-                        src={`${String(gifPath).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${gifPath}`}
+                        src={`${String(gifPath).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${gifPath}`}
                         alt={imageAlt}
                         loading={index === 0 || priority ? "eager" : "lazy"}
                         style={{
@@ -256,12 +256,12 @@ const Banner = memo(({ banners, fgHorizontalSmall, fgCards, fgDepartamentos, arr
                     ) : (
                       <picture>
                         <source
-                          srcSet={`${String(webpPath).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${webpPath}`}
+                          srcSet={`${String(webpPath).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${webpPath}`}
                           type="image/webp"
                           style={{ borderRadius: 10 }}
                         />
                         <img
-                          src={`${String(pngPath).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${pngPath}`}
+                          src={`${String(pngPath).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${pngPath}`}
                           alt={imageAlt}
                           loading={index === 0 || priority ? "eager" : "lazy"}
                           style={{

@@ -99,12 +99,12 @@ export default function SliderCardProdu({ children, title, produtos, link, fgPro
             <a href={bannersLeft[0].link} target="_self">
               <picture>
                 <source
-                  srcSet={`${String(bannersLeft[0].path).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${bannersLeft[0].path}`}
+                  srcSet={`${String(bannersLeft[0].path).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${bannersLeft[0].path}`}
                   type="image/webp"
                   style={{ borderRadius: 10, width: "100%", height: 650 }}
                 />
                 <img
-                  src={`${String(bannersLeft[0].path).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${bannersLeft[0].path}`}
+                  src={`${String(bannersLeft[0].path).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${bannersLeft[0].path}`}
                   alt={bannersLeft[0].path}
                   loading="eager"
                   style={{

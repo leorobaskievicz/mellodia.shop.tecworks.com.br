@@ -43,7 +43,7 @@ const CartItem = memo((props) => {
         });
       }
     },
-    [props.item, dispatchApp]
+    [props.item, dispatchApp],
   );
 
   const handleIncrement = useCallback(() => {
@@ -148,20 +148,20 @@ const CartItem = memo((props) => {
               <source
                 srcSet={`${
                   !props.item.FOTOS || props.item.FOTOS.length <= 0
-                    ? "https://dricor.cdn.tecworks.com.br/produto-sem-imagem.webp"
-                    : String(props.item.FOTOS[0].link).indexOf("https://dricor.cdn.tecworks") > -1
-                    ? props.item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
-                    : "https://dricor.cdn.tecworks.com.br/" + props.item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
+                    ? "https://mellodia.shop.cdn.tecworks.com.br/produto-sem-imagem.webp"
+                    : String(props.item.FOTOS[0].link).indexOf("https://mellodia.shop.cdn.tecworks") > -1
+                      ? props.item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
+                      : "https://mellodia.shop.cdn.tecworks.com.br/" + props.item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
                 }`}
                 type="image/webp"
               />
               <img
                 src={`${
                   !props.item.FOTOS || props.item.FOTOS.length <= 0
-                    ? "https://dricor.cdn.tecworks.com.br/produto-sem-imagem.png"
-                    : String(props.item.FOTOS[0].link).indexOf("https://dricor.cdn.tecworks") > -1
-                    ? props.item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
-                    : "https://dricor.cdn.tecworks.com.br/" + props.item.FOTOS[0].link
+                    ? "https://mellodia.shop.cdn.tecworks.com.br/produto-sem-imagem.png"
+                    : String(props.item.FOTOS[0].link).indexOf("https://mellodia.shop.cdn.tecworks") > -1
+                      ? props.item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
+                      : "https://mellodia.shop.cdn.tecworks.com.br/" + props.item.FOTOS[0].link
                 }`}
                 alt={props.item.NOME}
                 loading="lazy"

@@ -19,7 +19,7 @@ export default function OrderDetailsItem({ item }) {
               }}
             >
               <Image
-                src={`${String(item.produtoDados.FOTOS[0].link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
+                src={`${String(item.produtoDados.FOTOS[0].link).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${
                   item.produtoDados.FOTOS[0].link
                 }`}
                 alt={item.produtoDados.NOME}

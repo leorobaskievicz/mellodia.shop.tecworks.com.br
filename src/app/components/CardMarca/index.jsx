@@ -16,7 +16,7 @@ import {
 
 export default function CardMarca({ children, fgBanner }) {
   const produ = {
-    img: "https://dricor.cdn.tecworks.com.br/banner-336-1-2025-02-03T11:56:04-03:00.png",
+    img: "https://mellodia.shop.cdn.tecworks.com.br/banner-336-1-2025-02-03T11:56:04-03:00.png",
     nome: "Produto Teste",
     preco: 10.5,
   };

@@ -165,7 +165,7 @@ export default function SliderCardBanner({ children, banners }) {
                   return (
                     <Box sx={{ width: 222, height: 335, borderRadius: 1.5, p: 0 }} component={src.link && src.link !== "#" ? "a" : "div"} href={src.link}>
                       <Image
-                        src={`${String(webpPath).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${webpPath}`}
+                        src={`${String(webpPath).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${webpPath}`}
                         alt={imageAlt}
                         width={222}
                         height={330}

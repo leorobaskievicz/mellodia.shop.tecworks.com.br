@@ -30,9 +30,9 @@ export default function TopHeader({ children }) {
         <Grid xs={12} sm={12} md={10} lg={9} xl={8} sx={{ ...styleContainerBody, bgcolor: "transparent", borderBottom: "none" }}>
           <Image
             src={`${
-              String(topHeader[0].path_mobile && isMobile ? topHeader[0].path_mobile : topHeader[0].path).indexOf("https://dricor.cdn.tecworks") > -1
+              String(topHeader[0].path_mobile && isMobile ? topHeader[0].path_mobile : topHeader[0].path).indexOf("https://mellodia.shop.cdn.tecworks") > -1
                 ? ""
-                : "https://dricor.cdn.tecworks.com.br/"
+                : "https://mellodia.shop.cdn.tecworks.com.br/"
             }${topHeader[0].path_mobile && isMobile ? topHeader[0].path_mobile : topHeader[0].path}`}
             alt={`Slide 0 ${topHeader[0].titulo}`}
             width={1220}

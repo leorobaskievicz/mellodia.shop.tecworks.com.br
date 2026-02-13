@@ -459,10 +459,10 @@ function MeuCadastro() {
                                   <Image
                                     src={
                                       row.FOTOS && row.FOTOS.length > 0
-                                        ? `${String(row.FOTOS[0].link).indexOf("https://dricor.cdn.tecworks") > -1 ? "" : "https://dricor.cdn.tecworks.com.br/"}${
+                                        ? `${String(row.FOTOS[0].link).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${
                                             row.FOTOS[0].link
                                           }`
-                                        : `https://dricor.cdn.tecworks.com.br/produto-sem-imagem.png`
+                                        : `https://mellodia.shop.cdn.tecworks.com.br/produto-sem-imagem.png`
                                     }
                                     alt={row.NOME}
                                     fill

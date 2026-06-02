@@ -127,18 +127,18 @@ function CheckoutPagamentoContent(props) {
       receberNovidades: true,
       salvarEndereco: true,
       codigo: appState.usuario ? appState?.usuario?.codigo : -1,
-      nome: appState.usuario ? appState?.usuario?.nome?.split(" ")?.[0] : null,
-      sobrenome: appState.usuario ? appState?.usuario?.nome?.split(" ")?.pop() : null,
-      email: appState.usuario ? appState?.usuario?.email : null,
-      cpf: appState.usuario ? appState?.usuario?.cpf : null,
-      celular: appState.usuario ? appState?.usuario?.telefone : null,
-      cep: appState.usuario && appState?.usuario?.codigo ? null : appState.cep,
-      rua: null,
-      numero: null,
-      complemento: null,
-      bairro: null,
-      cidade: null,
-      estado: null,
+      nome: appState.usuario ? appState?.usuario?.nome?.split(" ")?.[0] ?? "" : "",
+      sobrenome: appState.usuario ? appState?.usuario?.nome?.split(" ")?.pop() ?? "" : "",
+      email: appState.usuario ? appState?.usuario?.email ?? "" : "",
+      cpf: appState.usuario ? appState?.usuario?.cpf ?? "" : "",
+      celular: appState.usuario ? appState?.usuario?.telefone ?? "" : "",
+      cep: appState.usuario && appState?.usuario?.codigo ? "" : appState.cep ?? "",
+      rua: "",
+      numero: "",
+      complemento: "",
+      bairro: "",
+      cidade: "",
+      estado: "",
     },
     checkout1: true,
     checkout2: false,
@@ -356,17 +356,17 @@ function CheckoutPagamentoContent(props) {
           ...state,
           customer: {
             ...state.customer,
-            email: data.msg.email,
-            cpf: data.msg.cpf,
-            cep: data.msg.cep,
-            rua: data.msg.rua,
-            celular: data.msg.telefone,
-            numero: String(data.msg.numero),
-            complemento: data.msg.complemento,
-            bairro: data.msg.bairro,
-            cidade: data.msg.cidade,
-            estado: data.msg.estado,
-            codmun: data.msg.ibge,
+            email: data.msg.email ?? "",
+            cpf: data.msg.cpf ?? "",
+            cep: data.msg.cep ?? "",
+            rua: data.msg.rua ?? "",
+            celular: data.msg.telefone ?? "",
+            numero: data.msg.numero ? String(data.msg.numero) : "",
+            complemento: data.msg.complemento ?? "",
+            bairro: data.msg.bairro ?? "",
+            cidade: data.msg.cidade ?? "",
+            estado: data.msg.estado ?? "",
+            codmun: data.msg.ibge ?? "",
           },
         }));
       }
@@ -1156,23 +1156,21 @@ function CheckoutPagamentoContent(props) {
               >
                 <picture>
                   <source
-                    srcSet={`${
-                      !item.FOTOS || item.FOTOS.length <= 0
-                        ? "https://mellodia.shop.cdn.tecworks.com.br/produto-sem-imagem.webp"
-                        : String(item.FOTOS[0].link).indexOf("https://mellodia.shop.cdn.tecworks") > -1
-                          ? item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
-                          : "https://mellodia.shop.cdn.tecworks.com.br/" + item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
-                    }`}
+                    srcSet={`${!item.FOTOS || item.FOTOS.length <= 0
+                      ? "https://mellodia.shop.cdn.tecworks.com.br/produto-sem-imagem.webp"
+                      : String(item.FOTOS[0].link).indexOf("https://mellodia.shop.cdn.tecworks") > -1
+                        ? item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
+                        : "https://mellodia.shop.cdn.tecworks.com.br/" + item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
+                      }`}
                     type="image/webp"
                   />
                   <img
-                    src={`${
-                      !item.FOTOS || item.FOTOS.length <= 0
-                        ? "https://mellodia.shop.cdn.tecworks.com.br/produto-sem-imagem.png"
-                        : String(item.FOTOS[0].link).indexOf("https://mellodia.shop.cdn.tecworks") > -1
-                          ? item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
-                          : "https://mellodia.shop.cdn.tecworks.com.br/" + item.FOTOS[0].link
-                    }`}
+                    src={`${!item.FOTOS || item.FOTOS.length <= 0
+                      ? "https://mellodia.shop.cdn.tecworks.com.br/produto-sem-imagem.png"
+                      : String(item.FOTOS[0].link).indexOf("https://mellodia.shop.cdn.tecworks") > -1
+                        ? item.FOTOS[0].link.replace(/\.[^/.]+$/, ".webp")
+                        : "https://mellodia.shop.cdn.tecworks.com.br/" + item.FOTOS[0].link
+                      }`}
                     alt={item.NOME}
                     loading="lazy"
                     style={{ objectFit: "cover", width: "100%", height: "100%" }}
@@ -2601,7 +2599,16 @@ function CheckoutPagamentoContent(props) {
           <Typography id="modal-identificar-cliente" variant="body1" sx={{ mb: 3 }}>
             Clique no botão abaixo para copiar o link de pagamento e enviar ao cliente.
           </Typography>
-          <TextField fullWidth label="Link de pagamento" variant="outlined" value={state.linkPagamento} name="linkPagamento" sx={{ mb: 3 }} autoFocus disabled />
+          <TextField
+            fullWidth
+            label="Link de pagamento"
+            variant="outlined"
+            value={state.linkPagamento ?? ""}
+            name="linkPagamento"
+            sx={{ mb: 3 }}
+            autoFocus
+            disabled
+          />
           <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
             <Button size="large" variant="outlined" onClick={() => setModalLinkPagamento(false)} fullWidth>
               Fechar

@@ -38,14 +38,14 @@ export default function ShippingEdit() {
       if (data.status) {
         setState((state) => ({
           ...state,
-          cep: data.msg.cep,
-          endereco: data.msg.rua,
-          numero: String(data.msg.numero),
-          complemento: data.msg.complemento,
-          bairro: data.msg.bairro,
-          cidade: data.msg.cidade,
-          estado: data.msg.estado,
-          codmun: data.msg.ibge,
+          cep: data.msg.cep ?? "",
+          endereco: data.msg.rua ?? "",
+          numero: data.msg.numero != null ? String(data.msg.numero) : "",
+          complemento: data.msg.complemento ?? "",
+          bairro: data.msg.bairro ?? "",
+          cidade: data.msg.cidade ?? "",
+          estado: data.msg.estado ?? "",
+          codmun: data.msg.ibge ?? "",
         }));
       }
     } catch (e) {

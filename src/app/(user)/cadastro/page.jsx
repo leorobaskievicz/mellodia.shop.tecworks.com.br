@@ -8,7 +8,6 @@ import { Visibility, VisibilityOff, ArrowBack } from "@mui/icons-material";
 import { useApp } from "@/app/context/AppContext";
 import { Diversos } from "@/app/lib/diversos";
 import Api from "@/app/lib/api";
-import { supabase } from "@/app/lib/supabaseClient";
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 function CadastroContent() {
@@ -157,32 +156,18 @@ function CadastroContent() {
   };
 
   const handleLoginGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-    if (error) console.error("Erro ao redirecionar login Google", error);
+    setMsg("error", "Atenção", "Login social não disponível no momento.", 2);
   };
 
   const handleLoginApple = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "apple",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-    if (error) console.error("Erro ao redirecionar login Apple", error);
+    setMsg("error", "Atenção", "Login social não disponível no momento.", 2);
   };
 
   const handleSubmitNovo = async (event) => {
     event.preventDefault();
-    let paramNewsletter = {};
 
     scrollToRef();
 
-    // Validação reCAPTCHA invisível
     if (!executeRecaptcha) {
       setMsg("error", "Atenção", "Sistema de segurança não está pronto. Tente novamente.", 2);
       return;
@@ -217,16 +202,15 @@ function CadastroContent() {
         return;
       }
 
-      if (!Diversos.validateCPF(state.novoCpf)) {
-        setMsg("error", "CPF inválido", `Necessário informar um CPF válido para continuar.`, 2);
+      if (!Diversos.validateCNPJ(state.novoCpf)) {
+        setMsg("error", "CNPJ inválido", `Necessário informar um CNPJ válido para continuar.`, 2);
+        return;
       }
 
       if (!state.novoCep || !state.novoRua || !state.novoNumero || !state.novoBairro || !state.novoCidade || !state.novoEstado) {
         setMsg("error", "Formulário incompleto", `Necessário preencher todos os campos obrigatórios (*) do formulário para continuar.`, 2);
         return;
       }
-
-      setState((state) => ({ ...state, novoHasError: false }));
     }
 
     setState((state) => ({
@@ -253,38 +237,22 @@ function CadastroContent() {
       codmun: state.novoCodmun,
       googleid: state.novoGoogleId,
       appleid: state.novoAppleId,
-      recaptchaToken, // Token do reCAPTCHA para validação no backend
+      recaptchaToken,
     };
 
     try {
-      const { data: signupData, error: signupError } = await supabase.auth.signUp({
-        email: param.email,
-        password: param.senha,
-        options: {
-          data: {
-            nome: state.novoNome,
-            celular: state.novoCelular,
-            cpf: state.novoCpf,
-          },
-        },
-      });
-
-      if (signupError) throw new Error(signupError.message);
-      param.googleid = signupData.user?.id || null;
-
       const data = await api.post("/customer", param, true);
 
       if (!data.status) {
         throw new Error(data.msg);
       } else {
         if (state.newsletter) {
-          paramNewsletter = {
+          const paramNewsletter = {
             nome: state.novoNome,
             email: state.novoEmail,
             recebeEmail: "S",
             data: new Date(),
           };
-
           await api.post("/customer/newsletter", paramNewsletter, true);
         }
 
@@ -336,9 +304,9 @@ function CadastroContent() {
   const _handleCheckCpf = async () => {
     setState((state) => ({ ...state, novoHasError: false }));
 
-    if (Diversos.getnums(state.novoCpf).length === 11 && !Diversos.validateCPF(state.novoCpf)) {
-      setMsg("error", "Atenção", "O CPF informado não é válido.", 2);
-    } else if (Diversos.validateCPF(state.novoCpf)) {
+    if (Diversos.getnums(state.novoCpf).length === 14 && !Diversos.validateCNPJ(state.novoCpf)) {
+      setMsg("error", "Atenção", "O CNPJ informado não é válido.", 2);
+    } else if (Diversos.validateCNPJ(state.novoCpf)) {
       const param = {
         field: "cpf",
         value: state.novoCpf,
@@ -348,7 +316,7 @@ function CadastroContent() {
         const data = await api.post(`/customer/check-customer`, param, true);
 
         if (data.status === true) {
-          setMsg("error", "Atenção", "O CPF informado já possui um cadastro no site.", 2);
+          setMsg("error", "Atenção", "O CNPJ informado já possui um cadastro no site.", 2);
         }
       } catch (e) {
         console.error(e.message);
@@ -496,12 +464,12 @@ function CadastroContent() {
                 <Grid item xs={12}>
                   <TextField
                     fullWidth
-                    label="CPF"
+                    label="CNPJ"
                     value={state.novoCpf}
                     onChange={(event) => {
                       setState((state) => ({
                         ...state,
-                        novoCpf: Diversos.maskCPFString(event.target.value),
+                        novoCpf: Diversos.maskCNPJString(event.target.value),
                       }));
                       _handleCheckCpf();
                     }}

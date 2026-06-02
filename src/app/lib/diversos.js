@@ -626,7 +626,7 @@ export const Diversos = {
 
 *📋 DADOS DO CLIENTE*
 Nome: ${state.customer.nome || param.clienteDados.nome}
-CPF: ${state.customer.cpf || param.clienteDados.cpf}
+CNPJ: ${state.customer.cpf || param.clienteDados.cpf}
 Telefone: ${state.customer.celular || param.clienteDados.celular}
 E-mail: ${state.customer.email || param.clienteDados.email}
 

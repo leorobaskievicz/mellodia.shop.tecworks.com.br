@@ -61,7 +61,6 @@ import { Diversos } from "@/app/lib/diversos";
 import { useApp } from "@/app/context/AppContext";
 import CartClient from "@/app/components/CartClient";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import { supabase } from "@/app/lib/supabaseClient";
 import { lazy, Suspense } from "react";
 
 export const LazySliderRoleta = lazy(() => import("@/app/components/Roleta"));
@@ -120,7 +119,7 @@ export default function Header({ children, menus = [], marcas = [] }) {
   const renderMenuLocalizacao = (fgCloseShow = false) => (
     <Box sx={{ zIndex: 1000, width: 250, height: "auto", display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "flex-start", p: 0 }}>
       {!fgCloseShow ? (
-        <IconButton onClick={handlePopoverMouseLeave} secondary size="small" sx={{ position: "absolute", top: 5, right: 5 }}>
+        <IconButton onClick={handlePopoverMouseLeave} size="small" sx={{ position: "absolute", top: 5, right: 5 }}>
           <CloseIcon />
         </IconButton>
       ) : null}
@@ -155,8 +154,8 @@ export default function Header({ children, menus = [], marcas = [] }) {
               size="small"
               color="primary"
               fullWidth
-              onClick={async () => {
-                await supabase.auth.signOut();
+              onClick={() => {
+                document.cookie = "mellodia_user=; path=/; max-age=0; SameSite=Strict";
                 dispatch({ type: "LOGOUT" });
               }}
             >
@@ -215,7 +214,7 @@ export default function Header({ children, menus = [], marcas = [] }) {
           </Box>
         </>
       )}
-      <List fullWidth sx={{ width: "100%" }}>
+      <List sx={{ width: "100%" }}>
         <ListItem disablePadding>
           <ListItemButton size="small" onClick={() => router.push("/meu-cadastro")}>
             <ListItemIcon>
@@ -267,7 +266,7 @@ export default function Header({ children, menus = [], marcas = [] }) {
         "&::-webkit-scrollbar": { display: "none" },
       }}
     >
-      <IconButton onClick={handlePopoverMouseLeave} secondary size="small" sx={{ position: "absolute", top: 5, right: 5 }}>
+      <IconButton onClick={handlePopoverMouseLeave} size="small" sx={{ position: "absolute", top: 5, right: 5 }}>
         <CloseIcon />
       </IconButton>
       <Box
@@ -452,8 +451,7 @@ export default function Header({ children, menus = [], marcas = [] }) {
                   <IconButton
                     size={isSmallScreen ? "small" : "medium"}
                     onClick={() =>
-                      (window.location.href = `/busca/${Diversos.toSeoUrl(searchTerm)}?${
-                        state.usuario && state.usuario.vendedor && state.usuario.vendedor.CODIGO ? "fgTelevendas=true" : ""
+                    (window.location.href = `/busca/${Diversos.toSeoUrl(searchTerm)}?${state.usuario && state.usuario.vendedor && state.usuario.vendedor.CODIGO ? "fgTelevendas=true" : ""
                       }`)
                     }
                   >
@@ -637,7 +635,13 @@ export default function Header({ children, menus = [], marcas = [] }) {
               <Typography variant="h6" color="white">
                 Olá, {state.usuario.nome?.split(" ")?.[0] || state.usuario.nome}
               </Typography>
-              <Button variant="text" color="secondary" onClick={() => dispatch({ type: "LOGOUT" })} sx={{ ml: 2 }}>
+              <Button variant="text" color="secondary"
+                onClick={() => {
+                  document.cookie = "mellodia_user=; path=/; max-age=0; SameSite=Strict";
+                  dispatch({ type: "LOGOUT" });
+                }}
+
+                sx={{ ml: 2 }}>
                 <ExitToAppIcon sx={{ fontSize: "1.5rem", color: "white" }} />
               </Button>
             </>

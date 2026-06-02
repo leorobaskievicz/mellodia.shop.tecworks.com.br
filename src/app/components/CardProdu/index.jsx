@@ -37,7 +37,7 @@ const OptimizedImage = memo(({ src, alt, width, height, className, priority = fa
   <Image
     src={src}
     alt={alt}
-    xq
+    // xq
     width={width}
     height={height}
     className={className}

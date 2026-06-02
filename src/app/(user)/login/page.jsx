@@ -1,11 +1,11 @@
-// Página de login com layout original + funcionalidade Supabase
+// Página de login com layout original + funcionalidade TecWorks API
 "use client";
 
 import Api from "@/app/lib/api";
 import { Diversos } from "@/app/lib/diversos";
 import Link from "next/link";
 import Image from "next/image";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import queryString from "query-string";
 import React, { useEffect, useState } from "react";
 import { Box, Button, TextField, Typography, Alert, CircularProgress, IconButton, Paper, Container } from "@mui/material";
@@ -15,12 +15,11 @@ import CloseIcon from "@mui/icons-material/Close";
 import PersonIcon from "@mui/icons-material/Person";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useApp } from "@/app/context/AppContext";
-import { supabase } from "@/app/lib/supabaseClient";
-import moment from "moment";
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { encrypt } from "@/app/lib/encrypt";
 
 function LoginContent(props) {
-  const { state: stateApp, dispatch, setUser } = useApp();
+  const { state: stateApp, dispatch } = useApp();
   const router = useRouter();
   const api = new Api();
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -56,33 +55,15 @@ function LoginContent(props) {
   };
 
   const handleLoginGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-    if (error) console.error("Erro no login com Google", error);
+    setMsg("error", "Atenção", "Login social não disponível no momento.");
   };
 
   const handleLoginFacebook = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "facebook",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-    if (error) console.error("Erro no login com Facebook", error);
+    setMsg("error", "Atenção", "Login social não disponível no momento.");
   };
 
   const handleLoginApple = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "apple",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-    if (error) console.error("Erro no login com Facebook", error);
+    setMsg("error", "Atenção", "Login social não disponível no momento.");
   };
 
   const handleSubmit = async (event) => {
@@ -154,9 +135,8 @@ function LoginContent(props) {
       if (!state.senha) {
         setState((state) => ({ ...state, isLoading: false, loginStep: 1 }));
         setMsg("error", "Login inválido", "O campo Senha não pode ficar em branco");
+        return;
       }
-
-      setState((s) => ({ ...s, isLoading: true }));
 
       if (!state.email || !state.senha) {
         setMsg("error", "Login inválido", "Preencha todos os campos");
@@ -164,103 +144,48 @@ function LoginContent(props) {
         return;
       }
 
-      // Tentativa Supabase
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: state.email,
-        password: state.senha,
-      });
+      setState((s) => ({ ...s, isLoading: true }));
 
-      if (!error && data.session) {
-        try {
-          const resp = await api.post(
-            "/customer/login-supabase",
-            {
-              email: state.email,
-              supabase_uid: data.user.id,
-              recaptchaToken, // Token do reCAPTCHA para validação no backend
-            },
-            true
-          );
-
-          if (!resp.status) throw new Error(resp.msg);
-
-          dispatch({
-            type: "LOGIN",
-            payload: {
-              codigo: resp.msg.cliente_id,
-              nome: resp.msg.nome,
-              email: resp.msg.email,
-              status: true,
-              avatar: "",
-              token: null,
-              vendedor: resp.msg.vendedor,
-            },
-          });
-
-          Diversos.sendCartData(resp.msg?.cliente_id, stateApp.carrinho);
-
-          setState((state) => ({ ...state, redirect: state.returnToCheckout ? "/checkout/pagamento" : "/" }));
-          return;
-        } catch (e) {
-          setMsg("error", "Erro Supabase", e.message);
-        }
-      } else {
-        // Fallback para login legado
-        try {
-          const data = await api.post(
-            "/customer/login",
-            {
-              email: state.email,
-              senha: state.senha,
-              recaptchaToken, // Token do reCAPTCHA para validação no backend
-            },
-            true
-          );
-
-          if (!data.status) throw new Error("Login inválido");
-
-          const { data: signupData, error: signupError } = await supabase.auth.signUp({
+      try {
+        const data = await api.post(
+          "/customer/login",
+          {
             email: state.email,
-            password: moment().format("HHmmss"),
-            options: {
-              data: {
-                nome: data.msg.nome,
-                celular: data.msg.telefone,
-                cpf: data.msg.cpf,
-              },
-            },
-          });
+            senha: state.senha,
+            recaptchaToken,
+          },
+          true
+        );
 
-          Diversos.sendCartData(data.msg.codigo, stateApp.carrinho);
+        console.log("Retorno /customer/login:", data);
 
-          if (signupError !== null) {
-            throw new Error(signupError);
-          }
+        if (!data.status) throw new Error("Login inválido");
 
-          const googleid = signupData.user?.id || null;
+        Diversos.sendCartData(data.msg.codigo, stateApp.carrinho);
 
-          await api.put(`/customer/${data.msg.codigo}`, { ...data.msg, googleid: googleid }, true);
+        dispatch({
+          type: "LOGIN",
+          payload: {
+            codigo: data.msg.codigo,
+            nome: data.msg.nome,
+            email: data.msg.email,
+            status: true,
+            avatar: "",
+            token: null,
+            vendedor: data.msg.vendedor,
+          },
+        });
 
-          dispatch({
-            type: "LOGIN",
-            payload: {
-              codigo: data.msg.codigo,
-              nome: data.msg.nome,
-              email: data.msg.email,
-              status: true,
-              avatar: "",
-              token: null,
-              vendedor: data.msg.vendedor,
-            },
-          });
+        const encrypted = encrypt(data.msg);
+        document.cookie = `mellodia_user=${encodeURIComponent(encrypted)}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Strict`;
 
-          setState((state) => ({ ...state, redirect: state.returnToCheckout ? "/checkout/pagamento" : "/atualiza-senha?msg=renew" }));
-        } catch (err) {
-          setMsg("error", "Login inválido", "Tente novamente ou recupere sua senha");
-        }
+        setState((state) => ({ ...state, redirect: state.returnToCheckout ? "/checkout/pagamento" : "/" }));
+
+      } catch (err) {
+        setMsg("error", "Login inválido", "Tente novamente ou recupere sua senha");
+      } finally {
+        setState((s) => ({ ...s, isLoading: false }));
       }
-
-      setState((s) => ({ ...s, isLoading: false }));
     }
   };
 
@@ -292,17 +217,13 @@ function LoginContent(props) {
     if (checkout) {
       setState((state) => ({ ...state, returnToCheckout: true }));
     }
-
-    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
-      if (!session) dispatch({ type: "LOGOUT" });
-    });
-
-    return () => listener.subscription.unsubscribe();
   }, []);
 
-  if (state.redirect) {
-    redirect(state.redirect);
-  }
+  useEffect(() => {
+    if (state.redirect) {
+      router.push(state.redirect);
+    }
+  }, [state.redirect]);
 
   return (
     <>
@@ -442,22 +363,10 @@ function LoginContent(props) {
                     size="large"
                     onClick={handleLoginGoogle}
                     disabled={state.isLoadingGoogle}
-                    startIcon={state.isLoadingGoogle ? <CircularProgress size={20} /> : <Image src="/google-logo-login.png" width={20} height={20} alt="Google logo" />}
+                    startIcon={<Image src="/google-logo-login.png" width={20} height={20} alt="Google logo" />}
                   >
                     Fazer login com o Google
                   </Button>
-
-                  {/* <Button
-                    variant="outlined"
-                    fullWidth
-                    size="large"
-                    sx={{ mt: 2 }}
-                    onClick={handleLoginFacebook}
-                    disabled={state.isLoadingFacebook}
-                    startIcon={state.isLoadingFacebook ? <CircularProgress size={20} /> : <Image src="/facebook-logo-login.png" width={35} height={20} alt="Facebook logo" />}
-                  >
-                    Fazer login com o Facebook
-                  </Button> */}
 
                   <Button
                     variant="outlined"
@@ -466,7 +375,7 @@ function LoginContent(props) {
                     sx={{ mt: 2 }}
                     onClick={handleLoginApple}
                     disabled={state.isLoadingApple}
-                    startIcon={state.isLoadingApple ? <CircularProgress size={20} /> : <Image src="/apple-logo-login.png" width={20} height={20} alt="Apple logo" />}
+                    startIcon={<Image src="/apple-logo-login.png" width={20} height={20} alt="Apple logo" />}
                   >
                     Fazer login com sua conta Apple
                   </Button>
@@ -476,8 +385,8 @@ function LoginContent(props) {
                     fullWidth
                     size="large"
                     onClick={() => router.back()}
-                    disabled={state.isLoadingGoogle || state.isLoading}
-                    startIcon={state.isLoadingGoogle ? <CircularProgress size={20} /> : <ArrowBackIcon />}
+                    disabled={state.isLoading}
+                    startIcon={<ArrowBackIcon />}
                     sx={{ mt: 2 }}
                   >
                     Voltar

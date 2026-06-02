@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Box, Typography, List, ListItem, ListItemIcon, ListItemText, Divider, TextField, Button, Alert, Snackbar, IconButton } from "@mui/material";
+import { Box, Typography, List, ListItemButton, ListItemIcon, ListItemText, Divider, TextField, Button, Alert, Snackbar, IconButton } from "@mui/material";
 import {
   Person as PersonIcon,
   Receipt as ReceiptIcon,
@@ -16,7 +16,6 @@ import {
 } from "@mui/icons-material";
 import Api from "@/app/lib/api";
 import { useApp } from "@/app/context/AppContext";
-import { supabase } from "@/app/lib/supabaseClient";
 
 export default function UserSidebar() {
   const router = useRouter();
@@ -63,8 +62,8 @@ export default function UserSidebar() {
     }
   };
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
+  const handleLogout = () => {
+    document.cookie = "mellodia_user=; path=/; max-age=0; SameSite=Strict";
     dispatch({ type: "LOGOUT" });
     router.push("/");
   };
@@ -200,40 +199,30 @@ export default function UserSidebar() {
       </Typography>
 
       <List>
-        <ListItem button component="a" href="/meu-cadastro#meu-perfil">
-          <ListItemIcon>
-            <PersonIcon />
-          </ListItemIcon>
+        <ListItemButton component="a" href="/meu-cadastro#meu-perfil">
+          <ListItemIcon><PersonIcon /></ListItemIcon>
           <ListItemText primary="Meu Perfil" />
-        </ListItem>
+        </ListItemButton>
 
-        <ListItem button component="a" href="/meus-pedidos">
-          <ListItemIcon>
-            <ReceiptIcon />
-          </ListItemIcon>
+        <ListItemButton component="a" href="/meus-pedidos">
+          <ListItemIcon><ReceiptIcon /></ListItemIcon>
           <ListItemText primary="Meus Pedidos" />
-        </ListItem>
+        </ListItemButton>
 
-        <ListItem button component="a" href="/atualiza-senha">
-          <ListItemIcon>
-            <LockIcon />
-          </ListItemIcon>
+        <ListItemButton component="a" href="/atualiza-senha">
+          <ListItemIcon><LockIcon /></ListItemIcon>
           <ListItemText primary="Reset de Senha" />
-        </ListItem>
+        </ListItemButton>
 
-        <ListItem button component="a" href="/perfil/editar/endereco">
-          <ListItemIcon>
-            <LocationIcon />
-          </ListItemIcon>
+        <ListItemButton component="a" href="/perfil/editar/endereco">
+          <ListItemIcon><LocationIcon /></ListItemIcon>
           <ListItemText primary="Endereço de Entrega" />
-        </ListItem>
+        </ListItemButton>
 
-        <ListItem button component="a" href="/meu-cadastro#grid-favoritos">
-          <ListItemIcon>
-            <FavoriteIcon />
-          </ListItemIcon>
+        <ListItemButton component="a" href="/meu-cadastro#grid-favoritos">
+          <ListItemIcon><FavoriteIcon /></ListItemIcon>
           <ListItemText primary="Favoritos" />
-        </ListItem>
+        </ListItemButton>
 
         {/* <ListItem button component="a" href="/meus-cupons">
           <ListItemIcon>
@@ -289,20 +278,18 @@ export default function UserSidebar() {
       <Divider />
 
       <List>
-        <ListItem button component="a" href="/institucional/atendimento">
+        <ListItemButton component="a" href="/institucional/atendimento">
           <ListItemText primary="Fale Conosco" />
-        </ListItem>
+        </ListItemButton>
 
-        <ListItem button component="a" href="/central-de-relacionamento" onClick={() => dispatch({ type: "SET_PARAM", payload: { faqTab: "trocas" } })}>
+        <ListItemButton component="a" href="/central-de-relacionamento" onClick={() => dispatch({ type: "SET_PARAM", payload: { faqTab: "trocas" } })}>
           <ListItemText primary="Política de Trocas e Devoluções" />
-        </ListItem>
+        </ListItemButton>
 
-        <ListItem button onClick={handleLogout}>
-          <ListItemIcon>
-            <LogoutIcon />
-          </ListItemIcon>
+        <ListItemButton onClick={handleLogout}>
+          <ListItemIcon><LogoutIcon /></ListItemIcon>
           <ListItemText primary="Sair" />
-        </ListItem>
+        </ListItemButton>
       </List>
 
       <Snackbar

@@ -23,6 +23,7 @@
     "algoliasearch": "^5.22.0",
     "axios": "^1.8.4",
     "critters": "^0.0.25",
+    "crypto-js": "^4.2.0",
     "framer-motion": "^12.9.2",
     "moment": "^2.30.1",
     "next": "15.1.11",

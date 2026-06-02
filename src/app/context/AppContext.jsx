@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useReducer, useEffect, useState } from "react";
+import { decrypt } from "@/app/lib/encrypt";
 
 const AppContext = createContext();
 
@@ -222,15 +223,35 @@ export function AppProvider({ children }) {
   useEffect(() => {
     setIsClient(true);
 
-    // Carrega o estado do localStorage apenas no cliente
     const savedState = localStorage.getItem("appState");
     if (savedState) {
       try {
         const parsedState = JSON.parse(savedState);
-        dispatch({
-          type: "INICIALIZAR_ESTADO",
-          payload: parsedState,
-        });
+
+        // Se não tem usuário no localStorage, tenta recuperar do cookie
+        if (!parsedState.usuario || !parsedState.usuario.codigo) {
+          const cookieRaw = document.cookie
+            .split("; ")
+            .find((r) => r.startsWith("mellodia_user="))
+            ?.split("=")[1];
+
+          if (cookieRaw) {
+            const userData = decrypt(decodeURIComponent(cookieRaw));
+            if (userData && userData.codigo) {
+              parsedState.usuario = {
+                codigo: userData.codigo,
+                nome: userData.nome,
+                email: userData.email,
+                status: true,
+                avatar: "",
+                token: null,
+                vendedor: userData.vendedor,
+              };
+            }
+          }
+        }
+
+        dispatch({ type: "INICIALIZAR_ESTADO", payload: parsedState });
       } catch (error) {
         console.error("Erro ao carregar estado do localStorage:", error);
       }

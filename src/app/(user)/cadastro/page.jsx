@@ -332,9 +332,11 @@ function CadastroContent() {
     setState((state) => ({ ...state, toastOpen: true }));
   }, []);
 
-  if (state.redirect) {
-    router.push(state.redirect);
-  }
+  useEffect(() => {
+    if (state.redirect) {
+      router.push(state.redirect);
+    }
+  }, [state.redirect]);
 
   return (
     <Box
@@ -630,7 +632,7 @@ function CadastroContent() {
                 {state.isLoadingNovo ? <CircularProgress size={24} color="inherit" /> : "Cadastrar"}
               </Button>
 
-              <Button
+              {/* <Button
                 variant="outlined"
                 fullWidth
                 size="large"
@@ -639,9 +641,9 @@ function CadastroContent() {
                 startIcon={state.isLoadingGoogle ? <CircularProgress size={20} /> : <Image src="/google-logo-login.png" width={20} height={20} alt="Google logo" />}
               >
                 Cadastrar com o Google
-              </Button>
+              </Button> */}
 
-              <Button
+              {/* <Button
                 variant="outlined"
                 fullWidth
                 size="large"
@@ -651,7 +653,7 @@ function CadastroContent() {
                 startIcon={state.isLoadingApple ? <CircularProgress size={20} /> : <Image src="/apple-logo-login.png" width={20} height={20} alt="Apple logo" />}
               >
                 Cadastrar com sua conta Apple
-              </Button>
+              </Button> */}
 
               <Button fullWidth component={Link} href="/login" startIcon={<ArrowBack />} sx={{ mt: 2 }}>
                 Voltar

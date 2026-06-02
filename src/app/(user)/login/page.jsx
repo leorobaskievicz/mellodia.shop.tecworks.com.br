@@ -357,7 +357,7 @@ function LoginContent(props) {
                     {state.isLoading ? <CircularProgress size={24} /> : state.loginStep === 1 ? "Próximo" : "Entrar"}
                   </Button>
 
-                  <Button
+                  {/* <Button
                     variant="outlined"
                     fullWidth
                     size="large"
@@ -366,9 +366,9 @@ function LoginContent(props) {
                     startIcon={<Image src="/google-logo-login.png" width={20} height={20} alt="Google logo" />}
                   >
                     Fazer login com o Google
-                  </Button>
+                  </Button> */}
 
-                  <Button
+                  {/* <Button
                     variant="outlined"
                     fullWidth
                     size="large"
@@ -378,7 +378,7 @@ function LoginContent(props) {
                     startIcon={<Image src="/apple-logo-login.png" width={20} height={20} alt="Apple logo" />}
                   >
                     Fazer login com sua conta Apple
-                  </Button>
+                  </Button> */}
 
                   <Button
                     variant="text"

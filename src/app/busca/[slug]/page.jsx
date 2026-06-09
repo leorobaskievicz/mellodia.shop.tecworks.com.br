@@ -61,6 +61,20 @@ export default async function Busca(props) {
     return <></>;
   }
 
+  console.log("[Busca] Enviando para API:", {
+    slug,
+    page,
+    perPage,
+    sort,
+    filters: {
+      marcas: typeof marcasParam === "string" ? [marcasParam] : marcasParam,
+      departamentos: typeof departamentosParam === "string" ? [departamentosParam] : departamentosParam,
+      grupos: typeof gruposParam === "string" ? [gruposParam] : gruposParam,
+      preco: typeof precoParam === "string" ? [precoParam] : precoParam,
+    },
+    fgTelevendas: Boolean(fgTelevendasParam),
+  });
+
   const {
     total,
     lastPage,
@@ -83,6 +97,17 @@ export default async function Busca(props) {
     },
     Boolean(fgTelevendasParam),
   );
+
+  console.log("[Busca] Resposta da API:", {
+    total,
+    lastPage,
+    quantidadeProdutos: produtos?.length,
+    marcas,
+    departamentos,
+    grupo,
+    preco,
+    algoliaReturn,
+  });
 
   if (!produtos) {
     return (

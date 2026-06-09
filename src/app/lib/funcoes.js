@@ -537,6 +537,15 @@ async function getProdutoBySearch(termo, page = 1, perPage = 25, sort = "relevan
         requests: [paramAlgolia],
       });
 
+      console.log("[Algolia] Primeiros hits (foto):", results[0].hits.slice(0, 3).map((q) => ({
+        codigo: q.codigo,
+        nome: q.nome,
+        foto: q.foto,
+        PRECO: q.PRECO,
+        PREPRO: q.PREPRO,
+      })));
+      console.log("[Algolia] Facets retornados:", results[0].facets);
+
       return {
         data: results[0].hits.map((q) => ({
           CODIGO: q.codigo,
@@ -561,7 +570,7 @@ async function getProdutoBySearch(termo, page = 1, perPage = 25, sort = "relevan
           FOTOS: [
             {
               id: 1509304,
-              link: !q.foto ? "produto-sem-imagem.png" : q.foto,
+              link: !q.foto ? "produto-sem-imagem.png" : String(q.foto).replace("https://mellodia.shop.cdn.com.br/", "").replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
               sequencia: 1,
             },
           ],

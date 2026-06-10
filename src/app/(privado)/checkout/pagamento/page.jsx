@@ -286,6 +286,8 @@ function CheckoutPagamentoContent(props) {
   const getShippingModes = async (cep = null, formaEntregaSelected = null) => {
     let auxCep = cep ? cep : state.customer.cep;
 
+    console.log("[getShippingModes] chamado | auxCep:", auxCep, "| nums length:", String(Diversos.getnums(auxCep)).length);
+
     if (auxCep && String(Diversos.getnums(auxCep)).length === 8) {
       setState((state) => ({ ...state, isLoadingFrete: true }));
 
@@ -306,7 +308,11 @@ function CheckoutPagamentoContent(props) {
           fgTelevendas: appState.usuario && appState.usuario.vendedor && appState.usuario.vendedor.NOME ? true : false,
         };
 
+        console.log("[Frete] Parâmetros enviados:", JSON.stringify(param, null, 2));
+
         const data = await api.post(`/shipping/modes/mellodia`, param, true);
+
+        console.log("[Frete] Retorno da API:", JSON.stringify(data, null, 2));
 
         if (data.status === false) {
           throw new Error("Não foi possível buscar opções de entrega.");
@@ -378,6 +384,7 @@ function CheckoutPagamentoContent(props) {
   };
 
   const getAddressByCep = async () => {
+    console.log("[getAddressByCep] cep:", state.customer.cep, "| length:", Diversos.getnums(state.customer.cep).length);
     if (!state.customer.cep || Diversos.getnums(state.customer.cep).length !== 8) return false;
 
     setState((state) => ({ ...state, isLoadingCep: true }));
@@ -1477,10 +1484,12 @@ function CheckoutPagamentoContent(props) {
   };
 
   useEffect(() => {
+    console.log("[CEP useEffect] cep atual:", state.customer.cep);
     getAddressByCep();
   }, [state.customer.cep]);
 
   useEffect(() => {
+    console.log("[RUA useEffect] rua atual:", state.customer.rua);
     getShippingModes();
   }, [state.customer.rua]);
 

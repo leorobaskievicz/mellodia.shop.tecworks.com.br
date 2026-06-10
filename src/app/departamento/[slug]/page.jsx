@@ -86,6 +86,36 @@ export default async function Departamento(props) {
     Boolean(fgTelevendasParam),
   );
 
+  console.log("[Departamento] Resposta da API:", {
+    total,
+    lastPage,
+    quantidadeProdutos: produtos?.length,
+    primeirosProdutos: produtos?.slice(0, 3).map((p) => ({
+      CODIGO: p.CODIGO,
+      NOME: p.NOME,
+      PRECO: p.PRECO,
+      foto: p.FOTOS?.[0]?.link,
+    })),
+    marcas,
+    departamentos,
+    grupo,
+    preco,
+  });
+
+  console.log("[Departamento] Enviando para API:", {
+    slug,
+    page,
+    perPage,
+    sort,
+    filters: {
+      marcas: typeof marcasParam === "string" ? [marcasParam] : marcasParam,
+      departamentos: typeof departamentosParam === "string" ? [departamentosParam] : departamentosParam,
+      grupos: typeof gruposParam === "string" ? [gruposParam] : gruposParam,
+      preco: typeof precoParam === "string" ? [precoParam] : precoParam,
+    },
+    fgTelevendas: Boolean(fgTelevendasParam),
+  });
+
   if (!produtos) {
     return <h1>Departamento nao localizado</h1>;
   }

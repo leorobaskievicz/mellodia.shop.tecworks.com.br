@@ -204,6 +204,10 @@ async function getProdutoByDepartamento(menu1, menu2 = null, menu3 = null, page 
         requests: [paramAlgolia],
       });
 
+      console.log("[Departamento Algolia] Filtro enviado:", paramAlgolia.filters);
+      console.log("[Departamento Algolia] nbHits:", results[0].nbHits);
+      console.log("[Departamento Algolia] Facets retornados:", results[0].facets);
+
       // Debug - vamos ver quantos resultados retornaram
       // console.log("📊 Resultados encontrados:", results[0].nbHits);
       // console.log("🏷️ Facetas disponíveis:", results[0].facets);
@@ -315,7 +319,7 @@ async function getProdutoByMarca(marca, page = 1, perPage = 25, sort = "relevanc
 
   try {
     if (fgTelevendas !== true) {
-      const searchClient = algoliasearch("0ZL4K9YRHI", "9dce6b1078349eb5234c895d3425eaee");
+      const searchClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY);
 
       const paramAlgolia = {
         indexName: `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}`,
@@ -533,18 +537,28 @@ async function getProdutoBySearch(termo, page = 1, perPage = 25, sort = "relevan
         }
       }
 
+      console.log("[Busca Sort] sort recebido:", sort, "| indexName que será usado:", paramAlgolia.indexName);
+
       const { results } = await searchClient.search({
         requests: [paramAlgolia],
       });
 
-      console.log("[Algolia] Primeiros hits (foto):", results[0].hits.slice(0, 3).map((q) => ({
-        codigo: q.codigo,
-        nome: q.nome,
-        foto: q.foto,
-        PRECO: q.PRECO,
-        PREPRO: q.PREPRO,
-      })));
-      console.log("[Algolia] Facets retornados:", results[0].facets);
+      console.log("[Algolia] Primeiro hit completo:", JSON.stringify(results[0].hits[0], null, 2));
+      console.log("[Algolia] Facets retornados:", JSON.stringify(results[0].facets, null, 2));
+      console.log("[Algolia] Params enviados:", paramAlgolia);
+      console.log("[Algolia] Todos os hits (estoque):", JSON.stringify(
+        results[0].hits.map((q, i) => ({
+          i,
+          codigo: q.codigo,
+          nome: q.nome,
+          ESTOQUE: q.ESTOQUE,
+          PRECO: q.PRECO,
+          PREPRO: q.PREPRO,
+        })),
+        null,
+        2
+      ));
+      console.log("[Algolia] Facets retornados:", JSON.stringify(results[0].facets, null, 2));
 
       return {
         data: results[0].hits.map((q) => ({
@@ -946,7 +960,7 @@ async function getProdutoByPromocao(page = 1, perPage = 50, sort = "relevancia",
 
   try {
     if (fgTelevendas !== true) {
-      const searchClient = algoliasearch("0ZL4K9YRHI", "9dce6b1078349eb5234c895d3425eaee");
+      const searchClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY);
 
       const paramAlgolia = {
         indexName: `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}`,
@@ -957,6 +971,8 @@ async function getProdutoByPromocao(page = 1, perPage = 50, sort = "relevancia",
         clickAnalytics: true,
         facets: ["marca", "MENU1_DESCRICAO", "PRECO", "grupo"],
       };
+
+      console.log("[getProdutoByPromocao] paramAlgolia inicial:", paramAlgolia);
 
       const tmpFilters = [];
 
@@ -1100,7 +1116,7 @@ async function getProdutoBySubgrupo(subgrupo = "999", page = 1, perPage = 50, so
 
   try {
     if (fgTelevendas !== true) {
-      const searchClient = algoliasearch("0ZL4K9YRHI", "9dce6b1078349eb5234c895d3425eaee");
+      const searchClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY);
 
       const paramAlgolia = {
         indexName: `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}`,

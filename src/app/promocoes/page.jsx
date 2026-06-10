@@ -55,6 +55,19 @@ export default async function Promocoes(props) {
     return <></>;
   }
 
+  console.log("[Promocoes] Enviando para API:", {
+    page,
+    perPage,
+    sort,
+    filters: {
+      marcas: typeof marcasParam === "string" ? [marcasParam] : marcasParam,
+      departamentos: typeof departamentosParam === "string" ? [departamentosParam] : departamentosParam,
+      grupos: typeof gruposParam === "string" ? [gruposParam] : gruposParam,
+      preco: typeof precoParam === "string" ? [precoParam] : precoParam,
+    },
+    fgTelevendas: Boolean(fgTelevendasParam),
+  });
+
   const {
     total,
     lastPage,
@@ -114,6 +127,22 @@ export default async function Promocoes(props) {
       },
     },
   };
+
+  console.log("[Promocoes] Resposta da API:", {
+    total,
+    lastPage,
+    quantidadeProdutos: produtos?.length,
+    primeirosProdutos: produtos?.slice(0, 3).map((p) => ({
+      CODIGO: p.CODIGO,
+      NOME: p.NOME,
+      PRECO: p.PRECO,
+      foto: p.FOTOS?.[0]?.link,
+    })),
+    marcas,
+    departamentos,
+    grupo,
+    preco,
+  });
 
   return (
     <>

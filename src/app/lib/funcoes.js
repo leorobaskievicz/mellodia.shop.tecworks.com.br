@@ -1,6 +1,7 @@
 import { algoliasearch } from "algoliasearch";
 import recommendClient from "@/app/lib/algoliaRecommend";
 import Api from "@/app/lib/api";
+import { USE_ALGOLIA } from "@/app/lib/algoliaConfig";
 
 // Função para buscar banners
 async function getBanners(tipo = 1, limit = 1) {
@@ -119,7 +120,7 @@ async function getProdutoByDepartamento(menu1, menu2 = null, menu3 = null, page 
       throw new Error("Menu1 não fornecido");
     }
 
-    if (fgTelevendas !== true) {
+    if (USE_ALGOLIA && fgTelevendas !== true) {
       const searchClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY);
 
       const paramAlgolia = {
@@ -318,7 +319,7 @@ async function getProdutoByMarca(marca, page = 1, perPage = 25, sort = "relevanc
   const myapi = new Api();
 
   try {
-    if (fgTelevendas !== true) {
+    if (USE_ALGOLIA && fgTelevendas !== true) {
       const searchClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY);
 
       const paramAlgolia = {
@@ -469,7 +470,7 @@ async function getProdutoBySearch(termo, page = 1, perPage = 25, sort = "relevan
   const myapi = new Api();
 
   try {
-    if (fgTelevendas !== true) {
+    if (USE_ALGOLIA && fgTelevendas !== true) {
       const searchClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY);
 
       const paramAlgolia = {
@@ -959,7 +960,7 @@ async function getProdutoByPromocao(page = 1, perPage = 50, sort = "relevancia",
   const myapi = new Api();
 
   try {
-    if (fgTelevendas !== true) {
+    if (USE_ALGOLIA && fgTelevendas !== true) {
       const searchClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY);
 
       const paramAlgolia = {
@@ -1115,7 +1116,7 @@ async function getProdutoBySubgrupo(subgrupo = "999", page = 1, perPage = 50, so
   const myapi = new Api();
 
   try {
-    if (fgTelevendas !== true) {
+    if (USE_ALGOLIA && fgTelevendas !== true) {
       const searchClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY);
 
       const paramAlgolia = {
@@ -1267,6 +1268,11 @@ async function getProdutoBySubgrupo(subgrupo = "999", page = 1, perPage = 50, so
 
 // Função busca produtos relacionados no Algolia
 async function getProdutosRecomendados(codigoProduto) {
+  // Sem Algolia não há motor de recomendação; retorna vazio para a seção apenas não renderizar.
+  if (!USE_ALGOLIA) {
+    return [];
+  }
+
   try {
     const response = await recommendClient.getRecommendations([
       {
@@ -1313,6 +1319,11 @@ async function getProdutosRecomendados(codigoProduto) {
 
 // Função busca produtos similares no Algolia
 async function getProdutosSimilares(codigoProduto) {
+  // Sem Algolia não há motor de "looking-similar"; retorna vazio para a seção apenas não renderizar.
+  if (!USE_ALGOLIA) {
+    return [];
+  }
+
   try {
     const response = await recommendClient.getRecommendations([
       {

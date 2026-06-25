@@ -115,14 +115,18 @@ export default function CardProdu({ children, produ, idx, sx, algoliaReturn, ind
       prepro = Number(produ.PREPRO);
     }
 
-    if (algoliaReturn && algoliaReturn.queryID) {
-      insights("convertedObjectIDsAfterSearch", {
-        eventName: "Adicionou produto ao carrinho",
-        index: algoliaReturn.index,
-        objectIDs: [produ.CODIGO],
-        positions: [indexPage],
-        queryID: algoliaReturn.queryID,
-      });
+    try {
+      if (algoliaReturn && algoliaReturn.queryID) {
+        insights("convertedObjectIDsAfterSearch", {
+          eventName: "Adicionou produto ao carrinho",
+          index: algoliaReturn.index,
+          objectIDs: [produ.CODIGO],
+          positions: [indexPage],
+          queryID: algoliaReturn.queryID,
+        });
+      }
+    } catch (err) {
+      console.error("Erro ao registrar conversão no Algolia:", err);
     }
 
     dispatch({ type: "ADICIONAR_AO_CARRINHO", payload: { ...produ, PREPRO: prepro, qtd: 1, FOTOS: produ.FOTOS, indexAlgolia: indexPage } });
@@ -149,16 +153,27 @@ export default function CardProdu({ children, produ, idx, sx, algoliaReturn, ind
 
     e.preventDefault();
 
-    if (algoliaReturn && algoliaReturn.queryID) {
-      sessionStorage.setItem("algoliaReturn", JSON.stringify({ ...algoliaReturn, indexNaPagina: indexPage }));
+    // O tracking do Algolia NÃO pode bloquear a navegação. Gravamos apenas os campos que a
+    // página de detalhe/checkout realmente usam (index, queryID, indexNaPagina). Gravar o objeto
+    // inteiro de resultados estourava a cota do sessionStorage (QuotaExceededError) e, sem try/catch,
+    // a exceção impedia o redirect — por isso o clique "não fazia nada" na busca.
+    try {
+      if (algoliaReturn && algoliaReturn.queryID) {
+        sessionStorage.setItem(
+          "algoliaReturn",
+          JSON.stringify({ index: algoliaReturn.index, queryID: algoliaReturn.queryID, indexNaPagina: indexPage }),
+        );
 
-      insights("clickedObjectIDsAfterSearch", {
-        eventName: "Clicou em produto",
-        index: algoliaReturn.index,
-        objectIDs: [produ.CODIGO],
-        positions: [indexPage],
-        queryID: algoliaReturn.queryID,
-      });
+        insights("clickedObjectIDsAfterSearch", {
+          eventName: "Clicou em produto",
+          index: algoliaReturn.index,
+          objectIDs: [produ.CODIGO],
+          positions: [indexPage],
+          queryID: algoliaReturn.queryID,
+        });
+      }
+    } catch (err) {
+      console.error("Erro ao registrar clique no Algolia:", err);
     }
 
     // router.push(`/${Diversos.toSeoUrl(produ.NOME)}`);

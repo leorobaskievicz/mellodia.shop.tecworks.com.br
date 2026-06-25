@@ -141,6 +141,12 @@ export default function CardProdu({ children, produ, idx, sx, algoliaReturn, ind
   };
 
   const handleClick = (e) => {
+    // Não redireciona quando o clique vem de um botão (favoritar / comprar).
+    // Garante a separação mesmo que o stopPropagation falhe (ripple do MUI, borda do botão, etc.).
+    if (e.target.closest("button")) {
+      return;
+    }
+
     e.preventDefault();
 
     if (algoliaReturn && algoliaReturn.queryID) {

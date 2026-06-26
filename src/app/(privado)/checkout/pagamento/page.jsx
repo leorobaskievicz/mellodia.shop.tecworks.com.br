@@ -180,6 +180,7 @@ function CheckoutPagamentoContent(props) {
       usarEnderecoCobranca: false,
     },
     loading: false,
+    parcelaSelecionada: 1,
   });
 
   const handleChangeStepMore = (nextStep) => {
@@ -281,6 +282,18 @@ function CheckoutPagamentoContent(props) {
     const tmpTotal = parseFloat(totalProdutos) + parseFloat(totalFrete) - parseFloat(totalDesconto);
 
     return tmpTotal;
+  };
+
+  const getParcelamentoOptions = () => {
+    const total = getTotal();
+    if (total < 300) return [{ value: 1, label: `1x de ${Diversos.maskPreco(total)} sem juros` }];
+    const options = [];
+    for (let i = 1; i <= 6; i++) {
+      const valorParcela = total / i;
+      if (valorParcela < 200) break;
+      options.push({ value: i, label: `${i}x de ${Diversos.maskPreco(valorParcela)} sem juros` });
+    }
+    return options;
   };
 
   const getShippingModes = async (cep = null, formaEntregaSelected = null) => {
@@ -1419,11 +1432,31 @@ function CheckoutPagamentoContent(props) {
               </Typography>
             </Box>
 
+            <FormControl fullWidth>
+              <InputLabel>Parcelamento</InputLabel>
+              <Select
+                value={state.parcelaSelecionada}
+                onChange={(e) => setState((state) => ({ ...state, parcelaSelecionada: e.target.value }))}
+                label="Parcelamento"
+                disabled={state.formIsLoading}
+              >
+                {getParcelamentoOptions().map((op) => (
+                  <MenuItem key={op.value} value={op.value}>
+                    {op.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
             {/* <Paper elevation={0} sx={{ py: 0 }}>
               <Typography variant="body2" color="text.secondary" gutterBottom>
                 *** Após a compra, você receberá um e-mail com o link para acompanhar o status do seu pedido.
               </Typography>
             </Paper> */}
+
+            <Typography variant="body2" color="text.secondary" sx={{ fontSize: "0.72rem" }}>
+              * Parcelamento em até 6x sem juros para pedidos acima de {Diversos.maskPreco(300)}, parcela mínima de {Diversos.maskPreco(200)} e prazo máximo de 60 dias.
+            </Typography>
 
             <Divider />
 
@@ -1748,15 +1781,15 @@ function CheckoutPagamentoContent(props) {
                     <Grid item xs={12} sm={12}>
                       <TextField
                         fullWidth
-                        placeholder="000.000.000-00"
-                        label="CPF"
+                        placeholder="00.000.000/0000-00"
+                        label="CNPJ"
                         variant="outlined"
                         size="medium"
                         value={state.customer.cpf}
                         onChange={(e) =>
                           setState((state) => ({
                             ...state,
-                            customer: { ...state.customer, cpf: Diversos.maskCPFString(e.target.value) },
+                            customer: { ...state.customer, cpf: Diversos.maskCNPJString(e.target.value) },
                           }))
                         }
                         sx={{ mb: 2 }}

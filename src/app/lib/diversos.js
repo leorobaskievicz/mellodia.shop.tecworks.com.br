@@ -645,6 +645,7 @@ ${produtosTexto}
 ${param.desconto > 0 ? `Desconto: R$ ${param.desconto.toFixed(2).replace(".", ",")}` : ""}
 ${param.cupom ? `Cupom: ${param.cupom}` : ""}
 *TOTAL: R$ ${param.total.toFixed(2).replace(".", ",")}*
+${state.parcelaSelecionada && state.parcelaSelecionada > 1 ? `Parcelamento: ${state.parcelaSelecionada}x de R$ ${(param.total / state.parcelaSelecionada).toFixed(2).replace(".", ",")} sem juros` : "À vista (1x)"}
 
 ━━━━━━━━━━━━━━━━━━
 `.trim();

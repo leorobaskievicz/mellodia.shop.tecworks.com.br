@@ -241,99 +241,82 @@ const renderKits = (produto, kits) => {
           >
             {kits.length === 1 && Number(kits[0].PRODUTO) === Number(produto.CODIGO)
               ? kits[0].itens.map((q, idx) =>
-                  !q.itemDados ? null : (
-                    <Tooltip key={`variacao-${idx}`} title={q.itemDados?.NOME} arrow placement="top">
-                      <a href={`/${Diversos.toSeoUrl(q.itemDados?.NOME)}`} target="_self">
-                        <div className="variacao-btn">
-                          <OptimizedImage
-                            src={
-                              q.itemDados && q.itemDados.FOTOS && q.itemDados.FOTOS.length > 0
-                                ? `${String(q.itemDados.FOTOS[0].link).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${
-                                    q.itemDados.FOTOS[0].link
-                                  }`
-                                : `https://mellodia.shop.cdn.tecworks.com.br/produto-sem-foto.png`
-                            }
-                            width={700}
-                            height={700}
-                            alt={q.itemDados?.NOME}
-                            className="variacao-btn-img"
-                          />
-                          <hr />
+                !q.itemDados ? null : (
+                  <Tooltip key={`variacao-${idx}`} title={q.itemDados?.NOME} arrow placement="top">
+                    <a href={`/${Diversos.toSeoUrl(q.itemDados?.NOME)}`} target="_self">
+                      <div className="variacao-btn">
+                        <OptimizedImage
+                          src={
+                            q.itemDados && q.itemDados.FOTOS && q.itemDados.FOTOS.length > 0
+                              ? `${String(q.itemDados.FOTOS[0].link).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${q.itemDados.FOTOS[0].link
+                              }`
+                              : `https://mellodia.shop.cdn.tecworks.com.br/produto-sem-foto.png`
+                          }
+                          width={700}
+                          height={700}
+                          alt={q.itemDados?.NOME}
+                          className="variacao-btn-img"
+                        />
+                        <hr />
 
-                          {Number(q.itemDados?.PREPRO_COMPL) > 0 &&
+                        {Number(q.itemDados?.PREPRO_COMPL) > 0 &&
                           Number(q.itemDados?.PREPRO_COMPL) < Number(q.itemDados?.PRECO) &&
                           moment(q.itemDados?.INIPRO_COMPL, "DD/MM/YYYY").isValid() &&
                           moment(q.itemDados?.INIPRO_COMPL, "DD/MM/YYYY").isSameOrBefore(moment()) &&
                           moment(q.itemDados?.FIMPRO_COMPL, "DD/MM/YYYY").isValid() &&
                           moment(q.itemDados?.FIMPRO_COMPL, "DD/MM/YYYY").isSameOrAfter(moment()) ? (
-                            <div className="variacao-btn-price">
-                              <span>{Diversos.maskPreco(Number(q.itemDados?.PRECO).toFixed(2))}</span>
-                              {Diversos.maskPreco(Number(q.itemDados?.PREPRO_COMPL).toFixed(2))}
-                              {Diversos.getParcelas(q.itemDados?.PREPRO_COMPL, false).parcelas.length > 1 && (
-                                <p className="variacao-btn-price-installment">{Diversos.getParcelas(q.itemDados?.PREPRO_COMPL, false).parcelas.pop().label} </p>
-                              )}
-                            </div>
-                          ) : Number(q.itemDados?.PREPRO) > 0 &&
-                            Number(q.itemDados?.PREPRO) < Number(q.itemDados?.PRECO) &&
-                            moment(q.itemDados?.INIPRO, "DD/MM/YYYY").isValid() &&
-                            moment(q.itemDados?.INIPRO, "DD/MM/YYYY").isSameOrBefore(moment()) &&
-                            moment(q.itemDados?.FIMPRO, "DD/MM/YYYY").isValid() &&
-                            moment(q.itemDados?.FIMPRO, "DD/MM/YYYY").isSameOrAfter(moment()) ? (
-                            <div className="variacao-btn-price">
-                              <span>{Diversos.maskPreco(Number(q.itemDados?.PRECO).toFixed(2))}</span>
-                              {Diversos.maskPreco(Number(q.itemDados?.PREPRO).toFixed(2))}
-                              {Diversos.getParcelas(q.itemDados?.PREPRO, false).parcelas.length > 1 && (
-                                <p className="variacao-btn-price-installment">{Diversos.getParcelas(q.itemDados?.PREPRO, false).parcelas.pop().label} </p>
-                              )}
-                            </div>
-                          ) : (
-                            <div className="variacao-btn-price">
-                              {Diversos.maskPreco(Number(q.itemDados?.PRECO).toFixed(2))}
-                              {Diversos.getParcelas(q.itemDados?.PRECO, false).parcelas.length > 1 && (
-                                <p className="variacao-btn-price-installment">{Diversos.getParcelas(q.itemDados?.PRECO, false).parcelas.pop().label.replace("Ou até", "Ou")} </p>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      </a>
-                    </Tooltip>
-                  ),
-                )
-              : kits.map((q, idx) => (
-                  <Tooltip key={`variacao-${idx}`} placement="top" arrow title={q.produtoDados?.NOME}>
-                    <a href={`/${Diversos.toSeoUrl(q.produtoDados?.NOME)}`} target="_self">
-                      <div className="variacao-btn">
-                        <OptimizedImage
-                          src={`${String(q.produtoDados.FOTOS[0].link).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${
-                            q.produtoDados.FOTOS[0].link
-                          }`}
-                          width={700}
-                          height={700}
-                          alt={q.produtoDados?.NOME}
-                          className="variacao-btn-img"
-                        />
-                        <hr />
-
-                        {Number(q.produtoDados?.PREPRO) > 0 && Number(q.produtoDados?.PREPRO) < Number(q.produtoDados?.PRECO) ? (
                           <div className="variacao-btn-price">
-                            <span>{Diversos.maskPreco(Number(q.produtoDados?.PRECO).toFixed(2))}</span>
-                            {Diversos.maskPreco(Number(q.produtoDados?.PREPRO).toFixed(2))}
-                            {Diversos.getParcelas(q.produtoDados?.PREPRO, false).parcelas.length > 1 && (
-                              <p className="variacao-btn-price-installment">{Diversos.getParcelas(q.produtoDados?.PREPRO, false).parcelas.pop().label} </p>
-                            )}
+                            <span>{Diversos.maskPreco(Number(q.itemDados?.PRECO).toFixed(2))}</span>
+                            {Diversos.maskPreco(Number(q.itemDados?.PREPRO_COMPL).toFixed(2))}
+                          </div>
+                        ) : Number(q.itemDados?.PREPRO) > 0 &&
+                          Number(q.itemDados?.PREPRO) < Number(q.itemDados?.PRECO) &&
+                          moment(q.itemDados?.INIPRO, "DD/MM/YYYY").isValid() &&
+                          moment(q.itemDados?.INIPRO, "DD/MM/YYYY").isSameOrBefore(moment()) &&
+                          moment(q.itemDados?.FIMPRO, "DD/MM/YYYY").isValid() &&
+                          moment(q.itemDados?.FIMPRO, "DD/MM/YYYY").isSameOrAfter(moment()) ? (
+                          <div className="variacao-btn-price">
+                            <span>{Diversos.maskPreco(Number(q.itemDados?.PRECO).toFixed(2))}</span>
+                            {Diversos.maskPreco(Number(q.itemDados?.PREPRO).toFixed(2))}
                           </div>
                         ) : (
                           <div className="variacao-btn-price">
-                            {Diversos.maskPreco(Number(q.produtoDados?.PRECO).toFixed(2))}
-                            {Diversos.getParcelas(q.produtoDados?.PRECO, false).parcelas.length > 1 && (
-                              <p className="variacao-btn-price-installment">{Diversos.getParcelas(q.produtoDados?.PRECO, false).parcelas.pop().label.replace("Ou até", "Ou")} </p>
-                            )}
+                            {Diversos.maskPreco(Number(q.itemDados?.PRECO).toFixed(2))}
                           </div>
                         )}
                       </div>
                     </a>
                   </Tooltip>
-                ))}
+                ),
+              )
+              : kits.map((q, idx) => (
+                <Tooltip key={`variacao-${idx}`} placement="top" arrow title={q.produtoDados?.NOME}>
+                  <a href={`/${Diversos.toSeoUrl(q.produtoDados?.NOME)}`} target="_self">
+                    <div className="variacao-btn">
+                      <OptimizedImage
+                        src={`${String(q.produtoDados.FOTOS[0].link).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${q.produtoDados.FOTOS[0].link
+                          }`}
+                        width={700}
+                        height={700}
+                        alt={q.produtoDados?.NOME}
+                        className="variacao-btn-img"
+                      />
+                      <hr />
+
+                      {Number(q.produtoDados?.PREPRO) > 0 && Number(q.produtoDados?.PREPRO) < Number(q.produtoDados?.PRECO) ? (
+                        <div className="variacao-btn-price">
+                          <span>{Diversos.maskPreco(Number(q.produtoDados?.PRECO).toFixed(2))}</span>
+                          {Diversos.maskPreco(Number(q.produtoDados?.PREPRO).toFixed(2))}
+                        </div>
+                      ) : (
+                        <div className="variacao-btn-price">
+                          {Diversos.maskPreco(Number(q.produtoDados?.PRECO).toFixed(2))}
+                        </div>
+                      )}
+                    </div>
+                  </a>
+                </Tooltip>
+              ))}
           </Box>
         </>
       ) : null}
@@ -1012,9 +995,9 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
       !produto.MENU3_NOME
         ? null
         : {
-            label: Diversos.capitalizeAllWords(produto.MENU3_NOME),
-            href: `/departamento/${Diversos.toSeoUrl(produto.MENU1_NOME)}/${Diversos.toSeoUrl(produto.MENU2_NOME)}/${Diversos.toSeoUrl(produto.MENU3_NOME)}`,
-          },
+          label: Diversos.capitalizeAllWords(produto.MENU3_NOME),
+          href: `/departamento/${Diversos.toSeoUrl(produto.MENU1_NOME)}/${Diversos.toSeoUrl(produto.MENU2_NOME)}/${Diversos.toSeoUrl(produto.MENU3_NOME)}`,
+        },
       { label: Diversos.capitalizeAllWords(produto.NOME), href: `/${Diversos.toSeoUrl(produto.NOME)}` },
     ],
     [produto],
@@ -1106,9 +1089,9 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                           selectedVariacao
                             ? `${String(selectedImage).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${selectedImage}`
                             : `${String(selectedImage).indexOf("https://mellodia.shop.cdn.tecworks") > -1 ? "" : "https://mellodia.shop.cdn.tecworks.com.br/"}${selectedImage.replace(
-                                /\.[^/.]+$/,
-                                ".webp",
-                              )}`
+                              /\.[^/.]+$/,
+                              ".webp",
+                            )}`
                         }
                         alt={produto.NOME}
                       />
@@ -1277,37 +1260,23 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
             >
               <Box>
                 {produto.COMPLEMENTO &&
-                Number(produto.COMPLEMENTO.PRECO) > 0 &&
-                Number(produto.COMPLEMENTO.PRECO) < Number(produto.PRECO) &&
-                moment(produto.COMPLEMENTO.INIVALIDADE, "DD/MM/YYYY").format("YYYYMMDD") <= moment().format("YYYYMMDD") &&
-                moment(produto.COMPLEMENTO.FIMVALIDADE, "DD/MM/YYYY").format("YYYYMMDD") >= moment().format("YYYYMMDD") ? (
+                  Number(produto.COMPLEMENTO.PRECO) > 0 &&
+                  Number(produto.COMPLEMENTO.PRECO) < Number(produto.PRECO) &&
+                  moment(produto.COMPLEMENTO.INIVALIDADE, "DD/MM/YYYY").format("YYYYMMDD") <= moment().format("YYYYMMDD") &&
+                  moment(produto.COMPLEMENTO.FIMVALIDADE, "DD/MM/YYYY").format("YYYYMMDD") >= moment().format("YYYYMMDD") ? (
                   <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", w: "100%" }}>
                     <Typography variant="h4" fontFamily="Jost" fontWeight="500" fontSize="1.0rem" sx={{ textDecoration: "line-through", color: grey[700] }}>
                       {" "}
                       De: <span> {Diversos.maskPreco(produto.PRECO)} </span>{" "}
                     </Typography>
-                    {produto.COMPLEMENTO && Diversos.getParcelas(produto.COMPLEMENTO.PRECO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
-                      <>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.3rem" sx={{ textDecoration: "none !important" }}>
-                          {" Por apenas: "}
-                        </Typography>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                          {`${Diversos.getParcelas(produto.COMPLEMENTO.PRECO, produto.COMPLEMENTO.PARCELADO).parcelas.pop().label}`}
-                        </Typography>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="500" fontSize="1.0rem" sx={{ textDecoration: "none !important" }}>
-                          ou à vista por apenas {Diversos.maskPreco(produto.COMPLEMENTO.PRECO)}
-                        </Typography>
-                      </>
-                    ) : (
-                      <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", w: "100%" }}>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
-                          {" Por apenas: "}
-                        </Typography>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="2.0rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                          {Diversos.maskPreco(produto.COMPLEMENTO.PRECO)}
-                        </Typography>
-                      </Box>
-                    )}
+                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", w: "100%" }}>
+                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
+                        {" Por apenas: "}
+                      </Typography>
+                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="2.0rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
+                        {Diversos.maskPreco(produto.COMPLEMENTO.PRECO)}
+                      </Typography>
+                    </Box>
                   </Box>
                 ) : produto.PREPRO > 0 &&
                   produto.PREPRO < produto.PRECO &&
@@ -1318,53 +1287,25 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                       {" "}
                       De: <span> {Diversos.maskPreco(produto.PRECO)} </span>{" "}
                     </Typography>
-                    {produto.COMPLEMENTO && Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
-                      <>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.3rem" sx={{ textDecoration: "none !important" }}>
-                          {" Por apenas: "}
-                        </Typography>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                          {`${Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.pop().label}`}
-                        </Typography>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="500" fontSize="1.0rem" sx={{ textDecoration: "none !important" }}>
-                          ou à vista por apenas {Diversos.maskPreco(produto.PREPRO)}
-                        </Typography>
-                      </>
-                    ) : (
-                      <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", w: "100%" }}>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
-                          {" Por apenas: "}
-                        </Typography>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="2.0rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                          {Diversos.maskPreco(produto.PREPRO)}
-                        </Typography>
-                      </Box>
-                    )}
+                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", w: "100%" }}>
+                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
+                        {" Por apenas: "}
+                      </Typography>
+                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="2.0rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
+                        {Diversos.maskPreco(produto.PREPRO)}
+                      </Typography>
+                    </Box>
                   </Box>
                 ) : (
                   <>
-                    {produto.COMPLEMENTO && Diversos.getParcelas(produto.PRECO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
-                      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", w: "100%" }}>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.3rem" sx={{ textDecoration: "none !important" }}>
-                          {" Por apenas: "}
-                        </Typography>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                          {`${Diversos.getParcelas(produto.PRECO, produto.COMPLEMENTO.PARCELADO).parcelas.pop().label}`}
-                        </Typography>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="500" fontSize="1.0rem" sx={{ textDecoration: "none !important" }}>
-                          ou à vista por apenas {Diversos.maskPreco(produto.PRECO)}
-                        </Typography>
-                      </Box>
-                    ) : (
-                      <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", w: "100%" }}>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
-                          {" Por apenas: "}
-                        </Typography>
-                        <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="2.0rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                          {Diversos.maskPreco(produto.PRECO)}
-                        </Typography>
-                      </Box>
-                    )}
+                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", w: "100%" }}>
+                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
+                        {" Por apenas: "}
+                      </Typography>
+                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="2.0rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
+                        {Diversos.maskPreco(produto.PRECO)}
+                      </Typography>
+                    </Box>
                   </>
                 )}
 
@@ -1460,37 +1401,23 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
 
             <Box className="price-tag-container">
               {produto.COMPLEMENTO &&
-              Number(produto.COMPLEMENTO.PRECO) > 0 &&
-              Number(produto.COMPLEMENTO.PRECO) < Number(produto.PRECO) &&
-              moment(produto.COMPLEMENTO.INIVALIDADE, "DD/MM/YYYY").format("YYYYMMDD") <= moment().format("YYYYMMDD") &&
-              moment(produto.COMPLEMENTO.FIMVALIDADE, "DD/MM/YYYY").format("YYYYMMDD") >= moment().format("YYYYMMDD") ? (
+                Number(produto.COMPLEMENTO.PRECO) > 0 &&
+                Number(produto.COMPLEMENTO.PRECO) < Number(produto.PRECO) &&
+                moment(produto.COMPLEMENTO.INIVALIDADE, "DD/MM/YYYY").format("YYYYMMDD") <= moment().format("YYYYMMDD") &&
+                moment(produto.COMPLEMENTO.FIMVALIDADE, "DD/MM/YYYY").format("YYYYMMDD") >= moment().format("YYYYMMDD") ? (
                 <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", w: "100%" }}>
                   <Typography variant="h4" fontFamily="Jost" fontWeight="500" fontSize="1.0rem" sx={{ textDecoration: "line-through", color: grey[700] }}>
                     {" "}
                     De: <span> {Diversos.maskPreco(produto.PRECO)} </span>{" "}
                   </Typography>
-                  {produto.COMPLEMENTO && Diversos.getParcelas(produto.COMPLEMENTO.PRECO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
-                    <>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important" }}>
-                        {" Por apenas: "}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.8rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                        {`${Diversos.getParcelas(produto.COMPLEMENTO.PRECO, produto.COMPLEMENTO.PARCELADO).parcelas.pop().label}`}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="500" fontSize="1.0rem" sx={{ textDecoration: "none !important" }}>
-                        ou à vista por apenas {Diversos.maskPreco(produto.COMPLEMENTO.PRECO)}
-                      </Typography>
-                    </>
-                  ) : (
-                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", w: "100%" }}>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
-                        {" Por apenas: "}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="2.3rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                        {Diversos.maskPreco(produto.COMPLEMENTO.PRECO)}
-                      </Typography>
-                    </Box>
-                  )}
+                  <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", w: "100%" }}>
+                    <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
+                      {" Por apenas: "}
+                    </Typography>
+                    <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="2.3rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
+                      {Diversos.maskPreco(produto.COMPLEMENTO.PRECO)}
+                    </Typography>
+                  </Box>
                 </Box>
               ) : produto.PREPRO > 0 &&
                 produto.PREPRO < produto.PRECO &&
@@ -1501,53 +1428,25 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                     {" "}
                     De: <span> {Diversos.maskPreco(produto.PRECO)} </span>{" "}
                   </Typography>
-                  {produto.COMPLEMENTO && Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
-                    <>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important" }}>
-                        {" Por apenas: "}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.8rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                        {`${Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.pop().label}`}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="500" fontSize="1.0rem" sx={{ textDecoration: "none !important" }}>
-                        ou à vista por apenas {Diversos.maskPreco(produto.PREPRO)}
-                      </Typography>
-                    </>
-                  ) : (
-                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", w: "100%" }}>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
-                        {" Por apenas: "}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="2.3rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                        {Diversos.maskPreco(produto.PREPRO)}
-                      </Typography>
-                    </Box>
-                  )}
+                  <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", w: "100%" }}>
+                    <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
+                      {" Por apenas: "}
+                    </Typography>
+                    <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="2.3rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
+                      {Diversos.maskPreco(produto.PREPRO)}
+                    </Typography>
+                  </Box>
                 </Box>
               ) : (
                 <>
-                  {produto.COMPLEMENTO && Diversos.getParcelas(produto.PRECO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
-                    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", w: "100%" }}>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important" }}>
-                        {" Por apenas: "}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.8rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                        {`${Diversos.getParcelas(produto.PRECO, produto.COMPLEMENTO.PARCELADO).parcelas.pop().label}`}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="500" fontSize="1.0rem" sx={{ textDecoration: "none !important" }}>
-                        ou à vista por apenas {Diversos.maskPreco(produto.PRECO)}
-                      </Typography>
-                    </Box>
-                  ) : (
-                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", w: "100%" }}>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
-                        {" Por apenas: "}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="2.3rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                        {Diversos.maskPreco(produto.PRECO)}
-                      </Typography>
-                    </Box>
-                  )}
+                  <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", w: "100%" }}>
+                    <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.4rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
+                      {" Por apenas: "}
+                    </Typography>
+                    <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="2.3rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
+                      {Diversos.maskPreco(produto.PRECO)}
+                    </Typography>
+                  </Box>
                 </>
               )}
 
@@ -1623,37 +1522,23 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
           <Box style={{ flex: 5, py: 0, m: 0 }}>
             <Box className="price-tag-container" sx={{ py: "0 !important" }}>
               {produto.COMPLEMENTO &&
-              Number(produto.COMPLEMENTO.PRECO) > 0 &&
-              Number(produto.COMPLEMENTO.PRECO) < Number(produto.PRECO) &&
-              moment(produto.COMPLEMENTO.INIVALIDADE, "DD/MM/YYYY").format("YYYYMMDD") <= moment().format("YYYYMMDD") &&
-              moment(produto.COMPLEMENTO.FIMVALIDADE, "DD/MM/YYYY").format("YYYYMMDD") >= moment().format("YYYYMMDD") ? (
+                Number(produto.COMPLEMENTO.PRECO) > 0 &&
+                Number(produto.COMPLEMENTO.PRECO) < Number(produto.PRECO) &&
+                moment(produto.COMPLEMENTO.INIVALIDADE, "DD/MM/YYYY").format("YYYYMMDD") <= moment().format("YYYYMMDD") &&
+                moment(produto.COMPLEMENTO.FIMVALIDADE, "DD/MM/YYYY").format("YYYYMMDD") >= moment().format("YYYYMMDD") ? (
                 <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", w: "100%", p: 0 }}>
                   <Typography variant="h4" fontFamily="Jost" fontWeight="500" fontSize="0.8rem" sx={{ textDecoration: "line-through", color: grey[700] }}>
                     {" "}
                     De: <span> {Diversos.maskPreco(produto.PRECO)} </span>{" "}
                   </Typography>
-                  {produto.COMPLEMENTO && Diversos.getParcelas(produto.COMPLEMENTO.PRECO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
-                    <>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important" }}>
-                        {" Por apenas: "}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                        {`${Diversos.getParcelas(produto.COMPLEMENTO.PRECO, produto.COMPLEMENTO.PARCELADO).parcelas.pop().labelAbrev.replace("em até ", "")}`}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="500" fontSize="0.8rem" sx={{ textDecoration: "none !important" }}>
-                        ou {Diversos.maskPreco(produto.COMPLEMENTO.PRECO)}
-                      </Typography>
-                    </>
-                  ) : (
-                    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", w: "100%" }}>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.0rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
-                        {" Por apenas: "}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.0rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                        {Diversos.maskPreco(produto.COMPLEMENTO.PRECO)}
-                      </Typography>
-                    </Box>
-                  )}
+                  <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", w: "100%" }}>
+                    <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.0rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
+                      {" Por apenas: "}
+                    </Typography>
+                    <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.0rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
+                      {Diversos.maskPreco(produto.COMPLEMENTO.PRECO)}
+                    </Typography>
+                  </Box>
                 </Box>
               ) : produto.PREPRO > 0 &&
                 produto.PREPRO < produto.PRECO &&
@@ -1664,53 +1549,25 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                     {" "}
                     De: <span> {Diversos.maskPreco(produto.PRECO)} </span>{" "}
                   </Typography>
-                  {produto.COMPLEMENTO && Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
-                    <>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important" }}>
-                        {" Por apenas: "}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                        {`${Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.pop().labelAbrev.replace("em até ", "")}`}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="500" fontSize="0.8rem" sx={{ textDecoration: "none !important" }}>
-                        ou {Diversos.maskPreco(produto.PREPRO)}
-                      </Typography>
-                    </>
-                  ) : (
-                    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", w: "100%" }}>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
-                        {" Por apenas: "}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                        {Diversos.maskPreco(produto.PREPRO)}
-                      </Typography>
-                    </Box>
-                  )}
+                  <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", w: "100%" }}>
+                    <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
+                      {" Por apenas: "}
+                    </Typography>
+                    <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
+                      {Diversos.maskPreco(produto.PREPRO)}
+                    </Typography>
+                  </Box>
                 </Box>
               ) : (
                 <>
-                  {produto.COMPLEMENTO && Diversos.getParcelas(produto.PRECO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
-                    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", w: "100%" }}>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important" }}>
-                        {" Por apenas: "}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                        {`${Diversos.getParcelas(produto.PRECO, produto.COMPLEMENTO.PARCELADO).parcelas.pop().labelAbrev.replace("em até ", "")}`}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="500" fontSize="0.8rem" sx={{ textDecoration: "none !important" }}>
-                        ou {Diversos.maskPreco(produto.PRECO)}
-                      </Typography>
-                    </Box>
-                  ) : (
-                    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", w: "100%" }}>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
-                        {" Por apenas: "}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                        {Diversos.maskPreco(produto.PRECO)}
-                      </Typography>
-                    </Box>
-                  )}
+                  <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", w: "100%" }}>
+                    <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
+                      {" Por apenas: "}
+                    </Typography>
+                    <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
+                      {Diversos.maskPreco(produto.PRECO)}
+                    </Typography>
+                  </Box>
                 </>
               )}
             </Box>
@@ -1747,37 +1604,23 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
           <Box style={{ flex: 1, py: 0, m: 0 }}>
             <Box className="price-tag-container" sx={{ py: "0 !important" }}>
               {produto.COMPLEMENTO &&
-              Number(produto.COMPLEMENTO.PRECO) > 0 &&
-              Number(produto.COMPLEMENTO.PRECO) < Number(produto.PRECO) &&
-              moment(produto.COMPLEMENTO.INIVALIDADE, "DD/MM/YYYY").format("YYYYMMDD") <= moment().format("YYYYMMDD") &&
-              moment(produto.COMPLEMENTO.FIMVALIDADE, "DD/MM/YYYY").format("YYYYMMDD") >= moment().format("YYYYMMDD") ? (
+                Number(produto.COMPLEMENTO.PRECO) > 0 &&
+                Number(produto.COMPLEMENTO.PRECO) < Number(produto.PRECO) &&
+                moment(produto.COMPLEMENTO.INIVALIDADE, "DD/MM/YYYY").format("YYYYMMDD") <= moment().format("YYYYMMDD") &&
+                moment(produto.COMPLEMENTO.FIMVALIDADE, "DD/MM/YYYY").format("YYYYMMDD") >= moment().format("YYYYMMDD") ? (
                 <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", w: "100%", p: 0 }}>
                   <Typography variant="h4" fontFamily="Jost" fontWeight="500" fontSize="0.8rem" sx={{ textDecoration: "line-through", color: grey[700] }}>
                     {" "}
                     De: <span> {Diversos.maskPreco(produto.PRECO)} </span>{" "}
                   </Typography>
-                  {produto.COMPLEMENTO && Diversos.getParcelas(produto.COMPLEMENTO.PRECO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
-                    <>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important" }}>
-                        {" Por apenas: "}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                        {`${Diversos.getParcelas(produto.COMPLEMENTO.PRECO, produto.COMPLEMENTO.PARCELADO).parcelas.pop().labelAbrev.replace("em até ", "")}`}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="500" fontSize="0.8rem" sx={{ textDecoration: "none !important" }}>
-                        ou {Diversos.maskPreco(produto.COMPLEMENTO.PRECO)}
-                      </Typography>
-                    </>
-                  ) : (
-                    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", w: "100%" }}>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.0rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
-                        {" Por apenas: "}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.0rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                        {Diversos.maskPreco(produto.COMPLEMENTO.PRECO)}
-                      </Typography>
-                    </Box>
-                  )}
+                  <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", w: "100%" }}>
+                    <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.0rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
+                      {" Por apenas: "}
+                    </Typography>
+                    <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.0rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
+                      {Diversos.maskPreco(produto.COMPLEMENTO.PRECO)}
+                    </Typography>
+                  </Box>
                 </Box>
               ) : produto.PREPRO > 0 &&
                 produto.PREPRO < produto.PRECO &&
@@ -1788,53 +1631,25 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                     {" "}
                     De: <span> {Diversos.maskPreco(produto.PRECO)} </span>{" "}
                   </Typography>
-                  {produto.COMPLEMENTO && Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
-                    <>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important" }}>
-                        {" Por apenas: "}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                        {`${Diversos.getParcelas(produto.PREPRO, produto.COMPLEMENTO.PARCELADO).parcelas.pop().labelAbrev.replace("em até ", "")}`}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="500" fontSize="0.8rem" sx={{ textDecoration: "none !important" }}>
-                        ou {Diversos.maskPreco(produto.PREPRO)}
-                      </Typography>
-                    </>
-                  ) : (
-                    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", w: "100%" }}>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
-                        {" Por apenas: "}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                        {Diversos.maskPreco(produto.PREPRO)}
-                      </Typography>
-                    </Box>
-                  )}
+                  <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", w: "100%" }}>
+                    <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
+                      {" Por apenas: "}
+                    </Typography>
+                    <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
+                      {Diversos.maskPreco(produto.PREPRO)}
+                    </Typography>
+                  </Box>
                 </Box>
               ) : (
                 <>
-                  {produto.COMPLEMENTO && Diversos.getParcelas(produto.PRECO, produto.COMPLEMENTO.PARCELADO).parcelas.length > 1 ? (
-                    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", w: "100%" }}>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important" }}>
-                        {" Por apenas: "}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                        {`${Diversos.getParcelas(produto.PRECO, produto.COMPLEMENTO.PARCELADO).parcelas.pop().labelAbrev.replace("em até ", "")}`}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="500" fontSize="0.8rem" sx={{ textDecoration: "none !important" }}>
-                        ou {Diversos.maskPreco(produto.PRECO)}
-                      </Typography>
-                    </Box>
-                  ) : (
-                    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", w: "100%" }}>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
-                        {" Por apenas: "}
-                      </Typography>
-                      <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
-                        {Diversos.maskPreco(produto.PRECO)}
-                      </Typography>
-                    </Box>
-                  )}
+                  <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", w: "100%" }}>
+                    <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="0.8rem" sx={{ textDecoration: "none !important", mr: 1.5 }}>
+                      {" Por apenas: "}
+                    </Typography>
+                    <Typography variant="p" fontFamily="Jost" fontWeight="700" fontSize="1.1rem" sx={{ textDecoration: "none !important", color: "success.main" }}>
+                      {Diversos.maskPreco(produto.PRECO)}
+                    </Typography>
+                  </Box>
                 </>
               )}
             </Box>

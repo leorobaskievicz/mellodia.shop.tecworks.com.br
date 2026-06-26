@@ -244,25 +244,9 @@ export default function CardProdu({ children, produ, idx, sx, algoliaReturn, ind
         <Box sx={styleContainerPrecoECompra}>
           {preco >= Number(produ.PRECO) ? (
             <Box sx={styleContainerCardPrice}>
-              {parcelas && parcelas.length > 1 ? (
-                <>
-                  {/* sx={styleContainerCardPriceParcelado} */}
-                  <Typography
-                    variant="h6"
-                    color="success"
-                    sx={{ ...styleContainerCardPricePor, color: "success.main", fontSize: { xs: "1.0rem", sm: "1.0rem", md: "1.2rem", lg: "1.2rem", xl: "1.2rem" } }}
-                  >
-                    {parcelas?.pop()?.labelAbrev}
-                  </Typography>
-                  <Typography variant="h6" color="primary" sx={{ ...styleContainerCardPriceDe, textDecoration: "none !important" }}>
-                    {Diversos.maskPreco(preco)}
-                  </Typography>
-                </>
-              ) : (
-                <Typography variant="h6" color="primary" sx={styleContainerCardPricePor}>
-                  {Diversos.maskPreco(preco)}
-                </Typography>
-              )}
+              <Typography variant="h6" color="primary" sx={styleContainerCardPricePor}>
+                {Diversos.maskPreco(preco)}
+              </Typography>
             </Box>
           ) : (
             <Box sx={styleContainerCardPrice}>
@@ -270,24 +254,9 @@ export default function CardProdu({ children, produ, idx, sx, algoliaReturn, ind
                 {Diversos.maskPreco(produ.PRECO)}
               </Typography>
 
-              {parcelas && parcelas.length > 1 ? (
-                <>
-                  <Typography
-                    variant="h6"
-                    color="primary"
-                    sx={{ ...styleContainerCardPricePor, color: "success.main", fontSize: { xs: "1.0rem", sm: "1.0rem", md: "1.2rem", lg: "1.2rem", xl: "1.2rem" } }}
-                  >
-                    {parcelas?.pop()?.labelAbrev}
-                  </Typography>
-                  <Typography variant="h6" color="primary" sx={{ ...styleContainerCardPriceDe, textDecoration: "none !important" }}>
-                    {Diversos.maskPreco(preco)}
-                  </Typography>
-                </>
-              ) : (
-                <Typography variant="h6" color="primary" sx={styleContainerCardPricePor}>
-                  {Diversos.maskPreco(preco)}
-                </Typography>
-              )}
+              <Typography variant="h6" color="primary" sx={styleContainerCardPricePor}>
+                {Diversos.maskPreco(preco)}
+              </Typography>
             </Box>
           )}
         </Box>

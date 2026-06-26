@@ -42,6 +42,14 @@ async function getHomeEstrutura() {
       try {
         let result = null;
 
+        // TODO: Temporariamente desativada chamada para /product/maiscomprados
+        // (falha DB: "Expected 1 bindings, saw 0"). Preparar para receber
+        // esses dados de outra chamada futuramente.
+        if (elem.api && elem.api.includes("/product/maiscomprados")) {
+          homeStruct[idx].produtos = elem.produtos = [];
+          continue;
+        }
+
         if (elem.method === "POST") {
           result = await myapi.post(elem.api, elem.postParam);
         } else {

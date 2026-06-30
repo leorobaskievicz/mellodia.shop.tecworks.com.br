@@ -109,6 +109,10 @@ export default async function Busca(props) {
     algoliaReturn,
   });
 
+  if (produtos) {
+    produtos.sort((a, b) => (a.ESTOQUE > 0 ? 0 : 1) - (b.ESTOQUE > 0 ? 0 : 1));
+  }
+
   if (!produtos) {
     return (
       <Grid container sx={styleContainer}>

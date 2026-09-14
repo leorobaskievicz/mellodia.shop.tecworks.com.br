@@ -1,6 +1,6 @@
 "use client";
 import Api from "@/app/lib/api";
-import { Diversos } from "@/app/lib/diversos";
+import { Diversos, PEDIDO_MINIMO } from "@/app/lib/diversos";
 import { useApp } from "@/app/context/AppContext";
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import {
@@ -34,6 +34,7 @@ import {
   ArrowBack as ArrowBackIcon,
   CreditCard as CreditCardIcon,
   Pix as PixIcon,
+  ReceiptLong as ReceiptLongIcon,
   Info as InfoIcon,
   Login as LoginIcon,
   TwoWheeler as TwoWheelerIcon,
@@ -157,7 +158,7 @@ function CheckoutPagamentoContent(props) {
     teleValorDesc: 0.0,
     telePercentDesc: 0.0,
     formFormaEntregaLoja: 0,
-    formFormaPgtoCodigo: 4,
+    formFormaPgtoCodigo: 2,
     formCartaoNumero: null,
     formCartaoNome: null,
     formCartaoValidadeMes: null,
@@ -168,7 +169,7 @@ function CheckoutPagamentoContent(props) {
     formIsLoading: false,
     email: "",
     receberNovidades: false,
-    formaPagamento: "cartao",
+    formaPagamento: "boleto",
     instalments: [],
     cartao: {
       numero: "",
@@ -604,6 +605,11 @@ function CheckoutPagamentoContent(props) {
       return 0;
     }
 
+    if (getCartTotal() < PEDIDO_MINIMO) {
+      setMsg("error", "Pedido mínimo", `O pedido mínimo é de ${Diversos.maskPreco(PEDIDO_MINIMO)} em produtos.`);
+      return 0;
+    }
+
     if (appState.carrinho.length <= 0) {
       setMsg("error", "Atenção", "Seu carrinho está vazio.");
       return 0;
@@ -646,7 +652,7 @@ function CheckoutPagamentoContent(props) {
       }
     }
 
-    if (![1, 2, 3, 4, 98, 99].includes(state.formFormaPgtoCodigo)) {
+    if (![2, 4].includes(state.formFormaPgtoCodigo)) {
       setMsg("error", "Atenção", "Forma de pagamento selecionada não é válida.");
       return 0;
     }
@@ -658,15 +664,8 @@ function CheckoutPagamentoContent(props) {
       formHasErrorMsg: null,
     }));
 
-    let parcelas = 1;
-
-    if (state.formFormaPgtoCodigo !== 1) {
-      parcelas = 1;
-    } else if (state.instalments.length > 0) {
-      parcelas = state.cartao.parcela;
-    } else {
-      parcelas = 1;
-    }
+    // Boleto e Pix são sempre à vista.
+    const parcelas = 1;
 
     let desconto = state.valorDesc ? state.valorDesc : 0.0;
 
@@ -702,12 +701,6 @@ function CheckoutPagamentoContent(props) {
       repres: appState && appState.usuario && appState.usuario.vendedor && appState.usuario.vendedor.CODIGO ? appState.usuario.vendedor.CODIGO : state.vendedor,
       recaptchaToken, // Token do reCAPTCHA para validação no backend
     };
-
-    if (state.formFormaPgtoCodigo === 1) {
-      param.cartao[0].numero = Diversos.getnums(state.cartao.numero);
-      param.cartao[0].validade = state.cartao.validade;
-      param.cartao[0].cvv = Diversos.getnums(state.cartao.cvv);
-    }
 
     const tmpProdutos = [];
 
@@ -772,6 +765,11 @@ function CheckoutPagamentoContent(props) {
       return 0;
     }
 
+    if (getCartTotal() < PEDIDO_MINIMO) {
+      setMsg("error", "Pedido mínimo", `O pedido mínimo é de ${Diversos.maskPreco(PEDIDO_MINIMO)} em produtos.`);
+      return 0;
+    }
+
     if (appState.carrinho.length <= 0) {
       setMsg("error", "Atenção", "Seu carrinho está vazio.");
       return 0;
@@ -795,15 +793,8 @@ function CheckoutPagamentoContent(props) {
     }));
 
     try {
-      let parcelas = 1;
-
-      if (state.formFormaPgtoCodigo !== 1) {
-        parcelas = 1;
-      } else if (state.instalments.length > 0) {
-        parcelas = state.cartao.parcela;
-      } else {
-        parcelas = 1;
-      }
+      // Boleto e Pix são sempre à vista.
+        const parcelas = 1;
 
       let desconto = state.valorDesc ? state.valorDesc : 0.0;
 
@@ -839,12 +830,6 @@ function CheckoutPagamentoContent(props) {
         repres: appState && appState.usuario && appState.usuario.vendedor && appState.usuario.vendedor.CODIGO ? appState.usuario.vendedor.CODIGO : state.vendedor,
         recaptchaToken, // Token do reCAPTCHA para validação no backend
       };
-
-      if (state.formFormaPgtoCodigo === 1) {
-        param.cartao[0].numero = Diversos.getnums(state.cartao.numero);
-        param.cartao[0].validade = state.cartao.validade;
-        param.cartao[0].cvv = Diversos.getnums(state.cartao.cvv);
-      }
 
       const tmpProdutos = [];
 
@@ -903,6 +888,11 @@ function CheckoutPagamentoContent(props) {
       return 0;
     }
 
+    if (getCartTotal() < PEDIDO_MINIMO) {
+      setMsg("error", "Pedido mínimo", `O pedido mínimo é de ${Diversos.maskPreco(PEDIDO_MINIMO)} em produtos.`);
+      return 0;
+    }
+
     if (appState.carrinho.length <= 0) {
       setMsg("error", "Atenção", "Seu carrinho está vazio.");
       return 0;
@@ -945,56 +935,11 @@ function CheckoutPagamentoContent(props) {
       }
     }
 
-    if (![1, 2, 3, 4, 98, 99].includes(state.formFormaPgtoCodigo)) {
+    if (![2, 4].includes(state.formFormaPgtoCodigo)) {
       setMsg("error", "Atenção", "Forma de pagamento selecionada não é válida.");
       return 0;
     }
 
-    if (state.formFormaPgtoCodigo === 98) {
-      // ATUALIZA DADOS DO CLIENTE CONFORME FORMULARIO PREENCHIDO
-      await api.put(
-        `/customer/${state.customer.codigo}`,
-        {
-          codigo: state.customer.codigo,
-          cep: state.customer.cep,
-          endereco: state.customer.endereco,
-          rua: state.customer.endereco,
-          numero: state.customer.numero,
-          complemento: state.customer.complemento,
-          bairro: state.customer.bairro,
-          cidade: state.customer.cidade,
-          estado: state.customer.estado,
-          telefone: state.customer.celular,
-          celular: state.customer.celular,
-        },
-        true,
-      );
-
-      // BUSCA LINK DO CARRINHO PARA ENVIAR AO CLIENTE
-      const getCart = await Diversos.getCartData(state.customer.cpf, appState.carrinho);
-
-      if (!getCart || !getCart.SESSION_ID) {
-        console.error("Erro ao gerar link do carrinho:", getCart);
-        setMsg("error", "Atenção", "Não foi possível gerar o link de pagamento. Tente novamente.");
-        setState((state) => ({ ...state, formIsLoading: false }));
-        return 0;
-      }
-
-      setState((state) => ({
-        ...state,
-        linkPagamento: `https://www.mellodia.com.br/api/link-pagamento?d=${getCart.SESSION_ID}`,
-      }));
-      setModalLinkPagamento(true);
-
-      return true;
-    }
-
-    if (state.formFormaPgtoCodigo === 1) {
-      if (!state.cartao.numero || !state.cartao.nome || !state.cartao.validade || !state.cartao.cvv) {
-        setMsg("error", "Atenção", "Dados do cartão estão incompletos.");
-        return 0;
-      }
-    }
 
     setState((state) => ({
       ...state,
@@ -1003,15 +948,8 @@ function CheckoutPagamentoContent(props) {
       formHasErrorMsg: null,
     }));
 
-    let parcelas = 1;
-
-    if (state.formFormaPgtoCodigo !== 1) {
-      parcelas = 1;
-    } else if (state.instalments.length > 0) {
-      parcelas = state.cartao.parcela;
-    } else {
-      parcelas = 1;
-    }
+    // Boleto e Pix são sempre à vista.
+    const parcelas = 1;
 
     let desconto = state.valorDesc ? state.valorDesc : 0.0;
 
@@ -1051,12 +989,6 @@ function CheckoutPagamentoContent(props) {
       repres: appState && appState.usuario && appState.usuario.vendedor && appState.usuario.vendedor.CODIGO ? appState.usuario.vendedor.CODIGO : state.vendedor,
       recaptchaToken, // Token do reCAPTCHA para validação no backend
     };
-
-    if (state.formFormaPgtoCodigo === 1) {
-      param.cartao[0].numero = Diversos.getnums(state.cartao.numero);
-      param.cartao[0].validade = state.cartao.validade;
-      param.cartao[0].cvv = Diversos.getnums(state.cartao.cvv);
-    }
 
     const tmpProdutos = [];
 
@@ -1115,9 +1047,22 @@ function CheckoutPagamentoContent(props) {
           },
         };
 
-        if (state.formFormaPgtoCodigo === 1) {
-          tmpOrder.cartao.numero = state.cartao.numero.substring(state.cartao.numero.length - 4);
-          tmpOrder.cartao.bandeira = "";
+        // Boleto é emitido na api.tecworks depois que o pedido existe (precisa do
+        // número). Falha aqui não desfaz o pedido: o cliente vê o aviso e a loja
+        // reemite pelo painel.
+        if (state.formFormaPgtoCodigo === 2 && !tmpOrder.boleto_url) {
+          try {
+            const dataBoleto = await api.post(`/order/boleto/1`, { pedido: data.msg.PEDIDO }, true);
+
+            if (!dataBoleto || !dataBoleto.status || !dataBoleto.msg) {
+              throw new Error(dataBoleto && dataBoleto.msg ? dataBoleto.msg : "Não foi possível emitir o boleto.");
+            }
+
+            tmpOrder.boleto_url = String(dataBoleto.msg).split(";")[0];
+          } catch (eBoleto) {
+            console.error("Erro ao emitir boleto:", eBoleto);
+            setMsg("warning", "Pedido criado", "Seu pedido foi registrado, mas o boleto não pôde ser emitido agora. Nossa equipe vai enviar o boleto para você.");
+          }
         }
 
         dispatch({
@@ -1453,8 +1398,14 @@ function CheckoutPagamentoContent(props) {
             </Paper> */}
 
             <Typography variant="body2" color="text.secondary" sx={{ fontSize: "0.72rem" }}>
-              * Parcelamento em até 6x sem juros para pedidos acima de {Diversos.maskPreco(300)}, parcela mínima de {Diversos.maskPreco(200)} e prazo máximo de 60 dias.
+              * Pedido mínimo de {Diversos.maskPreco(PEDIDO_MINIMO)} em produtos.
             </Typography>
+
+            {getCartTotal() < PEDIDO_MINIMO && (
+              <Alert severity="info">
+                Faltam {Diversos.maskPreco(PEDIDO_MINIMO - getCartTotal())} para atingir o pedido mínimo de {Diversos.maskPreco(PEDIDO_MINIMO)}.
+              </Alert>
+            )}
 
             <Divider />
 
@@ -1464,7 +1415,7 @@ function CheckoutPagamentoContent(props) {
               fullWidth
               // onClick={state.isLargeScreen ? handleForm : () => (window.location.href = "#login-btn-checkout")}
               onClick={handleFormPagamento}
-              disabled={state.formIsLoading}
+              disabled={state.formIsLoading || getCartTotal() < PEDIDO_MINIMO}
               sx={{
                 py: 1.5,
                 fontSize: "1.1rem",
@@ -1580,7 +1531,7 @@ function CheckoutPagamentoContent(props) {
       ecommerce: {
         currency: "BRL",
         value: getTotal(),
-        payment_type: Number(state.formFormaPgtoCodigo) === Number(1) ? "credit_card" : "pix",
+        payment_type: Number(state.formFormaPgtoCodigo) === Number(2) ? "boleto" : "pix",
         items: itemsList,
       },
     });
@@ -1631,7 +1582,7 @@ function CheckoutPagamentoContent(props) {
       setState((state) => ({
         ...state,
         formaPagamento: appState.linkCarrinho.formaPagamento,
-        formFormaPgtoCodigo: appState.linkCarrinho.formaPagamento === "cartao" ? 1 : 4,
+        formFormaPgtoCodigo: appState.linkCarrinho.formaPagamento === "boleto" ? 2 : 4,
         freteSelectedNome: appState.linkCarrinho.formaEntrega,
         formFormaEntregaLoja: appState.linkCarrinho.formaEntregaLoja,
         codigoDesc: appState.linkCarrinho.cupomDesconto,
@@ -1760,264 +1711,42 @@ function CheckoutPagamentoContent(props) {
                 Voltar
               </Button>
 
-              {!appState.usuario || !appState.usuario.codigo ? (
-                <>
-                  {/* <Paper elevation={0} sx={{ p: 0 }} id="login-btn-checkout">
-                    <Button variant="outlined" fullWidth color="primary" size="large" startIcon={<LoginIcon />} onClick={() => router.push("/login?checkout=true")}>
-                      Fazer login ou se cadastrar
-                    </Button>
-                  </Paper>
-                  <Divider sx={{ my: 2 }}>
-                    <Typography variant="body2" color="text.secondary">
-                      ou compre diretamente abaixo
-                    </Typography>
-                  </Divider> */}
-
-                  {/* CPF */}
-                  <Paper elevation={0} sx={{ p: 0 }}>
-                    <Grid item xs={12} sm={12}>
-                      <TextField
-                        fullWidth
-                        placeholder="00.000.000/0000-00"
-                        label="CNPJ"
-                        variant="outlined"
-                        size="medium"
-                        value={state.customer.cpf}
-                        onChange={(e) =>
-                          setState((state) => ({
-                            ...state,
-                            customer: { ...state.customer, cpf: Diversos.maskCNPJString(e.target.value) },
-                          }))
-                        }
-                        sx={{ mb: 2 }}
-                        required
-                        disabled={state.formIsLoading}
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={12}>
-                      <TextField
-                        fullWidth
-                        placeholder="seu-email@exemplo.com"
-                        label="E-mail"
-                        variant="outlined"
-                        value={state.customer.email}
-                        onChange={(e) => setState((state) => ({ ...state, customer: { ...state.customer, email: e.target.value } }))}
-                        required
-                        disabled={state.formIsLoading}
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                      />
-                    </Grid>
-                  </Paper>
-                </>
-              ) : null}
-
-              <Divider sx={{ my: 2 }}>
-                <Typography variant="body2" color="text.secondary">
-                  Confirme abaixo o endereço de entrega
-                </Typography>
-              </Divider>
-
-              {/* Entrega */}
+              {/* Entrega — loja B2B: os dados vêm do cadastro e não são editáveis aqui */}
               <Paper elevation={0} sx={{ py: 0 }}>
                 <Typography variant="h6" gutterBottom>
                   Dados da Entrega
                 </Typography>
+
+                <Alert severity="info" sx={{ mb: 2 }}>
+                  Estes são os dados do seu cadastro. Para alterar endereço ou contato, fale com o seu vendedor.
+                </Alert>
+
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      fullWidth
-                      placeholder="Nome"
-                      label="Nome"
-                      variant="outlined"
-                      value={state.customer.nome}
-                      onChange={(e) => setState((state) => ({ ...state, customer: { ...state.customer, nome: e.target.value } }))}
-                      disabled={state.formIsLoading}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      fullWidth
-                      placeholder="Sobrenome"
-                      label="Sobrenome"
-                      variant="outlined"
-                      value={state.customer.sobrenome}
-                      onChange={(e) => setState((state) => ({ ...state, customer: { ...state.customer, sobrenome: e.target.value } }))}
-                      disabled={state.formIsLoading}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={12}>
-                    <TextField
-                      fullWidth
-                      placeholder="CEP *"
-                      label="CEP"
-                      variant="outlined"
-                      value={state.customer.cep}
-                      maxLength={10}
-                      onChange={(e) =>
-                        setState((state) => ({
-                          ...state,
-                          customer: {
-                            ...state.customer,
-                            cep: String(e.target.value).length <= 0 ? e.target.value : Diversos.maskCEP(Diversos.getnums(String(e.target.value).substring(0, 10))),
-                          },
-                        }))
-                      }
-                      required
-                      disabled={state.formIsLoading}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      InputProps={{
-                        maxLength: 10,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={9}>
-                    <TextField
-                      fullWidth
-                      placeholder="Endereço"
-                      label="Endereço"
-                      variant="outlined"
-                      value={state.customer.rua}
-                      onChange={(e) => setState((state) => ({ ...state, customer: { ...state.customer, rua: e.target.value } }))}
-                      disabled={state.formIsLoading}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={3}>
-                    <TextField
-                      fullWidth
-                      placeholder="Número"
-                      label="Número"
-                      variant="outlined"
-                      value={state.customer.numero}
-                      onChange={(e) => setState((state) => ({ ...state, customer: { ...state.customer, numero: e.target.value } }))}
-                      disabled={state.formIsLoading}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      fullWidth
-                      placeholder="Complemento"
-                      label="Complemento"
-                      variant="outlined"
-                      value={state.customer.complemento}
-                      onChange={(e) =>
-                        setState((state) => ({
-                          ...state,
-                          customer: { ...state.customer, complemento: e.target.value },
-                        }))
-                      }
-                      disabled={state.formIsLoading}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      fullWidth
-                      placeholder="Bairro"
-                      label="Bairro"
-                      variant="outlined"
-                      value={state.customer.bairro}
-                      onChange={(e) => setState((state) => ({ ...state, customer: { ...state.customer, bairro: e.target.value } }))}
-                      disabled={state.formIsLoading}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      fullWidth
-                      placeholder="Cidade"
-                      label="Cidade"
-                      variant="outlined"
-                      value={state.customer.cidade}
-                      onChange={(e) => setState((state) => ({ ...state, customer: { ...state.customer, cidade: e.target.value } }))}
-                      disabled={state.formIsLoading}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Autocomplete
-                      loading={state.isLoadingCustomer || state.isLoadingCep}
-                      options={Diversos.getUFs()}
-                      value={
-                        state.isLoadingCustomer || state.isLoadingCep || !state.customer.estado
-                          ? null
-                          : Diversos.getUFs().filter((row) => String(row.value).toLowerCase() === String(state.customer.estado).toLowerCase())?.[0]
-                      }
-                      onChange={(event, newValue) => {
-                        setState((state) => ({
-                          ...state,
-                          customer: { ...state.customer, estado: newValue.value },
-                        }));
-                      }}
-                      renderInput={(params) => <TextField {...params} placeholder="Estado" variant="outlined" fullWidth />}
-                      disabled={state.formIsLoading}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={12}>
-                    <TextField
-                      fullWidth
-                      placeholder="(00) 00000-0000"
-                      label="Celular"
-                      variant="outlined"
-                      value={state.customer.celular}
-                      maxLength={15}
-                      onChange={(e) =>
-                        setState((state) => ({
-                          ...state,
-                          customer: { ...state.customer, celular: Diversos.maskTelefone(e.target.value) },
-                        }))
-                      }
-                      disabled={state.formIsLoading}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      required
-                    />
-                  </Grid>
-
-                  {/* <Grid item xs={12} sm={12}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={state.customer.salvarEndereco}
-                          onChange={(e) =>
-                            setState((state) => ({
-                              ...state,
-                              customer: { ...state.customer, salvarEndereco: e.target.checked },
-                            }))
-                          }
-                          color="primary"
-                        />
-                      }
-                      label={<Typography variant="body2">Salvar minhas informações para futuras compras</Typography>}
-                      disabled={state.formIsLoading}
-                    />
-                  </Grid> */}
+                  {[
+                    { label: "Cliente", valor: `${state.customer.nome || ""} ${state.customer.sobrenome || ""}`.trim() },
+                    { label: "CNPJ", valor: state.customer.cpf },
+                    { label: "E-mail", valor: state.customer.email },
+                    { label: "Celular", valor: state.customer.celular },
+                    { label: "CEP", valor: state.customer.cep },
+                    {
+                      label: "Endereço",
+                      valor: [state.customer.rua, state.customer.numero, state.customer.complemento].filter((p) => p && String(p).trim() !== "").join(", "),
+                    },
+                    { label: "Bairro", valor: state.customer.bairro },
+                    {
+                      label: "Cidade / UF",
+                      valor: [state.customer.cidade, state.customer.estado].filter((p) => p && String(p).trim() !== "").join(" / "),
+                    },
+                  ].map((campo) => (
+                    <Grid item xs={12} sm={6} key={campo.label}>
+                      <Typography variant="caption" color="text.secondary" sx={{ display: "block" }}>
+                        {campo.label}
+                      </Typography>
+                      <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                        {state.isLoadingCustomer ? "..." : campo.valor && String(campo.valor).trim() !== "" ? campo.valor : "—"}
+                      </Typography>
+                    </Grid>
+                  ))}
                 </Grid>
               </Paper>
               
@@ -2260,7 +1989,7 @@ function CheckoutPagamentoContent(props) {
                   Forma de Pagamento *
                 </Typography>
                 <Typography variant="body2" color="text.secondary" gutterBottom>
-                  Todas as transações são seguras e criptografadas.
+                  Pagamento por boleto bancário ou Pix.
                 </Typography>
 
                 <Paper
@@ -2269,17 +1998,17 @@ function CheckoutPagamentoContent(props) {
                     mb: 2,
                     p: 2,
                     border: "1px solid",
-                    borderColor: state.formFormaPgtoCodigo === 1 ? "primary.main" : "divider",
+                    borderColor: state.formFormaPgtoCodigo === 2 ? "primary.main" : "divider",
                     position: "relative",
                     cursor: "pointer",
                   }}
                   onClick={() => {
-                    setState((state) => ({ ...state, formaPagamento: "cartao", formFormaPgtoCodigo: 1 }));
+                    setState((state) => ({ ...state, formaPagamento: "boleto", formFormaPgtoCodigo: 2 }));
 
                     Diversos.sendCartData(
                       appState.usuario?.codigo,
                       appState.carrinho,
-                      "cartao",
+                      "boleto",
                       state.freteSelectedNome,
                       state.formFormaEntregaLoja,
                       state.cupomDesconto,
@@ -2290,33 +2019,16 @@ function CheckoutPagamentoContent(props) {
                   }}
                 >
                   <FormControlLabel
-                    value="cartao"
+                    value="boleto"
                     disabled={state.formIsLoading}
-                    control={<Radio checked={state.formFormaPgtoCodigo === 1} />}
+                    control={<Radio checked={state.formFormaPgtoCodigo === 2} />}
                     label={
                       <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
-                        <CreditCardIcon sx={{ mr: 1, color: state.formFormaPgtoCodigo === 1 ? "primary.main" : "text.secondary" }} />
-                        <Typography>Cartão de crédito</Typography>
+                        <ReceiptLongIcon sx={{ mr: 1, color: state.formFormaPgtoCodigo === 2 ? "primary.main" : "text.secondary" }} />
+                        <Typography>Boleto bancário</Typography>
                       </Box>
                     }
                   />
-
-                  <Box
-                    sx={{
-                      display: "flex",
-                      gap: 1,
-                      alignItems: "center",
-                      justifyContent: "flex-end",
-                      mt: 1,
-                      position: "absolute",
-                      right: 10,
-                      top: 10,
-                    }}
-                  >
-                    <Box component="img" src="/visa.png" alt="Visa" sx={{ height: 30 }} />
-                    <Box component="img" src="/mastercard.png" alt="Mastercard" sx={{ height: 30 }} />
-                    <Box component="img" src="/elo.png" alt="Elo" sx={{ height: 15 }} />
-                  </Box>
                 </Paper>
 
                 <Paper
@@ -2358,92 +2070,16 @@ function CheckoutPagamentoContent(props) {
                   />
                 </Paper>
 
-                {appState.usuario && appState.usuario.vendedor && appState.usuario.vendedor.CODIGO && (
-                  <>
-                    <Paper
-                      variant="outlined"
-                      sx={{
-                        p: 2,
-                        mb: 2,
-                        border: "1px solid",
-                        borderColor: state.formFormaPgtoCodigo === 99 ? "primary.main" : "divider",
-                        position: "relative",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => setState((state) => ({ ...state, formaPagamento: "pagar_na_entrega", formFormaPgtoCodigo: 99 }))}
-                    >
-                      <FormControlLabel
-                        value="pagar_na_entrega"
-                        disabled={state.formIsLoading}
-                        control={<Radio checked={state.formFormaPgtoCodigo === 99} />}
-                        label={
-                          <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <PhoneIphone
-                              sx={{
-                                mr: 1,
-                                color: state.formFormaPgtoCodigo === 99 ? "primary.main" : "text.secondary",
-                              }}
-                            />
-                            <Typography>Pagar na entrega</Typography>
-                          </Box>
-                        }
-                      />
-                    </Paper>
-
-                    <Paper
-                      variant="outlined"
-                      sx={{
-                        p: 2,
-                        mb: 2,
-                        border: "1px solid",
-                        borderColor: state.formFormaPgtoCodigo === 98 ? "primary.main" : "divider",
-                        position: "relative",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => setState((state) => ({ ...state, formaPagamento: "link_pagamento", formFormaPgtoCodigo: 98 }))}
-                    >
-                      <FormControlLabel
-                        value="link_pagamento"
-                        disabled={state.formIsLoading}
-                        control={<Radio checked={state.formFormaPgtoCodigo === 98} />}
-                        label={
-                          <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <LinkOutlined
-                              sx={{
-                                mr: 1,
-                                color: state.formFormaPgtoCodigo === 98 ? "primary.main" : "text.secondary",
-                              }}
-                            />
-                            <Typography>Link de pagamento (mellodia)</Typography>
-                          </Box>
-                        }
-                      />
-                    </Paper>
-
-                    {state.formFormaPgtoCodigo === 98 && (
-                      <Box sx={{ mt: 3 }}>
-                        <Grid container spacing={2}>
-                          <Grid item xs={12}>
-                            <Alert severity="info" sx={{ fontWeight: 600 }}>
-                              Clique no "Finalizar Compra" que será gerado um link para enviar ao cliente realizar o pagamento.
-                            </Alert>
-                          </Grid>
-                        </Grid>
-                      </Box>
-                    )}
-
-                    {state.formFormaPgtoCodigo === 99 && (
-                      <Box sx={{ mt: 3 }}>
-                        <Grid container spacing={2}>
-                          <Grid item xs={12}>
-                            <Alert severity="info" sx={{ fontWeight: 600 }}>
-                              Clique em "Finalizar Compra" e não esqueça de enviar a máquina de cartão para o cliente.
-                            </Alert>
-                          </Grid>
-                        </Grid>
-                      </Box>
-                    )}
-                  </>
+                {state.formFormaPgtoCodigo === 2 && (
+                  <Box sx={{ mt: 3 }}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12}>
+                        <Alert severity="info" sx={{ fontWeight: 600 }}>
+                          O boleto é emitido na próxima tela, com vencimento em 2 dias. O pedido é separado após a confirmação do pagamento.
+                        </Alert>
+                      </Grid>
+                    </Grid>
+                  </Box>
                 )}
 
                 {state.formFormaPgtoCodigo === 4 && (
@@ -2453,98 +2089,6 @@ function CheckoutPagamentoContent(props) {
                         <Alert severity="info" sx={{ fontWeight: 600 }}>
                           O QrCode do pix será gerado na próxima tela.
                         </Alert>
-                      </Grid>
-                    </Grid>
-                  </Box>
-                )}
-
-                {state.formFormaPgtoCodigo === 1 && (
-                  <Box sx={{ mt: 3 }}>
-                    <Grid container spacing={2}>
-                      <Grid item xs={12}>
-                        <TextField
-                          fullWidth
-                          placeholder="Número do cartão"
-                          label="Número do cartão"
-                          variant="outlined"
-                          value={state.cartao.numero}
-                          onChange={handleCardNumberChange}
-                          disabled={state.formIsLoading}
-                          inputProps={{
-                            maxLength: 20, // 16 dígitos + 3 espaços
-                          }}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <TextField
-                          fullWidth
-                          placeholder="Data de vencimento (MM/AA)"
-                          label="Data de vencimento (MM/AA)"
-                          variant="outlined"
-                          value={state.cartao.validade}
-                          onChange={handleCardExpiryChange}
-                          disabled={state.formIsLoading}
-                          inputProps={{
-                            maxLength: 5, // MM/YY
-                          }}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <TextField
-                          fullWidth
-                          placeholder="Código de segurança"
-                          label="Código de segurança"
-                          variant="outlined"
-                          value={state.cartao.cvv}
-                          onChange={(e) => setState((state) => ({ ...state, cartao: { ...state.cartao, cvv: e.target.value } }))}
-                          disabled={state.formIsLoading}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          fullWidth
-                          placeholder="Nome do cartão"
-                          label="Nome do cartão"
-                          variant="outlined"
-                          value={state.cartao.nome}
-                          onChange={(e) => setState((state) => ({ ...state, cartao: { ...state.cartao, nome: e.target.value } }))}
-                          disabled={state.formIsLoading}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <FormControl fullWidth>
-                          <InputLabel>Parcelas</InputLabel>
-                          <Select
-                            value={state.cartao.parcela || 1}
-                            onChange={(e) =>
-                              setState((state) => ({
-                                ...state,
-                                cartao: { ...state.cartao, parcela: e.target.value },
-                              }))
-                            }
-                            variant="outlined"
-                            disabled={state.formIsLoading}
-                            label="Parcelas"
-                          >
-                            {getParcelamentoOptions().map((op) => (
-                              <MenuItem key={op.value} value={op.value}>
-                                {op.label}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
                       </Grid>
                     </Grid>
                   </Box>
@@ -2565,7 +2109,7 @@ function CheckoutPagamentoContent(props) {
                 size="large"
                 fullWidth
                 onClick={handleFormPagamento}
-                disabled={state.formIsLoading}
+                disabled={state.formIsLoading || getCartTotal() < PEDIDO_MINIMO}
                 sx={{
                   py: 1.5,
                   fontSize: "1.1rem",

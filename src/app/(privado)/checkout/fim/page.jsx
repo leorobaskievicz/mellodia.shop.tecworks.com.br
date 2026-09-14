@@ -132,6 +132,31 @@ export default function CheckoutFim() {
               }
             />
             <CardContent sx={{ textAlign: "center" }}>
+              {state.pedido && state.pedido.formapg === 2 && (
+                <>
+                  <Typography variant="body1" sx={{ mb: 2 }}>
+                    {state.pedido.boleto_url ? "Seu boleto foi emitido com sucesso!" : "Seu pedido foi registrado."}
+                  </Typography>
+
+                  {state.pedido.boleto_url ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      href={state.pedido.boleto_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      sx={{ mb: 2 }}
+                    >
+                      Abrir boleto
+                    </Button>
+                  ) : (
+                    <Typography variant="body2" sx={{ mb: 2 }}>
+                      O boleto não pôde ser emitido agora. Nossa equipe entrará em contato para enviá-lo.
+                    </Typography>
+                  )}
+                </>
+              )}
+
               {state.pedido && state.pedido.formapg === 4 && state.pedido.pix && (
                 <>
                   <Typography variant="body1" sx={{ mb: 2 }}>
@@ -266,15 +291,7 @@ export default function CheckoutFim() {
                       Forma de pagamento:
                     </Typography>
                     <Typography variant="body1">
-                      {state.pedido && state.pedido.formapg === 1 ? (
-                        <>
-                          Cartão de crédito <br />
-                          {state.pedido.cartao.bandeira} (final ...{state.pedido.cartao.numero}) <br />
-                          {state.pedido.cartao.parcelas && state.pedido.cartao.parcelas > 0 ? `Parcelado em ${state.pedido.cartao.parcelas}x` : `A vista`}
-                        </>
-                      ) : (
-                        "PIX"
-                      )}
+                      {state.pedido && state.pedido.formapg === 2 ? "Boleto bancário" : "PIX"}
                     </Typography>
                   </Box>
 

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useApp } from "@/app/context/AppContext";
 import Api from "@/app/lib/api";
-import { Diversos } from "@/app/lib/diversos";
+import { Diversos, PEDIDO_MINIMO } from "@/app/lib/diversos";
 import {
   Box,
   Button,
@@ -820,9 +820,20 @@ export default function Checkout(props) {
                   <Typography variant="body1">R$ {Diversos.number_format(getCartTotal() + checkoutState.entregaPreco - checkoutState.valorDesc, 2, ",", "")}</Typography>
                 </Box>
 
-                <Button component={Link} href="/checkout/pagamento" className="btn-checkout" variant="contained" color="primary" startIcon={<CartIcon />} fullWidth>
-                  Continuar para Pagamento
-                </Button>
+                {getCartTotal() < PEDIDO_MINIMO ? (
+                  <>
+                    <Alert severity="info" sx={{ mb: 2 }}>
+                      Pedido mínimo de {Diversos.maskPreco(PEDIDO_MINIMO)}. Faltam {Diversos.maskPreco(PEDIDO_MINIMO - getCartTotal())}.
+                    </Alert>
+                    <Button className="btn-checkout" variant="contained" color="primary" startIcon={<CartIcon />} fullWidth disabled>
+                      Continuar para Pagamento
+                    </Button>
+                  </>
+                ) : (
+                  <Button component={Link} href="/checkout/pagamento" className="btn-checkout" variant="contained" color="primary" startIcon={<CartIcon />} fullWidth>
+                    Continuar para Pagamento
+                  </Button>
+                )}
                 <Button component={Link} href="/" target="_self" className="btn-link-action" startIcon={<ArrowBackIcon />} fullWidth sx={{ mt: 2 }}>
                   Continuar comprando
                 </Button>

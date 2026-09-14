@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Diversos } from "@/app/lib/diversos";
-import { Box, Button, IconButton, DialogTitle, DialogContent, Badge, Container, LinearProgress, Typography, Grid } from "@mui/material";
+import { Diversos, PEDIDO_MINIMO } from "@/app/lib/diversos";
+import { Alert, Box, Button, IconButton, DialogTitle, DialogContent, Badge, Container, LinearProgress, Typography, Grid } from "@mui/material";
 import { green } from "@mui/material/colors";
 import { Close as CloseIcon } from "@mui/icons-material";
 import { useApp } from "@/app/context/AppContext";
@@ -122,6 +122,11 @@ export default function CartClient(props) {
   };
 
   const handleCheckout = () => {
+    // Pedido mínimo da loja: barra aqui para o cliente não descobrir só no fim.
+    if (getCartTotal() < PEDIDO_MINIMO) {
+      return;
+    }
+
     dispatchApp({ type: "SET_CART_OPEN", payload: false });
 
     if (window && window.fbq) {
@@ -227,10 +232,26 @@ export default function CartClient(props) {
                     </Grid>
 
                     <Grid item xs={12} md={6}>
-                      <Button variant="contained" color="primary" fullWidth size="large" className="cart-btn-checkout" onClick={handleCheckout}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        size="large"
+                        className="cart-btn-checkout"
+                        onClick={handleCheckout}
+                        disabled={getCartTotal() < PEDIDO_MINIMO}
+                      >
                         FINALIZAR COMPRA
                       </Button>
                     </Grid>
+
+                    {getCartTotal() < PEDIDO_MINIMO && (
+                      <Grid item xs={12}>
+                        <Alert severity="info">
+                          Pedido mínimo de {Diversos.maskPreco(PEDIDO_MINIMO)}. Faltam {Diversos.maskPreco(PEDIDO_MINIMO - getCartTotal())} para fechar o pedido.
+                        </Alert>
+                      </Grid>
+                    )}
                   </Grid>
                 )}
               </Grid>

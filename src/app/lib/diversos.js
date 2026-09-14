@@ -1,6 +1,12 @@
 import moment from "moment";
+
 import crypto from "crypto";
 import Api from "./api";
+
+// Loja B2B: valor mínimo de pedido (produtos, sem frete). O backend valida o
+// mesmo limite em /order — aqui é só para avisar antes.
+export const PEDIDO_MINIMO = 300.0;
+
 
 export const Diversos = {
   getUFs: () => {

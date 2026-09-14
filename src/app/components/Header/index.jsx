@@ -205,12 +205,9 @@ export default function Header({ children, menus = [], marcas = [] }) {
               mb: 0,
             }}
           >
-            <Typography variant="title" sx={{ flex: 7, fontSize: "0.9rem", fontFamily: "Jost", fontWeight: "700", color: "#000000", textAlign: "right" }}>
-              Não tem conta?
+            <Typography variant="title" sx={{ flex: 12, fontSize: "0.85rem", fontFamily: "Jost", fontWeight: "500", color: "#000000", textAlign: "center" }}>
+              Não tem acesso? Fale com o seu vendedor.
             </Typography>
-            <Button variant="text" size="medium" color="primary" fullWidth sx={{ flex: 5 }} onClick={() => router.push("/cadastro")}>
-              Cadastrar.
-            </Button>
           </Box>
         </>
       )}
@@ -649,14 +646,6 @@ export default function Header({ children, menus = [], marcas = [] }) {
             <>
               <Button variant="outlined" color="secondary" onClick={() => router.push("/login")} fullWidth>
                 Entrar
-              </Button>
-              <Divider sx={{ my: 1 }}>
-                <Typography variant="body2" color="white">
-                  ou
-                </Typography>
-              </Divider>
-              <Button variant="outlined" color="secondary" onClick={() => router.push("/login")} fullWidth>
-                Criar conta
               </Button>
             </>
           )}

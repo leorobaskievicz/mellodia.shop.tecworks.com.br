@@ -26,6 +26,7 @@ function LoginContent(props) {
 
   const [state, setState] = useState({
     returnToCheckout: false,
+    returnTo: "/checkout/pagamento",
     redirect: null,
     isLoading: false,
     email: "",
@@ -124,10 +125,8 @@ function LoginContent(props) {
           loginStep: 2,
         }));
       } catch (e) {
-        setState((state) => ({
-          ...state,
-          redirect: `/cadastro?email=${state.email}`,
-        }));
+        // Loja B2B: conta é criada pelo administrador, não existe cadastro aqui.
+        setMsg("error", "Acesso não encontrado", "Não localizamos esse e-mail. Fale com o seu vendedor para liberar o acesso.");
       } finally {
         setState((state) => ({ ...state, isLoading: false }));
       }
@@ -179,7 +178,7 @@ function LoginContent(props) {
         const encrypted = encrypt(data.msg);
         document.cookie = `mellodia_user=${encodeURIComponent(encrypted)}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Strict`;
 
-        setState((state) => ({ ...state, redirect: state.returnToCheckout ? "/checkout/pagamento" : "/" }));
+        setState((state) => ({ ...state, redirect: state.returnToCheckout ? state.returnTo : "/" }));
 
       } catch (err) {
         setMsg("error", "Login inválido", "Tente novamente ou recupere sua senha");
@@ -213,9 +212,16 @@ function LoginContent(props) {
       setState((state) => ({ ...state, redirect: "/" }));
     }
 
-    const { checkout } = queryString.parse(window.location.search);
+    const { checkout, redirect: redirectParam } = queryString.parse(window.location.search);
+
     if (checkout) {
-      setState((state) => ({ ...state, returnToCheckout: true }));
+      setState((state) => ({ ...state, returnToCheckout: true, returnTo: "/checkout/pagamento" }));
+    }
+
+    // `redirect` vem do layout de (privado) quando alguém tenta abrir o checkout
+    // sem sessão — depois do login volta exatamente para onde estava.
+    if (redirectParam && String(redirectParam).startsWith("/")) {
+      setState((state) => ({ ...state, returnToCheckout: true, returnTo: String(redirectParam) }));
     }
   }, []);
 
@@ -283,7 +289,7 @@ function LoginContent(props) {
               >
                 {state.loginStep === 1 ? (
                   <Typography variant="h5" component="h1" align="center">
-                    Olá! Digite seu e-mail para fazer Login ou se Cadastrar
+                    Olá! Digite o e-mail da sua conta para entrar
                   </Typography>
                 ) : (
                   <>

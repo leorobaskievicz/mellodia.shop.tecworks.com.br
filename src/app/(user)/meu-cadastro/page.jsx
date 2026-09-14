@@ -197,11 +197,6 @@ function MeuCadastro() {
               <Box sx={{ mb: 4 }}>
                 <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
                   <Typography variant="h5">Dados da conta</Typography>
-                  <Link href="/perfil/editar/email" passHref>
-                    <IconButton title="Clique para editar">
-                      <EditIcon />
-                    </IconButton>
-                  </Link>
                 </Box>
 
                 <Paper elevation={0} sx={{ p: 3 }}>
@@ -235,11 +230,6 @@ function MeuCadastro() {
               <Box sx={{ mb: 4 }}>
                 <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
                   <Typography variant="h5">Dados pessoais</Typography>
-                  <Link href="/perfil/editar/info" passHref>
-                    <IconButton title="Clique para editar">
-                      <EditIcon />
-                    </IconButton>
-                  </Link>
                 </Box>
 
                 <Paper elevation={0} sx={{ p: 3 }}>
@@ -326,11 +316,6 @@ function MeuCadastro() {
               <Box sx={{ mb: 4 }}>
                 <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
                   <Typography variant="h5">Endereço de Entrega</Typography>
-                  <Link href="/perfil/editar/endereco" passHref>
-                    <IconButton title="Clique para editar">
-                      <EditIcon />
-                    </IconButton>
-                  </Link>
                 </Box>
 
                 {state.pagamento ? (

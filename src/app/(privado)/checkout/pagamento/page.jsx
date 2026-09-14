@@ -322,8 +322,7 @@ function CheckoutPagamentoContent(props) {
 
         console.log("[Frete] Parâmetros enviados:", JSON.stringify(param, null, 2));
 
-        // const data = await api.post(`/shipping/modes/mellodia`, param, true);
-        const data = await api.post(`/shipping/modes/diva`, param, true);
+        const data = await api.post(`/shipping/modes/mellodia`, param, true);
 
         console.log("[Frete] Retorno da API:", JSON.stringify(data, null, 2));
 

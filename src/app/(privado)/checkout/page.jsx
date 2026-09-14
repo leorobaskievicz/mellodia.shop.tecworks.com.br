@@ -399,7 +399,7 @@ export default function Checkout(props) {
         produtos,
       };
 
-      const data = await api.post(`/shipping/modes/diva`, param, true);
+      const data = await api.post(`/shipping/modes/mellodia`, param, true);
       console.log(data);
       if (data.status === false) {
         throw new Error("Não foi possível buscar opções de entrega.");

@@ -7,6 +7,6 @@ export async function getNavbarData() {
     return { menus, marcas };
   } catch (error) {
     console.error("Erro ao carregar dados do Navbar:", error);
-    return { menus: { menu: [] }, marcas: [] };
+    return { menus: [], marcas: [] };
   }
 }

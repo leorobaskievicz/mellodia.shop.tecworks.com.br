@@ -1,4 +1,5 @@
 import Api from "@/app/lib/api";
+import { Diversos } from "@/app/lib/diversos";
 
 // Função para buscar banners
 async function getBanners(tipo = 1, limit = 1) {
@@ -123,6 +124,39 @@ async function getProdutoByDepartamento(menu1, menu2 = null, menu3 = null, page 
   try {
     if (!menu1) {
       throw new Error("Menu1 não fornecido");
+    }
+
+    // Lojas sem menu cadastrado navegam por categoria (grupo do ERP): o slug da
+    // URL vira o código do grupo e a listagem sai pelo endpoint de subgrupo.
+    const categoria = await getCategoriaPorSlug(menu1);
+
+    if (categoria && categoria.origem === "grupo") {
+      const paramGrupo = {
+        grupo: categoria.codigo,
+        per_page: perPage,
+        sort: orderBy && orderBy !== "relevancia" ? orderBy : undefined,
+        marcas: filtros?.marcas?.length > 0 ? filtros.marcas : undefined,
+        preco: filtros?.preco?.length > 0 ? filtros.preco[0] : undefined,
+      };
+
+      const resultGrupo = await myapi.post(`/product/subgrupo/${page}`, paramGrupo);
+
+      if (!resultGrupo || !resultGrupo.status || !resultGrupo.msg || !resultGrupo.msg.data) {
+        throw new Error("Nenhum produto localizado na categoria");
+      }
+
+      return {
+        ...resultGrupo.msg,
+        page: page,
+        perPage: perPage,
+        total: resultGrupo.msg.total,
+        marcas: {},
+        departamentos: {},
+        preco: {},
+        grupo: {},
+        lastPage: resultGrupo.msg.lastPage,
+        categoria: { codigo: categoria.codigo, nome: categoria.nome },
+      };
     }
 
     const paramApi = {
@@ -448,9 +482,53 @@ async function getDepoimentos(produto) {
 
 let menusCache = null;
 let marcasCache = null;
+let categoriasCache = null;
 let lastMenusFetchTime = 0;
 let lastMarcasFetchTime = 0;
+let lastCategoriasFetchTime = 0;
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutos
+
+// Categorias da navegação. O backend devolve os menus do site quando a loja os
+// tem cadastrados (`origem: "menu"`) e cai para os grupos do ERP quando não
+// (`origem: "grupo"`) — é o caso da Mellodia, onde webmenu1 está vazio.
+async function getCategorias() {
+  const now = Date.now();
+
+  if (categoriasCache && now - lastCategoriasFetchTime < CACHE_DURATION) {
+    return categoriasCache;
+  }
+
+  const myapi = new Api();
+
+  try {
+    const data = await myapi.get(`/product/categorias`);
+
+    if (!data || !data.status || !data.msg || !data.msg.categorias || data.msg.categorias.length <= 0) {
+      return { origem: null, categorias: [] };
+    }
+
+    categoriasCache = data.msg;
+    lastCategoriasFetchTime = now;
+    return categoriasCache;
+  } catch (e) {
+    console.log("Erro ao carregar categorias:", e.message);
+    return { origem: null, categorias: [] };
+  }
+}
+
+// Acha a categoria pelo slug da URL (/departamento/<slug>)
+async function getCategoriaPorSlug(slug) {
+  if (!slug) return null;
+
+  const { origem, categorias } = await getCategorias();
+
+  if (!categorias || categorias.length <= 0) return null;
+
+  const alvo = String(slug).toLowerCase();
+  const achou = categorias.find((c) => Diversos.toSeoUrl(c.nome) === alvo);
+
+  return achou ? { ...achou, origem } : null;
+}
 
 async function getMenus() {
   const now = Date.now();
@@ -464,16 +542,36 @@ async function getMenus() {
   try {
     const responseMenu = await myapi.get(`/menu/resumo`);
 
-    if (!responseMenu || !responseMenu.status || responseMenu.msg.length <= 0) {
-      return { menu: [], menuOptions: [] };
+    if (responseMenu && responseMenu.status && responseMenu.msg && responseMenu.msg.length > 0) {
+      menusCache = responseMenu.msg;
+      lastMenusFetchTime = now;
+      return menusCache;
     }
 
-    menusCache = responseMenu.msg;
+    // Sem menu cadastrado: a navegação passa a ser por categoria (grupo do ERP),
+    // no mesmo formato que a navbar e o menu mobile já consomem.
+    const { categorias } = await getCategorias();
+
+    if (!categorias || categorias.length <= 0) {
+      return [];
+    }
+
+    menusCache = categorias.map((categoria) => ({
+      CDMENU: categoria.codigo,
+      DESCRICAO: categoria.nome,
+      total: categoria.total,
+      menu2: (categoria.filhos || []).map((filho) => ({
+        CDMENU: filho.codigo,
+        DESCRICAO: filho.nome,
+        menu3: [],
+      })),
+    }));
+
     lastMenusFetchTime = now;
     return menusCache;
   } catch (e) {
     console.log("Erro ao carregar menus:", e.message);
-    return { menu: [], menuOptions: [] };
+    return [];
   }
 }
 

@@ -25,6 +25,11 @@ export const styleContainerButton = {
   fontWeight: "500",
   fontFamily: "Jost",
   textTransform: "none",
+  // Nome de categoria longo ("Escovas e Pentes para Cabelos") quebrava em quatro
+  // linhas e esticava a barra inteira — cada item ocupa uma linha só e o
+  // excesso sai na rolagem horizontal.
+  whiteSpace: "nowrap",
+  flexShrink: 0,
   px: 2,
   py: 1,
   "&:hover": {

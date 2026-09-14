@@ -68,6 +68,7 @@ export default async function Departamento(props) {
     departamentos,
     grupo,
     preco,
+    categoria,
   } = await getProdutoByDepartamento(
     slug,
     null,
@@ -119,6 +120,10 @@ export default async function Departamento(props) {
     return <h1>Departamento nao localizado</h1>;
   }
 
+  // Slug vira "Adesivos-De-Unhas"; quando a API devolve o nome da categoria
+  // (navegação por grupo) usamos o nome de verdade.
+  const tituloCategoria = categoria?.nome ? Diversos.capitalizeAllWords(String(categoria.nome).toLowerCase()) : Diversos.capitalizeAllWords(slug);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -160,7 +165,7 @@ export default async function Departamento(props) {
           <ResponsiveBreadcrumb
             paths={[
               { label: "Início", href: "/" },
-              { label: Diversos.capitalizeAllWords(slug), href: `/departamento/${slug}` },
+              { label: tituloCategoria, href: `/departamento/${slug}` },
             ]}
           />
         </Grid>
@@ -174,7 +179,7 @@ export default async function Departamento(props) {
               color="black"
               sx={{ fontSize: "1.7rem", fontWeight: "600", pl: 2, pt: 1, textAlign: { xs: "center", sm: "center", md: "left", lg: "left", xl: "left" } }}
             >
-              {Diversos.capitalizeAllWords(slug)}
+              {tituloCategoria}
             </Typography>
           </Grid>
 
@@ -211,7 +216,7 @@ export default async function Departamento(props) {
           <Grid container xs={12} sm={12} md={12} lg={12} xl={12} sx={styleContainerBody}>
             <HorizontalScroll sx={{ width: "100%" }}>
               <LazyComponent>
-                <LazyVitrine produtos={produtos} title={Diversos.capitalizeAllWords(slug)} page={"departamento"} />
+                <LazyVitrine produtos={produtos} title={tituloCategoria} page={"departamento"} />
               </LazyComponent>
             </HorizontalScroll>
           </Grid>

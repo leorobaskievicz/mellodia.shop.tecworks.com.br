@@ -28,7 +28,7 @@ LazyComponent.displayName = "LazyComponent";
 
 // Hook otimizado para dados do Navbar
 function useNavbarData() {
-  const [data, setData] = useState({ menus: { menu: [] }, marcas: [] });
+  const [data, setData] = useState({ menus: [], marcas: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -48,7 +48,7 @@ function useNavbarData() {
         console.error("Erro ao carregar dados do Navbar:", error);
         if (mounted) {
           setError(error);
-          setData({ menus: { menu: [] }, marcas: [] });
+          setData({ menus: [], marcas: [] });
           setLoading(false);
         }
       }
@@ -131,7 +131,7 @@ export default function LayoutWrapper({ children }) {
   }
 
   // Renderização condicional otimizada
-  const shouldRenderNavbar = !loading && data?.menus;
+  const shouldRenderNavbar = !loading && data?.menus?.length > 0;
 
   return (
     <Container
@@ -156,7 +156,7 @@ export default function LayoutWrapper({ children }) {
       <Header menus={data?.menus || []} marcas={data?.marcas || []} />
       {shouldRenderNavbar && (
         <LazyComponent>
-          <LazyNavbar menus={data.menus} marcas={data.marcas} />
+          <LazyNavbar menus={data.menus} marcas={data.marcas || []} />
         </LazyComponent>
       )}
       {children}

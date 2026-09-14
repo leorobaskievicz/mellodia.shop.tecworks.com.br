@@ -105,6 +105,83 @@ export default function NavbarClient({ menus = { menu: [] }, marcas = [] }) {
             </Button>
           </Box>
 
+          {marcas.length > 0 ? (
+            <Box
+              key="menu-marcas"
+              sx={{
+                position: "relative",
+                display: "inline-block",
+                py: 0,
+              }}
+              onMouseLeave={() => {
+                closeTimer.current = setTimeout(() => {
+                  setOpenDropDown(false);
+                  setButtonRect(null);
+                }, 150);
+              }}
+            >
+              <Button type="text" color="dark" size="small" sx={{ ...styleContainerButton, height: "100%", my: 0 }} onMouseEnter={(e) => handleMouseEnter(e, "marcas")}>
+                Marcas
+              </Button>
+
+              {openDropDown === "marcas" && buttonRect && (
+                <Box
+                  sx={{
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    zIndex: 999,
+                    pointerEvents: "none",
+                  }}
+                >
+                  <Paper
+                    elevation={4}
+                    sx={{
+                      p: 0,
+                      width: 250,
+                      maxHeight: "calc(100vh - 200px)",
+                      zIndex: 1000,
+                      position: "absolute",
+                      top: buttonRect.bottom + window.scrollY,
+                      left: buttonRect.left + buttonRect.width / 2,
+                      transform: "translateX(-50%)",
+                      marginTop: "0px",
+                      overflowY: "auto",
+                      pointerEvents: "auto",
+                      "&:before": {
+                        content: '""',
+                        position: "absolute",
+                        top: -8,
+                        left: "50%",
+                        transform: "translateX(-50%) rotate(45deg)",
+                        width: 16,
+                        height: 16,
+                        bgcolor: "background.paper",
+                        zIndex: 0,
+                      },
+                      overflowX: "auto",
+                      scrollbarWidth: "none", // Firefox
+                      msOverflowStyle: "none", // IE and Edge
+                      "&::-webkit-scrollbar": {
+                        display: "none", // Chrome, Safari, Opera
+                      },
+                    }}
+                  >
+                    <Box sx={{ position: "relative", zIndex: 1, bgcolor: "background.paper" }}>
+                      {marcas.map((item, idx) => (
+                        <MenuItem key={`${idx}-${item.marca}`} onClick={() => handleMenuItemClick(`/marca/${Diversos.toSeoUrl(item.marca)}`)} sx={styleDropdownButton}>
+                          {Diversos.capitalizeAllWords(String(item.marca).toLowerCase())}
+                        </MenuItem>
+                      ))}
+                    </Box>
+                  </Paper>
+                </Box>
+              )}
+            </Box>
+          ) : null}
+
           {menus.map((menu) => (
             <Box
               key={Diversos.toSeoUrl(menu.DESCRICAO)}
@@ -197,82 +274,6 @@ export default function NavbarClient({ menus = { menu: [] }, marcas = [] }) {
             </Box>
           ))}
 
-          {marcas.length > 0 ? (
-            <Box
-              key="menu-marcas"
-              sx={{
-                position: "relative",
-                display: "inline-block",
-                py: 0,
-              }}
-              onMouseLeave={() => {
-                closeTimer.current = setTimeout(() => {
-                  setOpenDropDown(false);
-                  setButtonRect(null);
-                }, 150);
-              }}
-            >
-              <Button type="text" color="dark" size="small" sx={{ ...styleContainerButton, height: "100%", my: 0 }} onMouseEnter={(e) => handleMouseEnter(e, "marcas")}>
-                Marcas
-              </Button>
-
-              {openDropDown === "marcas" && buttonRect && (
-                <Box
-                  sx={{
-                    position: "fixed",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    zIndex: 999,
-                    pointerEvents: "none",
-                  }}
-                >
-                  <Paper
-                    elevation={4}
-                    sx={{
-                      p: 0,
-                      width: 250,
-                      maxHeight: "calc(100vh - 200px)",
-                      zIndex: 1000,
-                      position: "absolute",
-                      top: buttonRect.bottom + window.scrollY,
-                      left: buttonRect.left + buttonRect.width / 2,
-                      transform: "translateX(-50%)",
-                      marginTop: "0px",
-                      overflowY: "auto",
-                      pointerEvents: "auto",
-                      "&:before": {
-                        content: '""',
-                        position: "absolute",
-                        top: -8,
-                        left: "50%",
-                        transform: "translateX(-50%) rotate(45deg)",
-                        width: 16,
-                        height: 16,
-                        bgcolor: "background.paper",
-                        zIndex: 0,
-                      },
-                      overflowX: "auto",
-                      scrollbarWidth: "none", // Firefox
-                      msOverflowStyle: "none", // IE and Edge
-                      "&::-webkit-scrollbar": {
-                        display: "none", // Chrome, Safari, Opera
-                      },
-                    }}
-                  >
-                    <Box sx={{ position: "relative", zIndex: 1, bgcolor: "background.paper" }}>
-                      {marcas.map((item, idx) => (
-                        <MenuItem key={`${idx}-${item.marca}`} onClick={() => handleMenuItemClick(`/marca/${Diversos.toSeoUrl(item.marca)}`)} sx={styleDropdownButton}>
-                          {Diversos.capitalizeAllWords(String(item.marca).toLowerCase())}
-                        </MenuItem>
-                      ))}
-                    </Box>
-                  </Paper>
-                </Box>
-              )}
-            </Box>
-          ) : null}
         </HorizontalScroll>
       </Grid>
     </Grid>

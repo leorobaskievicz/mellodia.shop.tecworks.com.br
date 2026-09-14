@@ -111,7 +111,7 @@ export default function Footer({ children }) {
       <Grid container xs={12} sm={12} md={9} lg={8} xl={8} sx={{ ...styleContainerContent }}>
         <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ ...styleContainerContentItem, alignItems: { xs: "center", md: "flex-start" }, mt: { xs: 2, md: 0 } }}>
           <Typography sx={styleContainerContentItemTitle}>Pagamento</Typography>
-          <Image src="/bandeiras-aceitas-horizontal.png" priority alt="Formas de pagamento aceitas" width={375} height={55} style={{ width: "100%", height: "auto" }} />
+          <Typography variant="body2" color="text.secondary">Boleto bancário ou Pix</Typography>
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={5} xl={5} sx={{ ...styleContainerContentItem, alignItems: { xs: "center", md: "flex-start" }, mt: { xs: 2, md: 0 } }}>
           <Typography sx={styleContainerContentItemTitle}>Segurança</Typography>

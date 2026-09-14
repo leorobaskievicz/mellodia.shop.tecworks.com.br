@@ -1319,18 +1319,9 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                     paddingTop: 15,
                   }}
                 >
-                  <Image
-                    src="/bandeiras-aceitas-horizontal.png"
-                    alt="Aceitamos as bandeiras: Visa, Master, Elo, Hiper e Pix"
-                    loading="lazy"
-                    width={400}
-                    height={55}
-                    style={{
-                      width: 400,
-                      maxWidth: "100%",
-                      height: "auto",
-                    }}
-                  />
+                  <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center" }}>
+                    Pagamento por boleto bancário ou Pix
+                  </Typography>
                 </div>
 
                 {/* {renderCardFrete(
@@ -1460,18 +1451,9 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
                   paddingTop: 15,
                 }}
               >
-                <Image
-                  src="/bandeiras-aceitas-horizontal.png"
-                  alt="Aceitamos as bandeiras: Visa, Master, Elo, Hiper e Pix"
-                  loading="lazy"
-                  width={400}
-                  height={55}
-                  style={{
-                    width: 400,
-                    maxWidth: "100%",
-                    height: "auto",
-                  }}
-                />
+                <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center" }}>
+                    Pagamento por boleto bancário ou Pix
+                  </Typography>
               </div>
             </Box>
 

@@ -10,7 +10,6 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import { useApp } from "@/app/context/AppContext";
 import { Diversos } from "@/app/lib/diversos";
 import moment from "moment";
-import insights from "@/app/lib/algoliaInsights";
 
 export default function CheckoutFim() {
   const router = useRouter();
@@ -27,17 +26,6 @@ export default function CheckoutFim() {
   });
 
   useEffect(() => {
-    if (sessionStorage.getItem("algoliaReturn")) {
-      const algoliaReturn = JSON.parse(sessionStorage.getItem("algoliaReturn"));
-      sessionStorage.removeItem("algoliaReturn");
-      insights("convertedObjectIDsAfterSearch", {
-        eventName: "Finalizou compra",
-        index: algoliaReturn.index,
-        objectIDs: appState.carrinho.map((produto) => produto.CODIGO),
-        positions: appState.carrinho.map((produto, index) => produto.indexAlgolia || index),
-        queryID: algoliaReturn.queryID,
-      });
-    }
 
     dispatch({ type: "UNSET_ULTIMO_PEDIDO" });
     dispatch({ type: "LIMPAR_CARRINHO" });

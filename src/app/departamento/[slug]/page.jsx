@@ -68,7 +68,6 @@ export default async function Departamento(props) {
     departamentos,
     grupo,
     preco,
-    algoliaReturn,
   } = await getProdutoByDepartamento(
     slug,
     null,
@@ -212,7 +211,7 @@ export default async function Departamento(props) {
           <Grid container xs={12} sm={12} md={12} lg={12} xl={12} sx={styleContainerBody}>
             <HorizontalScroll sx={{ width: "100%" }}>
               <LazyComponent>
-                <LazyVitrine produtos={produtos} title={Diversos.capitalizeAllWords(slug)} algoliaReturn={algoliaReturn} page={"departamento"} />
+                <LazyVitrine produtos={produtos} title={Diversos.capitalizeAllWords(slug)} page={"departamento"} />
               </LazyComponent>
             </HorizontalScroll>
           </Grid>

@@ -62,7 +62,6 @@ export default async function Outlet(props) {
     departamentos,
     grupo,
     preco,
-    algoliaReturn,
   } = await getProdutoBySubgrupo(999, page, perPage, sort, {
     marcas: typeof marcasParam === "string" ? [marcasParam] : marcasParam,
     departamentos: typeof departamentosParam === "string" ? [departamentosParam] : departamentosParam,
@@ -165,7 +164,7 @@ export default async function Outlet(props) {
 
           <Grid container xs={12} sm={12} md={12} lg={12} xl={12} sx={styleContainerBody}>
             <LazyComponent>
-              <LazyVitrine produtos={produtos} title="Outlet mellodia" algoliaReturn={algoliaReturn} page={"outlet"} />
+              <LazyVitrine produtos={produtos} title="Outlet mellodia" page={"outlet"} />
             </LazyComponent>
           </Grid>
 

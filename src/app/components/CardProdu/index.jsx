@@ -31,7 +31,6 @@ import StarRating from "@/app/components/StarRating";
 import { Diversos } from "@/app/lib/diversos";
 import { useApp } from "@/app/context/AppContext";
 import moment from "moment";
-import insights from "@/app/lib/algoliaInsights";
 
 const OptimizedImage = memo(({ src, alt, width, height, className, priority = false, sx = {} }) => (
   <Image
@@ -51,7 +50,7 @@ const OptimizedImage = memo(({ src, alt, width, height, className, priority = fa
 
 OptimizedImage.displayName = "OptimizedImage";
 
-export default function CardProdu({ children, produ, idx, sx, algoliaReturn, indexPage }) {
+export default function CardProdu({ children, produ, idx, sx }) {
   const router = useRouter();
   const { state, dispatch } = useApp();
 
@@ -129,7 +128,7 @@ export default function CardProdu({ children, produ, idx, sx, algoliaReturn, ind
       console.error("Erro ao registrar conversão no Algolia:", err);
     }
 
-    dispatch({ type: "ADICIONAR_AO_CARRINHO", payload: { ...produ, PREPRO: prepro, qtd: 1, FOTOS: produ.FOTOS, indexAlgolia: indexPage } });
+    dispatch({ type: "ADICIONAR_AO_CARRINHO", payload: { ...produ, PREPRO: prepro, qtd: 1, FOTOS: produ.FOTOS } });
     dispatch({ type: "SET_CART_OPEN", payload: true });
     Diversos.sendCartData(state.usuario?.codigo, [...state.carrinho, { ...produ, PRODUTO: produ.CODIGO, CODIGO: produ.CODIGO, qtd: 1, qty: 1 }]);
   };

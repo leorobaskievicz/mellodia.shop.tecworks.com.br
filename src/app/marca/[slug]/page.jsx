@@ -64,7 +64,6 @@ export default async function Marca(props) {
     departamentos,
     grupo,
     preco,
-    algoliaReturn,
   } = await getProdutoByMarca(
     slug,
     page,
@@ -174,7 +173,7 @@ export default async function Marca(props) {
 
           <Grid container xs={12} sm={12} md={12} lg={12} xl={12} sx={styleContainerBody}>
             <LazyComponent>
-              <LazyVitrine produtos={produtos} title={Diversos.capitalizeAllWords(slug)} algoliaReturn={algoliaReturn} page={"marca"} />
+              <LazyVitrine produtos={produtos} title={Diversos.capitalizeAllWords(slug)} page={"marca"} />
             </LazyComponent>
           </Grid>
 

@@ -8,7 +8,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { Box, Button, TextField, Typography, Alert, CircularProgress, Container, Paper } from "@mui/material";
 import { useApp } from "@/app/context/AppContext";
-import { supabase } from "@/app/lib/supabaseClient";
 
 export default function ResetSenha() {
   const searchParams = useSearchParams();
@@ -45,45 +44,16 @@ export default function ResetSenha() {
       hasSuccess: false,
     }));
 
-    const param = { login: state.email };
+    const param = { email: state.email };
 
     try {
-      // // Tentativa forçada de login para descobrir se email existe
-      // const { error } = await supabase.auth.signInWithPassword({
-      //   email: state.email,
-      //   password: "senha_fake_qualquer",
-      // });
+      const data = await api.post("/customer/reset-senha", param, true);
 
-      const data = await api.post(`/customer/check-email`, param, true);
-
-      if (!data.status) {
-        setMsg("success", "Sucesso", "Enviamos link de recuperação para seu e-mail. Você poderá utilizá-lo para fazer Login!");
-      } else if (data.status && !data.supabase_uid) {
-        // Email ainda não existe — cadastrar com senha fake
-        const { data: signupData, error: signupError } = await supabase.auth.signUp({
-          email: state.email,
-          password: "SenhaTemp123!",
-        });
-
-        if (signupError) throw new Error(signupError.message);
-        const googleid = signupData.user?.id || null;
-
-        await api.put(`/customer/${data.codigo}`, { googleid: googleid }, true);
+      if (!data || !data.status) {
+        throw new Error(data.msg);
       }
 
-      await supabase.auth.resetPasswordForEmail(state.email, {
-        redirectTo: "https://www.mellodia.com.br/atualiza-senha",
-      });
-
-      setMsg("success", "Sucesso", "Enviamos link de recuperação para seu e-mail. Você poderá utilizá-lo para fazer Login");
-
-      // const data = await api.post("/customer/reset-senha", param, true);
-
-      // if (!data || !data.status) {
-      //   throw new Error(data.msg);
-      // } else {
-      //   setMsg("success", "Sucesso", "Enviamos uma senha provisória para seu e-mail. Você poderá utilizá-la para fazer Login");
-      // }
+      setMsg("success", "Sucesso", "Enviamos uma senha provisória para seu e-mail. Você poderá utilizá-la para fazer Login");
     } catch (e) {
       console.error(e);
       setMsg("error", "Atenção", `Não foi possível recuperar senha. ${e.message}`);

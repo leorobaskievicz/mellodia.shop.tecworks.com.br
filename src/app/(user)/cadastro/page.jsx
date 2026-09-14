@@ -8,14 +8,14 @@ import { Visibility, VisibilityOff, ArrowBack } from "@mui/icons-material";
 import { useApp } from "@/app/context/AppContext";
 import { Diversos } from "@/app/lib/diversos";
 import Api from "@/app/lib/api";
-import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
+// import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 function CadastroContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { state: stateApp, dispatch } = useApp();
   const api = new Api();
-  const { executeRecaptcha } = useGoogleReCaptcha();
+  // const { executeRecaptcha } = useGoogleReCaptcha();
   const [state, setState] = useState({
     newUser: false,
     redirect: "",
@@ -168,23 +168,23 @@ function CadastroContent() {
 
     scrollToRef();
 
-    if (!executeRecaptcha) {
-      setMsg("error", "Atenção", "Sistema de segurança não está pronto. Tente novamente.", 2);
-      return;
-    }
+    // if (!executeRecaptcha) {
+    //   setMsg("error", "Atenção", "Sistema de segurança não está pronto. Tente novamente.", 2);
+    //   return;
+    // }
 
-    let recaptchaToken;
-    try {
-      recaptchaToken = await executeRecaptcha("signup");
-      if (!recaptchaToken) {
-        setMsg("error", "Atenção", "Falha na validação de segurança. Tente novamente.", 2);
-        return;
-      }
-    } catch (error) {
-      console.error("Erro no reCAPTCHA:", error);
-      setMsg("error", "Atenção", "Erro na validação de segurança. Tente novamente.", 2);
-      return;
-    }
+    // let recaptchaToken;
+    // try {
+    //   recaptchaToken = await executeRecaptcha("signup");
+    //   if (!recaptchaToken) {
+    //     setMsg("error", "Atenção", "Falha na validação de segurança. Tente novamente.", 2);
+    //     return;
+    //   }
+    // } catch (error) {
+    //   console.error("Erro no reCAPTCHA:", error);
+    //   setMsg("error", "Atenção", "Erro na validação de segurança. Tente novamente.", 2);
+    //   return;
+    // }
 
     if (state.currentStep === 1) {
       if ((!state.novoEmail && !state.newUser) || !state.novoSenha) {
@@ -237,7 +237,7 @@ function CadastroContent() {
       codmun: state.novoCodmun,
       googleid: state.novoGoogleId,
       appleid: state.novoAppleId,
-      recaptchaToken,
+      // recaptchaToken,
     };
 
     try {
@@ -674,18 +674,20 @@ function CadastroContent() {
 }
 
 export default function Cadastro() {
-  const reCaptchaKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
+  // const reCaptchaKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
 
-  return (
-    <GoogleReCaptchaProvider
-      reCaptchaKey={reCaptchaKey}
-      scriptProps={{
-        async: true,
-        defer: true,
-        appendTo: "head",
-      }}
-    >
-      <CadastroContent />
-    </GoogleReCaptchaProvider>
-  );
+  return <CadastroContent />;
+
+  // return (
+  //   <GoogleReCaptchaProvider
+  //     reCaptchaKey={reCaptchaKey}
+  //     scriptProps={{
+  //       async: true,
+  //       defer: true,
+  //       appendTo: "head",
+  //     }}
+  //   >
+  //     <CadastroContent />
+  //   </GoogleReCaptchaProvider>
+  // );
 }

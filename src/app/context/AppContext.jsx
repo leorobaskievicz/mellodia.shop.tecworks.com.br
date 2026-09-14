@@ -58,7 +58,7 @@ const initialState = {
   cartOpened: false,
   freteSelected: "",
   filtros: {
-    ordenacao: "relevance",
+    ordenacao: "relevancia",
     pagina: 1,
     // outros filtros...
   },

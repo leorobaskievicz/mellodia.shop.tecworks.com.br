@@ -45,7 +45,6 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { LinkOutlined } from "@mui/icons-material";
 import { PhoneIphone } from "@mui/icons-material";
-import insights from "@/app/lib/algoliaInsights";
 import moment from "moment";
 import FreteGratisBar from "@/app/components/FreteGratisBar";
 
@@ -323,7 +322,8 @@ function CheckoutPagamentoContent(props) {
 
         console.log("[Frete] Parâmetros enviados:", JSON.stringify(param, null, 2));
 
-        const data = await api.post(`/shipping/modes/mellodia`, param, true);
+        // const data = await api.post(`/shipping/modes/mellodia`, param, true);
+        const data = await api.post(`/shipping/modes/diva`, param, true);
 
         console.log("[Frete] Retorno da API:", JSON.stringify(data, null, 2));
 
@@ -749,23 +749,23 @@ function CheckoutPagamentoContent(props) {
   const handleForm = async (event) => {
     event.preventDefault();
 
-    // Validação reCAPTCHA invisível
-    if (!executeRecaptcha) {
-      setMsg("error", "Atenção", "Sistema de segurança não está pronto. Tente novamente.");
-      return 0;
-    }
-
-    let recaptchaToken;
-    try {
-      recaptchaToken = await executeRecaptcha("checkout_payment");
-      if (!recaptchaToken) {
-        setMsg("error", "Atenção", "Falha na validação de segurança. Tente novamente.");
+    let recaptchaToken = null;
+    if (process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY !== "desenvolvimento") {
+      if (!executeRecaptcha) {
+        setMsg("error", "Atenção", "Sistema de segurança não está pronto. Tente novamente.");
         return 0;
       }
-    } catch (error) {
-      console.error("Erro no reCAPTCHA:", error);
-      setMsg("error", "Atenção", "Erro na validação de segurança. Tente novamente.");
-      return 0;
+      try {
+        recaptchaToken = await executeRecaptcha("checkout_budget");
+        if (!recaptchaToken) {
+          setMsg("error", "Atenção", "Falha na validação de segurança. Tente novamente.");
+          return 0;
+        }
+      } catch (error) {
+        console.error("Erro no reCAPTCHA:", error);
+        setMsg("error", "Atenção", "Erro na validação de segurança. Tente novamente.");
+        return 0;
+      }
     }
 
     if (getCartTotal() <= 0) {
@@ -862,14 +862,13 @@ function CheckoutPagamentoContent(props) {
 
       param.items = tmpProdutos;
 
-      // Gerar o link
       const linkWhatsApp = Diversos.gerarLinkWhatsApp(param, appState, state);
 
-      // Opção 1: Abrir em nova aba
       window.open(linkWhatsApp, "_blank");
 
-      // Opção 2: Redirecionar
-      window.location.href = linkWhatsApp;
+      dispatch({ type: "LIMPAR_CARRINHO" });
+
+      router.push("/");
     } catch (e) {
       console.error(e);
       setMsg("error", "Atenção", e.message);
@@ -881,23 +880,23 @@ function CheckoutPagamentoContent(props) {
   const handleFormPagamento = async (event) => {
     event.preventDefault();
 
-    // Validação reCAPTCHA invisível
-    if (!executeRecaptcha) {
-      setMsg("error", "Atenção", "Sistema de segurança não está pronto. Tente novamente.");
-      return 0;
-    }
-
-    let recaptchaToken;
-    try {
-      recaptchaToken = await executeRecaptcha("checkout_payment");
-      if (!recaptchaToken) {
-        setMsg("error", "Atenção", "Falha na validação de segurança. Tente novamente.");
+    let recaptchaToken = null;
+    if (process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY !== "desenvolvimento") {
+      if (!executeRecaptcha) {
+        setMsg("error", "Atenção", "Sistema de segurança não está pronto. Tente novamente.");
         return 0;
       }
-    } catch (error) {
-      console.error("Erro no reCAPTCHA:", error);
-      setMsg("error", "Atenção", "Erro na validação de segurança. Tente novamente.");
-      return 0;
+      try {
+        recaptchaToken = await executeRecaptcha("checkout_payment");
+        if (!recaptchaToken) {
+          setMsg("error", "Atenção", "Falha na validação de segurança. Tente novamente.");
+          return 0;
+        }
+      } catch (error) {
+        console.error("Erro no reCAPTCHA:", error);
+        setMsg("error", "Atenção", "Erro na validação de segurança. Tente novamente.");
+        return 0;
+      }
     }
 
     if (getCartTotal() <= 0) {
@@ -1432,7 +1431,7 @@ function CheckoutPagamentoContent(props) {
               </Typography>
             </Box>
 
-            <FormControl fullWidth>
+            {/* <FormControl fullWidth>
               <InputLabel>Parcelamento</InputLabel>
               <Select
                 value={state.parcelaSelecionada}
@@ -1446,7 +1445,7 @@ function CheckoutPagamentoContent(props) {
                   </MenuItem>
                 ))}
               </Select>
-            </FormControl>
+            </FormControl> */}
 
             {/* <Paper elevation={0} sx={{ py: 0 }}>
               <Typography variant="body2" color="text.secondary" gutterBottom>
@@ -1465,7 +1464,7 @@ function CheckoutPagamentoContent(props) {
               size="large"
               fullWidth
               // onClick={state.isLargeScreen ? handleForm : () => (window.location.href = "#login-btn-checkout")}
-              onClick={handleForm}
+              onClick={handleFormPagamento}
               disabled={state.formIsLoading}
               sx={{
                 py: 1.5,
@@ -1586,17 +1585,6 @@ function CheckoutPagamentoContent(props) {
         items: itemsList,
       },
     });
-
-    if (sessionStorage.getItem("algoliaReturn")) {
-      const algoliaReturn = JSON.parse(sessionStorage.getItem("algoliaReturn"));
-      insights("convertedObjectIDsAfterSearch", {
-        eventName: "Iniciou checkout",
-        index: algoliaReturn.index,
-        objectIDs: appState.carrinho.map((produto) => produto.CODIGO),
-        positions: appState.carrinho.map((produto, index) => produto.indexAlgolia || index),
-        queryID: algoliaReturn.queryID,
-      });
-    }
   }, [state.formFormaPgtoCodigo]);
 
   useEffect(() => {
@@ -1763,6 +1751,16 @@ function CheckoutPagamentoContent(props) {
             }}
           >
             <Stack spacing={0}>
+              <Button
+                variant="text"
+                size="small"
+                startIcon={<ArrowBackIcon />}
+                onClick={() => router.back()}
+                sx={{ alignSelf: "flex-start", mb: 1, color: "text.secondary" }}
+              >
+                Voltar
+              </Button>
+
               {!appState.usuario || !appState.usuario.codigo ? (
                 <>
                   {/* <Paper elevation={0} sx={{ p: 0 }} id="login-btn-checkout">
@@ -2023,14 +2021,14 @@ function CheckoutPagamentoContent(props) {
                   </Grid> */}
                 </Grid>
               </Paper>
-              {/*
+              
               <Divider sx={{ my: 2 }}>
                 <Typography variant="body2" color="text.secondary">
                   Selecione abaixo a forma de entrega
                 </Typography>
               </Divider>
 
-              {/* Pagamento 
+              {/* Pagamento  */}
               <Paper elevation={0} sx={{ py: 0 }}>
                 <Typography variant="h6" gutterBottom>
                   Forma de Entrega *
@@ -2039,9 +2037,15 @@ function CheckoutPagamentoContent(props) {
                   Selecione a forma de entrega que deseja abaixo.
                 </Typography>
 
-                {state.freteOpcoes.length <= 0 ? (
+                {state.isLoadingFrete ? (
+                  <Skeleton variant="rectangular" height={80} sx={{ borderRadius: 1 }} />
+                ) : !state.customer.cep || Diversos.getnums(state.customer.cep).length !== 8 ? (
                   <Alert severity="info" variant="outlined">
-                    Nenhuma opção disponível para seu endereço.
+                    Preencha o CEP acima para ver as opções de entrega disponíveis.
+                  </Alert>
+                ) : state.freteOpcoes.length <= 0 ? (
+                  <Alert severity="warning" variant="outlined">
+                    Nenhuma opção de entrega disponível para o CEP informado.
                   </Alert>
                 ) : (
                   state.freteOpcoes.map((row, index) => (
@@ -2097,7 +2101,7 @@ function CheckoutPagamentoContent(props) {
                               ) : (
                                 <CreditCardIcon sx={{ mr: 1, color: "text.secondary" }} />
                               )}
-                              {/*
+
                               <Image
                                 src={
                                   String(row.nome).toLowerCase().indexOf("motoboy") > -1
@@ -2251,7 +2255,7 @@ function CheckoutPagamentoContent(props) {
                 </Typography>
               </Divider>
 
-              {/* Pagamento
+              {/* Pagamento */}
               <Paper elevation={0} sx={{ py: 0 }}>
                 <Typography variant="h6" gutterBottom>
                   Forma de Pagamento *
@@ -2520,35 +2524,29 @@ function CheckoutPagamentoContent(props) {
                           }}
                         />
                       </Grid>
-                      {state.isLoadingInstalment || state.instalments.length > 0 ? (
-                        <Grid item xs={12}>
-                          {state.isLoadingInstalment ? (
-                            <Skeleton variant="rectangular" height={56} />
-                          ) : (
-                            <FormControl fullWidth>
-                              <InputLabel>Parcelas</InputLabel>
-                              <Select
-                                value={state.cartao.parcela || 1}
-                                onChange={(e) =>
-                                  setState((state) => ({
-                                    ...state,
-                                    cartao: { ...state.cartao, parcela: e.target.value },
-                                  }))
-                                }
-                                variant="outlined"
-                                disabled={state.formIsLoading}
-                                label="Parcelas"
-                              >
-                                {state.instalments.map((parcela) => (
-                                  <MenuItem key={parcela.value} value={parcela.value}>
-                                    {parcela.label}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            </FormControl>
-                          )}
-                        </Grid>
-                      ) : null}
+                      <Grid item xs={12}>
+                        <FormControl fullWidth>
+                          <InputLabel>Parcelas</InputLabel>
+                          <Select
+                            value={state.cartao.parcela || 1}
+                            onChange={(e) =>
+                              setState((state) => ({
+                                ...state,
+                                cartao: { ...state.cartao, parcela: e.target.value },
+                              }))
+                            }
+                            variant="outlined"
+                            disabled={state.formIsLoading}
+                            label="Parcelas"
+                          >
+                            {getParcelamentoOptions().map((op) => (
+                              <MenuItem key={op.value} value={op.value}>
+                                {op.label}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Grid>
                     </Grid>
                   </Box>
                 )}
@@ -2561,14 +2559,13 @@ function CheckoutPagamentoContent(props) {
                   *** Após a compra, você receberá um e-mail com o link para acompanhar o status do seu pedido.
                 </Typography>
               </Paper>
-              */}
               <Divider sx={{ mt: 5 }} />
 
               <Button
                 variant="contained"
                 size="large"
                 fullWidth
-                onClick={handleForm}
+                onClick={handleFormPagamento}
                 disabled={state.formIsLoading}
                 sx={{
                   py: 1.5,

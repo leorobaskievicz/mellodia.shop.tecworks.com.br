@@ -33,7 +33,7 @@ export default function Ordenacao({ ordem, sx }) {
             },
           }}
         >
-          <MenuItem value="relevance">Mais relevantes</MenuItem>
+          <MenuItem value="relevancia">Mais relevantes</MenuItem>
           <MenuItem value="preco_asc">Menor preço</MenuItem>
           <MenuItem value="preco_desc">Maior preço</MenuItem>
           <MenuItem value="nome_asc">Nome (A-Z)</MenuItem>

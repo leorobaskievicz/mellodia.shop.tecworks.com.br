@@ -10,13 +10,14 @@ class Api {
         "Content-Type": "application/json",
         Accept: "application/json",
         Authorization: `Bearer ${this.token}`,
+        "X-Auth-Token": process.env.NEXT_PUBLIC_API_X_AUTH_TOKEN,
       };
 
       const options = { method, headers };
       if (body) {
         options.body = JSON.stringify({
           ...body,
-          HTTP_X_AUTH_TOKEN: "fGtaUSg0Q2J8MC9XU2UxNSo4JnJ6c2JiT2hZe2JXaWMyNFVXdlZ7X3F2OG9iNDxYbG1LR3VeK0A8JD02UDtp",
+          HTTP_X_AUTH_TOKEN: process.env.NEXT_PUBLIC_API_X_AUTH_TOKEN,
         });
       }
 

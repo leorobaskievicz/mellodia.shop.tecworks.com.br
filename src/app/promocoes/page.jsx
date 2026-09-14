@@ -76,7 +76,6 @@ export default async function Promocoes(props) {
     departamentos,
     grupo,
     preco,
-    algoliaReturn,
   } = await getProdutoByPromocao(
     page,
     perPage,
@@ -201,7 +200,7 @@ export default async function Promocoes(props) {
 
           <Grid container xs={12} sm={12} md={12} lg={12} xl={12} sx={styleContainerBody}>
             <LazyComponent>
-              <LazyVitrine produtos={produtos} title="Produtos em Promoção" algoliaReturn={algoliaReturn} page={"promocao"} />
+              <LazyVitrine produtos={produtos} title="Produtos em Promoção" page={"promocao"} />
             </LazyComponent>
           </Grid>
 

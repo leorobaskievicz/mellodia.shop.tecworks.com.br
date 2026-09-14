@@ -1,7 +1,4 @@
-import { algoliasearch } from "algoliasearch";
-import recommendClient from "@/app/lib/algoliaRecommend";
 import Api from "@/app/lib/api";
-import { USE_ALGOLIA } from "@/app/lib/algoliaConfig";
 
 // Função para buscar banners
 async function getBanners(tipo = 1, limit = 1) {
@@ -128,189 +125,33 @@ async function getProdutoByDepartamento(menu1, menu2 = null, menu3 = null, page 
       throw new Error("Menu1 não fornecido");
     }
 
-    if (USE_ALGOLIA && fgTelevendas !== true) {
-      const searchClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY);
+    const paramApi = {
+      page,
+      perPage,
+      termo: menu1,
+      menu1: menu1,
+      menu: menu1,
+      orderByParam: orderBy,
+      codigos: undefined,
+    };
 
-      const paramAlgolia = {
-        indexName: `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}`,
-        query: ``,
-        hitsPerPage: perPage,
-        page: page - 1,
-        filters: "",
-        clickAnalytics: true,
-        facets: ["marca", "MENU1_DESCRICAO", "MENU2_DESCRICAO", "MENU3_DESCRICAO", "PRECO", "grupo"], // ✅ Adicionei MENU2 e MENU3
-      };
+    const result = await myapi.post(`/product/departamento/${page}`, { ...paramApi, page: page });
 
-      const tmpFilters = [];
-
-      // 🎯 Filtro de marcas
-      if (filtros.marcas && filtros.marcas.length > 0) {
-        const marcasFilter = filtros.marcas.map((m) => `marca:"${m.replace(/"/g, '\\"')}"`).join(" OR ");
-        tmpFilters.push(`(${marcasFilter})`);
-      }
-
-      // 🎯 Filtros de Menu - SEM ESPAÇOS EXTRAS
-      tmpFilters.push(`MENU1_DESCRICAO:"${menu1.toUpperCase().replace(/"/g, '\\"')}"`);
-
-      if (menu2) {
-        tmpFilters.push(`MENU2_DESCRICAO:"${menu2.toUpperCase().replace(/"/g, '\\"')}"`);
-      }
-
-      if (menu3) {
-        tmpFilters.push(`MENU3_DESCRICAO:"${menu3.toUpperCase().replace(/"/g, '\\"')}"`);
-      }
-
-      // 🎯 Filtro de grupos
-      if (filtros.grupos && filtros.grupos.length > 0) {
-        const gruposFilter = filtros.grupos.map((d) => `grupo:"${d.replace(/"/g, '\\"')}"`).join(" OR ");
-        tmpFilters.push(`(${gruposFilter})`);
-      }
-
-      // 🎯 Filtro de preço - CORRIGIDO
-      if (filtros.preco && filtros.preco.length > 0) {
-        // Se for range de preço
-        if (typeof filtros.preco === "string" && filtros.preco.includes("-")) {
-          const [min, max] = filtros.preco.split("-").map((p) => p.trim());
-          tmpFilters.push(`PRECO:${min} TO ${max}`);
-        } else if (Array.isArray(filtros.preco)) {
-          // Se for array de valores específicos
-          const precoFilter = filtros.preco.map((d) => `PRECO:"${d.replace(/"/g, '\\"')}"`).join(" OR ");
-          tmpFilters.push(`(${precoFilter})`);
-        }
-      }
-
-      // ✅ Montagem final do filters
-      if (tmpFilters.length > 0) {
-        paramAlgolia.filters = tmpFilters.join(" AND ");
-      }
-
-      // Debug - vamos ver o que está sendo gerado
-      // console.log("🔍 Filtros gerados:", paramAlgolia.filters);
-      // console.log("📋 Parâmetros completos:", paramAlgolia);
-
-      // Ordenação
-      if (orderBy !== "default" && orderBy !== "relevancia") {
-        switch (orderBy) {
-          case "preco_asc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-preco_asc`;
-            break;
-          case "preco_desc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-preco_desc`;
-            break;
-          case "nome_asc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-nome_asc`;
-            break;
-          case "nome_desc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-nome_desc`;
-            break;
-          case "stock_asc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-estoque`;
-            break;
-        }
-      }
-
-      const { results } = await searchClient.search({
-        requests: [paramAlgolia],
-      });
-
-      console.log("[Departamento Algolia] Filtro enviado:", paramAlgolia.filters);
-      console.log("[Departamento Algolia] nbHits:", results[0].nbHits);
-      console.log("[Departamento Algolia] Facets retornados:", results[0].facets);
-
-      // Debug - vamos ver quantos resultados retornaram
-      // console.log("📊 Resultados encontrados:", results[0].nbHits);
-      // console.log("🏷️ Facetas disponíveis:", results[0].facets);
-
-      return {
-        data: results[0].hits.map((q) => ({
-          CODIGO: q.codigo,
-          NOME: q.nome,
-          PRECO: q.PRECO,
-          PREPRO: q.PREPRO,
-          INIPRO: q.INIPRO,
-          FIMPRO: q.FIMPRO,
-          UNID: "UN",
-          MARCA: q.marca,
-          ESTOQUE: q.ESTOQUE,
-          SUBGRUPO: q.subgrupo,
-          PESO: 0,
-          NOMEGRUPO: q.grupo,
-          RATIO: Math.random() * (5 - 3) + 3,
-          ESTAEMPROMOCAO: q.ESTA_EM_PROMOCAO === 1,
-          DESCRICAO1: q.DESCRICAO1,
-          PREPRO_COMPL: q.PREPRO_COMPL || null,
-          INIPRO_COMPL: q.INIPRO_COMPL || null,
-          FIMPRO_COMPL: q.FIMPRO_COMPL || null,
-          FOTOS: [
-            {
-              id: 1509304,
-              link: !q.foto ? "produto-sem-imagem.png" : String(q.foto).replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
-              sequencia: 1,
-            },
-          ],
-        })),
-        page: page,
-        perPage: perPage,
-        total: results[0].nbHits,
-        marcas: results[0].facets?.marca || {},
-        departamentos: results[0].facets?.MENU1_DESCRICAO || {},
-        menu2: results[0].facets?.MENU2_DESCRICAO || {}, // ✅ Adicionado
-        preco: results[0].facets?.PRECO || {},
-        grupo: results[0].facets?.grupo || {},
-        lastPage: results[0].nbPages,
-      };
-    } else {
-      const paramApi = {
-        page,
-        perPage,
-        termo: menu1,
-        menu1: menu1,
-        menu: menu1,
-        orderByParam: orderBy,
-        codigos: undefined,
-      };
-
-      const result = await myapi.post(`/product/departamento/${page}`, { ...paramApi, page: page });
-
-      if (!result || !result.status || !result.msg) {
-        throw new Error("Nenhum produto não localizado");
-      }
-
-      return {
-        ...result.msg,
-        page: page,
-        perPage: perPage,
-        total: result.msg.total,
-        marcas: {},
-        departamentos: {},
-        preco: {},
-        grupo: {},
-        lastPage: result.msg.lastPage,
-      };
+    if (!result || !result.status || !result.msg) {
+      throw new Error("Nenhum produto não localizado");
     }
 
-    // const paramApi = {
-    //   menu1: menu1,
-    //   menu2: menu2,
-    //   menu3: menu3,
-    //   marcas: typeof marcas === "string" ? marcas.split(",") : marcas,
-    //   sort: orderBy,
-    //   page: page,
-    //   per_page: perPage,
-    // };
-
-    // const result = await myapi.post(`/product/departamento/${page}?${queryString.stringify(paramApi)}`, paramApi);
-
-    // if (!result || !result.status) {
-    //   throw new Error(result?.msg || "Erro ao buscar produtos");
-    // }
-
-    // return {
-    //   total: result.msg.total || 0,
-    //   lastPage: result.msg.lastPage || 1,
-    //   data: result.msg.data || [],
-    //   marcas: result.marcas || [],
-    // };
+    return {
+      ...result.msg,
+      page: page,
+      perPage: perPage,
+      total: result.msg.total,
+      marcas: {},
+      departamentos: {},
+      preco: {},
+      grupo: {},
+      lastPage: result.msg.lastPage,
+    };
   } catch (error) {
     console.log("Erro ao buscar produtos por departamento:", error.message);
     return {
@@ -327,148 +168,34 @@ async function getProdutoByMarca(marca, page = 1, perPage = 25, sort = "relevanc
   const myapi = new Api();
 
   try {
-    if (USE_ALGOLIA && fgTelevendas !== true) {
-      const searchClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY);
+    const paramApi = {
+      page,
+      perPage,
+      termo: marca,
+      marca: marca,
+      orderByParam: sort === "relevancia" ? "estoque_desc" : sort,
+      codigos: undefined,
+    };
 
-      const paramAlgolia = {
-        indexName: `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}`,
-        query: ``,
-        hitsPerPage: perPage,
-        page: page - 1,
-        filters: "",
-        clickAnalytics: true,
-        facets: ["marca", "MENU1_DESCRICAO", "PRECO", "grupo"],
-      };
+    const result = await myapi.post(`/product/marca/${page}`, { ...paramApi, page: page });
 
-      const tmpFilters = [];
-
-      // // 🎯 Filtro de preço
-      // if (filtros.preco) {
-      //   const tmpPreco = filtros.preco.split("-").map((p) => p.trim());
-      //   if (tmpPreco.length === 2) {
-      //     tmpFilters.push(`( PRECO:${tmpPreco[0]} TO ${tmpPreco[1]} )`);
-      //   }
-      // }
-
-      // 🎯 Filtro de marcas
-      tmpFilters.push(`( marca:"${marca.replace(/-/g, " ").replace(/"/g, '\\"')}" )`);
-
-      // 🎯 Filtro de departamentos
-      if (filtros.departamentos && filtros.departamentos.length > 0) {
-        const departamentos = filtros.departamentos.map((d) => `MENU1_DESCRICAO:"${d.replace(/"/g, '\\"')}"`).join(" OR ");
-        tmpFilters.push(`( ${departamentos} )`);
-      }
-
-      // 🎯 Filtro de departamentos
-      if (filtros.grupos && filtros.grupos.length > 0) {
-        const grupos = filtros.grupos.map((d) => `grupo:"${d.replace(/"/g, '\\"')}"`).join(" OR ");
-        tmpFilters.push(`( ${grupos} )`);
-      }
-
-      // 🎯 Filtro de departamentos
-      if (filtros.preco && filtros.preco.length > 0) {
-        const preco = filtros.preco.map((d) => `PRECO:"${d.replace(/"/g, '\\"')}"`).join(" OR ");
-        tmpFilters.push(`( ${preco} )`);
-      }
-
-      // ✅ Montagem final do filters
-      if (tmpFilters.length > 0) {
-        paramAlgolia.filters = tmpFilters.join(" AND ");
-      }
-
-      if (sort !== "default" && sort !== "relevancia") {
-        switch (sort) {
-          case "preco_asc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-preco_asc`;
-            break;
-          case "preco_desc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-preco_desc`;
-            break;
-          case "nome_asc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-nome_asc`;
-            break;
-          case "nome_desc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-nome_desc`;
-            break;
-          case "stock_asc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-estoque`;
-            break;
-        }
-      }
-
-      // console.log(paramAlgolia);
-
-      const { results } = await searchClient.search({
-        requests: [paramAlgolia],
-      });
-
-      return {
-        data: results[0].hits.map((q) => ({
-          CODIGO: q.codigo,
-          NOME: q.nome,
-          PRECO: q.PRECO,
-          PREPRO: q.PREPRO,
-          INIPRO: q.INIPRO,
-          FIMPRO: q.FIMPRO,
-          UNID: "UN",
-          MARCA: q.marca,
-          ESTOQUE: q.ESTOQUE,
-          SUBGRUPO: q.subgrupo,
-          PESO: 0,
-          NOMEGRUPO: q.grupo,
-          RATIO: Math.random() * (5 - 3) + 3,
-          ESTAEMPROMOCAO: q.ESTA_EM_PROMOCAO === 1,
-          DESCRICAO1: q.DESCRICAO1,
-          PREPRO_COMPL: q.PREPRO_COMPL || null,
-          INIPRO_COMPL: q.INIPRO_COMPL || null,
-          FIMPRO_COMPL: q.FIMPRO_COMPL || null,
-          FOTOS: [
-            {
-              id: 1509304,
-              link: !q.foto ? "produto-sem-imagem.png" : String(q.foto).replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
-              sequencia: 1,
-            },
-          ],
-        })),
-        page: page,
-        perPage: perPage,
-        total: results[0].nbHits,
-        marcas: results[0].facets.marca,
-        departamentos: results[0].facets.MENU1_DESCRICAO,
-        preco: results[0].facets.PRECO,
-        grupo: results[0].facets.grupo,
-        lastPage: results[0].nbPages,
-      };
-    } else {
-      const paramApi = {
-        page,
-        perPage,
-        termo: marca,
-        marca: marca,
-        orderByParam: sort,
-        codigos: undefined,
-      };
-
-      const result = await myapi.post(`/product/marca/${page}`, { ...paramApi, page: page });
-
-      if (!result || !result.status || !result.msg) {
-        throw new Error("Nenhum produto não localizado");
-      }
-
-      return {
-        ...result.msg,
-        page: page,
-        perPage: perPage,
-        total: result.msg.total,
-        marcas: {},
-        departamentos: {},
-        preco: {},
-        grupo: {},
-        lastPage: result.msg.lastPage,
-      };
+    if (!result || !result.status || !result.msg) {
+      throw new Error("Nenhum produto não localizado");
     }
+
+    return {
+      ...result.msg,
+      page: page,
+      perPage: perPage,
+      total: result.msg.total,
+      marcas: {},
+      departamentos: {},
+      preco: {},
+      grupo: {},
+      lastPage: result.msg.lastPage,
+    };
   } catch (error) {
-    console.log("Erro ao buscar getProdutoByNome:", error.message);
+    console.log("Erro ao buscar getProdutoByMarca:", error.message);
     return false;
   }
 }
@@ -478,165 +205,35 @@ async function getProdutoBySearch(termo, page = 1, perPage = 25, sort = "relevan
   const myapi = new Api();
 
   try {
-    if (USE_ALGOLIA && fgTelevendas !== true) {
-      const searchClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY);
+    const paramApi = {
+      page,
+      perPage,
+      termo,
+      orderByParam: sort === "relevancia" ? "estoque_desc" : sort,
+      filterMarca: filtros?.marcas?.length > 0 ? filtros.marcas : undefined,
+      filterPreco: filtros?.preco?.length > 0 ? filtros.preco : undefined,
+      codigos: undefined,
+    };
 
-      const paramAlgolia = {
-        indexName: `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}`,
-        query: termo !== "frete-gratis" ? `${termo.replace(/-/g, " ")}` : "",
-        hitsPerPage: perPage,
-        page: page - 1,
-        filters: "",
-        clickAnalytics: true,
-        facets: ["marca", "MENU1_DESCRICAO", "PRECO", "grupo"],
-      };
+    const result = await myapi.post(`/product/search-dicionario/${page}`, { ...paramApi, page: page });
 
-      const tmpFilters = [];
-
-      if (termo === "frete-gratis") {
-        tmpFilters.push(`( PRECO >= 99.99 )`);
-      }
-
-      // 🎯 Filtro de marcas
-      if (filtros.marcas && filtros.marcas.length > 0) {
-        const marcas = filtros.marcas.map((m) => `marca:"${m.replace(/"/g, '\\"')}"`).join(" OR ");
-        tmpFilters.push(`( ${marcas} )`);
-      }
-
-      // 🎯 Filtro de departamentos
-      if (filtros.departamentos && filtros.departamentos.length > 0) {
-        const departamentos = filtros.departamentos.map((d) => `MENU1_DESCRICAO:"${d.replace(/"/g, '\\"')}"`).join(" OR ");
-        tmpFilters.push(`( ${departamentos} )`);
-      }
-
-      // 🎯 Filtro de departamentos
-      if (filtros.grupos && filtros.grupos.length > 0) {
-        const grupos = filtros.grupos.map((d) => `grupo:"${d.replace(/"/g, '\\"')}"`).join(" OR ");
-        tmpFilters.push(`( ${grupos} )`);
-      }
-
-      // 🎯 Filtro de departamentos
-      if (filtros.preco && filtros.preco.length > 0) {
-        const preco = filtros.preco.map((d) => `PRECO:"${d.replace(/"/g, '\\"')}"`).join(" OR ");
-        tmpFilters.push(`( ${preco} )`);
-      }
-
-      // ✅ Montagem final do filters
-      if (tmpFilters.length > 0) {
-        paramAlgolia.filters = tmpFilters.join(" AND ");
-      }
-
-      if (sort !== "default" && sort !== "relevancia") {
-        switch (sort) {
-          case "preco_asc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-preco_asc`;
-            break;
-          case "preco_desc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-preco_desc`;
-            break;
-          case "nome_asc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-nome_asc`;
-            break;
-          case "nome_desc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-nome_desc`;
-            break;
-          case "stock_asc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-estoque`;
-            break;
-        }
-      }
-
-      console.log("[Busca Sort] sort recebido:", sort, "| indexName que será usado:", paramAlgolia.indexName);
-
-      const { results } = await searchClient.search({
-        requests: [paramAlgolia],
-      });
-
-      console.log("[Algolia] Primeiro hit completo:", JSON.stringify(results[0].hits[0], null, 2));
-      console.log("[Algolia] Facets retornados:", JSON.stringify(results[0].facets, null, 2));
-      console.log("[Algolia] Params enviados:", paramAlgolia);
-      console.log("[Algolia] Todos os hits (estoque):", JSON.stringify(
-        results[0].hits.map((q, i) => ({
-          i,
-          codigo: q.codigo,
-          nome: q.nome,
-          ESTOQUE: q.ESTOQUE,
-          PRECO: q.PRECO,
-          PREPRO: q.PREPRO,
-        })),
-        null,
-        2
-      ));
-      console.log("[Algolia] Facets retornados:", JSON.stringify(results[0].facets, null, 2));
-
-      return {
-        data: results[0].hits.map((q) => ({
-          CODIGO: q.codigo,
-          NOME: q.nome,
-          PRECO: q.PRECO,
-          PREPRO: q.PREPRO,
-          INIPRO: q.INIPRO,
-          FIMPRO: q.FIMPRO,
-          UNID: "UN",
-          REFERENCIA: "",
-          MARCA: q.marca,
-          ESTOQUE: q.ESTOQUE,
-          SUBGRUPO: q.subgrupo,
-          PESO: 0,
-          NOMEGRUPO: q.grupo,
-          RATIO: Math.random() * (5 - 3) + 3,
-          ESTAEMPROMOCAO: q.ESTA_EM_PROMOCAO === 1,
-          DESCRICAO1: q.DESCRICAO1,
-          PREPRO_COMPL: q.PREPRO_COMPL || null,
-          INIPRO_COMPL: q.INIPRO_COMPL || null,
-          FIMPRO_COMPL: q.FIMPRO_COMPL || null,
-          FOTOS: [
-            {
-              id: 1509304,
-              link: !q.foto ? "produto-sem-imagem.png" : String(q.foto).replace("https://mellodia.shop.cdn.com.br/", "").replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
-              sequencia: 1,
-            },
-          ],
-        })),
-        page: page,
-        perPage: perPage,
-        total: results[0].nbHits,
-        marcas: results[0].facets.marca,
-        departamentos: results[0].facets.MENU1_DESCRICAO,
-        preco: results[0].facets.PRECO,
-        grupo: results[0].facets.grupo,
-        lastPage: results[0].nbPages,
-        algoliaReturn: { ...results[0], facetsAplicados: paramAlgolia.filters },
-      };
-    } else {
-      const paramApi = {
-        page,
-        perPage,
-        termo,
-        orderByParam: sort,
-        codigos: undefined,
-      };
-
-      const result = await myapi.post(`/product/search-dicionario/${page}`, { ...paramApi, page: page });
-
-      if (!result || !result.status || !result.msg) {
-        throw new Error("Nenhum produto não localizado");
-      }
-
-      return {
-        ...result.msg,
-        page: page,
-        perPage: perPage,
-        total: result.msg.total,
-        marcas: {},
-        departamentos: {},
-        preco: {},
-        grupo: {},
-        lastPage: result.msg.lastPage,
-      };
+    if (!result || !result.status || !result.msg) {
+      throw new Error("Nenhum produto não localizado");
     }
+
+    return {
+      ...result.msg,
+      page: page,
+      perPage: perPage,
+      total: result.msg.total,
+      marcas: {},
+      departamentos: {},
+      preco: {},
+      grupo: {},
+      lastPage: result.msg.lastPage,
+    };
   } catch (error) {
-    console.log("Erro ao buscar getProdutoByNome:", error.message);
+    console.log("Erro ao buscar getProdutoBySearch:", error.message);
     return false;
   }
 }
@@ -656,7 +253,6 @@ async function getMenu1(slug) {
 
     return result.msg;
   } catch (error) {
-    // console.log("Erro ao buscar getMenu1:", error.message);
     return false;
   }
 }
@@ -676,7 +272,6 @@ async function getMenu2(slug, slug2) {
 
     return result.msg;
   } catch (error) {
-    // console.log("Erro ao buscar getMenu2:", error.message);
     return false;
   }
 }
@@ -696,7 +291,6 @@ async function getMenu3(slug, slug2, slug3) {
 
     return result.msg;
   } catch (error) {
-    // console.log("Erro ao buscar getMenu3:", error.message);
     return false;
   }
 }
@@ -728,7 +322,6 @@ async function getSimilares(menu1 = null, menu2 = null, menu3 = null) {
     }
   } catch (e) {
     console.log(e.message);
-
     return false;
   }
 }
@@ -849,7 +442,6 @@ async function getDepoimentos(produto) {
     return data.msg;
   } catch (e) {
     console.log(e.message);
-
     return [];
   }
 }
@@ -873,7 +465,6 @@ async function getMenus() {
     const responseMenu = await myapi.get(`/menu/resumo`);
 
     if (!responseMenu || !responseMenu.status || responseMenu.msg.length <= 0) {
-      // console.log("Erro ao carregar menus:", responseMenu?.msg || "Resposta inválida");
       return { menu: [], menuOptions: [] };
     }
 
@@ -968,151 +559,31 @@ async function getProdutoByPromocao(page = 1, perPage = 50, sort = "relevancia",
   const myapi = new Api();
 
   try {
-    if (USE_ALGOLIA && fgTelevendas !== true) {
-      const searchClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY);
+    const paramApi = {
+      page,
+      perPage,
+      termo: "",
+      orderByParam: sort === "relevancia" ? "estoque_desc" : sort,
+      codigos: undefined,
+    };
 
-      const paramAlgolia = {
-        indexName: `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}`,
-        query: ``,
-        hitsPerPage: perPage,
-        page: page - 1,
-        filters: "",
-        clickAnalytics: true,
-        facets: ["marca", "MENU1_DESCRICAO", "PRECO", "grupo"],
-      };
+    const result = await myapi.post(`/product/promocao/${page}`, { ...paramApi, page: page });
 
-      console.log("[getProdutoByPromocao] paramAlgolia inicial:", paramAlgolia);
-
-      const tmpFilters = [];
-
-      // // 🎯 Filtro de preço
-      // if (filtros.preco) {
-      //   const tmpPreco = filtros.preco.split("-").map((p) => p.trim());
-      //   if (tmpPreco.length === 2) {
-      //     tmpFilters.push(`( PRECO:${tmpPreco[0]} TO ${tmpPreco[1]} )`);
-      //   }
-      // }
-
-      // 🎯 Filtro de marcas
-      tmpFilters.push(` ESTA_EM_PROMOCAO = 1 `);
-
-      // 🎯 Filtro de marcas
-      if (filtros.marcas && filtros.marcas.length > 0) {
-        const marcas = filtros.marcas.map((m) => `marca:"${m.replace(/"/g, '\\"')}"`).join(" OR ");
-        tmpFilters.push(`( ${marcas} )`);
-      }
-
-      // 🎯 Filtro de departamentos
-      if (filtros.departamentos && filtros.departamentos.length > 0) {
-        const departamentos = filtros.departamentos.map((d) => `MENU1_DESCRICAO:"${d.replace(/"/g, '\\"')}"`).join(" OR ");
-        tmpFilters.push(`( ${departamentos} )`);
-      }
-
-      // 🎯 Filtro de departamentos
-      if (filtros.grupos && filtros.grupos.length > 0) {
-        const grupos = filtros.grupos.map((d) => `grupo:"${d.replace(/"/g, '\\"')}"`).join(" OR ");
-        tmpFilters.push(`( ${grupos} )`);
-      }
-
-      // 🎯 Filtro de departamentos
-      if (filtros.preco && filtros.preco.length > 0) {
-        const preco = filtros.preco.map((d) => `PRECO:"${d.replace(/"/g, '\\"')}"`).join(" OR ");
-        tmpFilters.push(`( ${preco} )`);
-      }
-
-      // ✅ Montagem final do filters
-      if (tmpFilters.length > 0) {
-        paramAlgolia.filters = tmpFilters.join(" AND ");
-      }
-
-      if (sort !== "default" && sort !== "relevancia") {
-        switch (sort) {
-          case "preco_asc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-preco_asc`;
-            break;
-          case "preco_desc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-preco_desc`;
-            break;
-          case "nome_asc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-nome_asc`;
-            break;
-          case "nome_desc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-nome_desc`;
-            break;
-          case "stock_asc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-estoque`;
-            break;
-        }
-      }
-
-      const { results } = await searchClient.search({
-        requests: [paramAlgolia],
-      });
-
-      return {
-        data: results[0].hits.map((q) => ({
-          CODIGO: q.codigo,
-          NOME: q.nome,
-          PRECO: q.PRECO,
-          PREPRO: q.PREPRO,
-          INIPRO: q.INIPRO,
-          FIMPRO: q.FIMPRO,
-          UNID: "UN",
-          MARCA: q.marca,
-          ESTOQUE: q.ESTOQUE,
-          SUBGRUPO: q.subgrupo,
-          PESO: 0,
-          NOMEGRUPO: q.grupo,
-          RATIO: Math.random() * (5 - 3) + 3,
-          ESTAEMPROMOCAO: q.ESTA_EM_PROMOCAO === 1,
-          DESCRICAO1: q.DESCRICAO1,
-          PREPRO_COMPL: q.PREPRO_COMPL || null,
-          INIPRO_COMPL: q.INIPRO_COMPL || null,
-          FIMPRO_COMPL: q.FIMPRO_COMPL || null,
-          FOTOS: [
-            {
-              id: 1509304,
-              link: !q.foto ? "produto-sem-imagem.png" : String(q.foto).replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
-              sequencia: 1,
-            },
-          ],
-        })),
-        page: page,
-        perPage: perPage,
-        total: results[0].nbHits,
-        marcas: results[0].facets.marca,
-        departamentos: results[0].facets.MENU1_DESCRICAO,
-        preco: results[0].facets.PRECO,
-        grupo: results[0].facets.grupo,
-        lastPage: results[0].nbPages,
-      };
-    } else {
-      const paramApi = {
-        page,
-        perPage,
-        termo: "",
-        orderByParam: sort,
-        codigos: undefined,
-      };
-
-      const result = await myapi.post(`/product/promocao/${page}`, { ...paramApi, page: page });
-
-      if (!result || !result.status || !result.msg) {
-        throw new Error("Nenhum produto não localizado");
-      }
-
-      return {
-        ...result.msg,
-        page: page,
-        perPage: perPage,
-        total: result.msg.total,
-        marcas: {},
-        departamentos: {},
-        preco: {},
-        grupo: {},
-        lastPage: result.msg.lastPage,
-      };
+    if (!result || !result.status || !result.msg) {
+      throw new Error("Nenhum produto não localizado");
     }
+
+    return {
+      ...result.msg,
+      page: page,
+      perPage: perPage,
+      total: result.msg.total,
+      marcas: {},
+      departamentos: {},
+      preco: {},
+      grupo: {},
+      lastPage: result.msg.lastPage,
+    };
   } catch (error) {
     console.log("Erro ao buscar produtos em promoções:", error.message);
     return false;
@@ -1124,256 +595,46 @@ async function getProdutoBySubgrupo(subgrupo = "999", page = 1, perPage = 50, so
   const myapi = new Api();
 
   try {
-    if (USE_ALGOLIA && fgTelevendas !== true) {
-      const searchClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY);
+    const paramApi = {
+      page,
+      perPage,
+      subgrupo: String(subgrupo),
+      termo: "",
+      orderByParam: sort === "relevancia" ? "estoque_desc" : sort,
+      codigos: undefined,
+    };
 
-      const paramAlgolia = {
-        indexName: `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}`,
-        query: ``,
-        hitsPerPage: perPage,
-        page: page - 1,
-        filters: "",
-        clickAnalytics: true,
-        facets: ["marca", "MENU1_DESCRICAO", "PRECO", "grupo"],
-      };
+    const result = await myapi.post(`/product/subgrupo/${page}`, { ...paramApi, page: page });
 
-      const tmpFilters = [];
-
-      // // 🎯 Filtro de preço
-      // if (filtros.preco) {
-      //   const tmpPreco = filtros.preco.split("-").map((p) => p.trim());
-      //   if (tmpPreco.length === 2) {
-      //     tmpFilters.push(`( PRECO:${tmpPreco[0]} TO ${tmpPreco[1]} )`);
-      //   }
-      // }
-
-      // 🎯 Filtro de marcas
-      tmpFilters.push(`( subgrupo:"${String(subgrupo).replace(/"/g, '\\"')}" )`);
-
-      // 🎯 Filtro de marcas
-      if (filtros.marcas && filtros.marcas.length > 0) {
-        const marcas = filtros.marcas.map((m) => `marca:"${m.replace(/"/g, '\\"')}"`).join(" OR ");
-        tmpFilters.push(`( ${marcas} )`);
-      }
-
-      // 🎯 Filtro de departamentos
-      if (filtros.departamentos && filtros.departamentos.length > 0) {
-        const departamentos = filtros.departamentos.map((d) => `MENU1_DESCRICAO:"${d.replace(/"/g, '\\"')}"`).join(" OR ");
-        tmpFilters.push(`( ${departamentos} )`);
-      }
-
-      // 🎯 Filtro de departamentos
-      if (filtros.grupos && filtros.grupos.length > 0) {
-        const grupos = filtros.grupos.map((d) => `grupo:"${d.replace(/"/g, '\\"')}"`).join(" OR ");
-        tmpFilters.push(`( ${grupos} )`);
-      }
-
-      // 🎯 Filtro de departamentos
-      if (filtros.preco && filtros.preco.length > 0) {
-        const preco = filtros.preco.map((d) => `PRECO:"${d.replace(/"/g, '\\"')}"`).join(" OR ");
-        tmpFilters.push(`( ${preco} )`);
-      }
-
-      // ✅ Montagem final do filters
-      if (tmpFilters.length > 0) {
-        paramAlgolia.filters = tmpFilters.join(" AND ");
-      }
-
-      if (sort !== "default" && sort !== "relevancia") {
-        switch (sort) {
-          case "preco_asc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-preco_asc`;
-            break;
-          case "preco_desc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-preco_desc`;
-            break;
-          case "nome_asc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-nome_asc`;
-            break;
-          case "nome_desc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-nome_desc`;
-            break;
-          case "stock_asc":
-            paramAlgolia.indexName = `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}-estoque`;
-            break;
-        }
-      }
-
-      const { results } = await searchClient.search({
-        requests: [paramAlgolia],
-      });
-
-      return {
-        data: results[0].hits.map((q) => ({
-          CODIGO: q.codigo,
-          NOME: q.nome,
-          PRECO: q.PRECO,
-          PREPRO: q.PREPRO,
-          INIPRO: q.INIPRO,
-          FIMPRO: q.FIMPRO,
-          UNID: "UN",
-          MARCA: q.marca,
-          ESTOQUE: q.ESTOQUE,
-          SUBGRUPO: q.subgrupo,
-          PESO: 0,
-          NOMEGRUPO: q.grupo,
-          RATIO: Math.random() * (5 - 3) + 3,
-          ESTAEMPROMOCAO: q.ESTA_EM_PROMOCAO === 1,
-          DESCRICAO1: q.DESCRICAO1,
-          PREPRO_COMPL: q.PREPRO_COMPL || null,
-          INIPRO_COMPL: q.INIPRO_COMPL || null,
-          FIMPRO_COMPL: q.FIMPRO_COMPL || null,
-          FOTOS: [
-            {
-              id: 1509304,
-              link: !q.foto ? "produto-sem-imagem.png" : String(q.foto).replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
-              sequencia: 1,
-            },
-          ],
-        })),
-        page: page,
-        perPage: perPage,
-        total: results[0].nbHits,
-        marcas: results[0].facets.marca,
-        departamentos: results[0].facets.MENU1_DESCRICAO,
-        preco: results[0].facets.PRECO,
-        grupo: results[0].facets.grupo,
-        lastPage: results[0].nbPages,
-      };
-    } else {
-      const paramApi = {
-        page,
-        perPage,
-        subgrupo: String(subgrupo),
-        termo: "",
-        orderByParam: sort,
-        codigos: undefined,
-      };
-
-      const result = await myapi.post(`/product/subgrupo/${page}`, { ...paramApi, page: page });
-
-      if (!result || !result.status || !result.msg) {
-        throw new Error("Nenhum produto não localizado");
-      }
-
-      return {
-        ...result.msg,
-        page: page,
-        perPage: perPage,
-        total: result.msg.total,
-        marcas: {},
-        departamentos: {},
-        preco: {},
-        grupo: {},
-        lastPage: result.msg.lastPage,
-      };
+    if (!result || !result.status || !result.msg) {
+      throw new Error("Nenhum produto não localizado");
     }
+
+    return {
+      ...result.msg,
+      page: page,
+      perPage: perPage,
+      total: result.msg.total,
+      marcas: {},
+      departamentos: {},
+      preco: {},
+      grupo: {},
+      lastPage: result.msg.lastPage,
+    };
   } catch (error) {
     console.log("Erro ao buscar produtos de outlet:", error.message);
     return false;
   }
 }
 
-// Função busca produtos relacionados no Algolia
+// Sem motor de recomendação sem Algolia
 async function getProdutosRecomendados(codigoProduto) {
-  // Sem Algolia não há motor de recomendação; retorna vazio para a seção apenas não renderizar.
-  if (!USE_ALGOLIA) {
-    return [];
-  }
-
-  try {
-    const response = await recommendClient.getRecommendations([
-      {
-        indexName: `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}`,
-        objectID: String(codigoProduto),
-        model: "related-products",
-        threshold: 50,
-        maxRecommendations: 28,
-      },
-    ]);
-
-    return response.results[0].hits.map((q) => ({
-      CODIGO: q.codigo,
-      NOME: q.nome,
-      PRECO: q.PRECO,
-      PREPRO: q.PREPRO,
-      INIPRO: q.INIPRO,
-      FIMPRO: q.FIMPRO,
-      UNID: "UN",
-      MARCA: q.marca,
-      ESTOQUE: q.ESTOQUE,
-      SUBGRUPO: q.subgrupo,
-      PESO: 0,
-      NOMEGRUPO: q.grupo,
-      RATIO: Math.random() * (5 - 3) + 3,
-      ESTAEMPROMOCAO: q.ESTA_EM_PROMOCAO === 1,
-      DESCRICAO1: q.DESCRICAO1,
-      PREPRO_COMPL: q.PREPRO_COMPL || null,
-      INIPRO_COMPL: q.INIPRO_COMPL || null,
-      FIMPRO_COMPL: q.FIMPRO_COMPL || null,
-      FOTOS: [
-        {
-          id: 1509304,
-          link: !q.foto ? "produto-sem-imagem.png" : String(q.foto).replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
-          sequencia: 1,
-        },
-      ],
-    }));
-  } catch (error) {
-    console.log("Erro ao buscar produtos recomendados:", error.message);
-    return false;
-  }
+  return [];
 }
 
-// Função busca produtos similares no Algolia
+// Sem motor de similares sem Algolia
 async function getProdutosSimilares(codigoProduto) {
-  // Sem Algolia não há motor de "looking-similar"; retorna vazio para a seção apenas não renderizar.
-  if (!USE_ALGOLIA) {
-    return [];
-  }
-
-  try {
-    const response = await recommendClient.getRecommendations([
-      {
-        indexName: `${process.env.NEXT_PUBLIC_ALGOLIA_INDEX_PREFIX}`,
-        objectID: String(codigoProduto),
-        model: "looking-similar",
-        threshold: 50,
-        maxRecommendations: 28,
-      },
-    ]);
-
-    return response.results[0].hits.map((q) => ({
-      CODIGO: q.codigo,
-      NOME: q.nome,
-      PRECO: q.PRECO,
-      PREPRO: q.PREPRO,
-      INIPRO: q.INIPRO,
-      FIMPRO: q.FIMPRO,
-      UNID: "UN",
-      MARCA: q.marca,
-      ESTOQUE: q.ESTOQUE,
-      SUBGRUPO: q.subgrupo,
-      PESO: 0,
-      NOMEGRUPO: q.grupo,
-      RATIO: Math.random() * (5 - 3) + 3,
-      ESTAEMPROMOCAO: q.ESTA_EM_PROMOCAO === 1,
-      DESCRICAO1: q.DESCRICAO1,
-      PREPRO_COMPL: q.PREPRO_COMPL || null,
-      INIPRO_COMPL: q.INIPRO_COMPL || null,
-      FIMPRO_COMPL: q.FIMPRO_COMPL || null,
-      FOTOS: [
-        {
-          id: 1509304,
-          link: !q.foto ? "produto-sem-imagem.png" : String(q.foto).replace("https://dhvdsbx58he7g.cloudfront.net/", ""),
-          sequencia: 1,
-        },
-      ],
-    }));
-  } catch (error) {
-    console.log("Erro ao buscar produtos recomendados:", error.message);
-    return false;
-  }
+  return [];
 }
 
 async function deleteUserSupabase(userId) {

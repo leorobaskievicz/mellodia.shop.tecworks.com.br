@@ -106,7 +106,6 @@ export default async function Busca(props) {
     departamentos,
     grupo,
     preco,
-    algoliaReturn,
   });
 
   if (produtos) {
@@ -225,7 +224,7 @@ export default async function Busca(props) {
 
           <Grid container xs={12} sm={12} md={12} lg={12} xl={12} sx={styleContainerBody}>
             <LazyComponent>
-              <LazyVitrine produtos={produtos} title={Diversos.capitalizeAllWords(slug)} algoliaReturn={algoliaReturn} page={"busca"} />
+              <LazyVitrine produtos={produtos} title={Diversos.capitalizeAllWords(slug)} page={"busca"} />
             </LazyComponent>
           </Grid>
 

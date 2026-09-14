@@ -695,7 +695,6 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
     depoimentos: [],
     estoques: [],
     estoquesIsLoading: false,
-    algoliaReturn: null,
     recommendData: [],
     recommendIsLoading: false,
     similarData: [],
@@ -744,7 +743,6 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
         qtd: 1,
         FOTOS: fotos,
         complemento: variacaoSelecionada && variacaoSelecionada.id ? `${variacaoSelecionada.attribute_name}: ${variacaoSelecionada.attribute_value}` : null,
-        indexAlgolia: state.algoliaReturn?.indexNaPagina || 0,
       },
     });
 
@@ -776,15 +774,6 @@ const ProdutoClient = memo(({ children, produto, menu1, menu2, menu3, similares,
       window.fbq("track", "AddToCart");
     }
 
-    if (state.algoliaReturn && state.algoliaReturn.queryID) {
-      insights("convertedObjectIDsAfterSearch", {
-        eventName: "Adicionou produto ao carrinho",
-        index: state.algoliaReturn.index,
-        objectIDs: [produto.CODIGO],
-        positions: [state.algoliaReturn.indexNaPagina || 0],
-        queryID: state.algoliaReturn.queryID,
-      });
-    }
   }, [produto, dispatchContext]);
 
   const getShippingModes = useCallback(

@@ -5,7 +5,6 @@ import { Box, Typography } from "@mui/material";
 import SearchOffIcon from "@mui/icons-material/SearchOff";
 import CardProdu from "@/app/components/CardProdu";
 import { styleContainerBody } from "./style";
-import insights from "@/app/lib/algoliaInsights";
 
 const NoProductsFound = () => {
   return (
@@ -31,7 +30,7 @@ const NoProductsFound = () => {
   );
 };
 
-export default function Vitrine({ produtos, title, algoliaReturn, page }) {
+export default function Vitrine({ produtos, title }) {
   useEffect(() => {
     if (window && window.dataLayer) {
       const itemList = [];
@@ -57,39 +56,6 @@ export default function Vitrine({ produtos, title, algoliaReturn, page }) {
           items: itemList,
         },
       });
-
-      // console.log(algoliaReturn);
-
-      if (algoliaReturn && algoliaReturn.queryID) {
-        let eventName = "";
-
-        switch (page) {
-          case "busca":
-            eventName = "Visualizou resultado de busca";
-            break;
-          case "departamento":
-            eventName = "Visualizou resultado de busca por departamento";
-            break;
-          case "marca":
-            eventName = "Visualizou resultado de busca por marca";
-            break;
-          case "promocao":
-            eventName = "Visualizou resultado de busca por promocao";
-            break;
-          case "outlet":
-            eventName = "Visualizou resultado de busca por outlet";
-            break;
-          default:
-            eventName = "Visualizou vitrine de produtos";
-            break;
-        }
-
-        insights("viewedFilters", {
-          eventName: eventName,
-          filters: algoliaReturn.facetsAplicados.split(" AND "),
-          index: algoliaReturn.index,
-        });
-      }
     }
   }, []);
 
@@ -104,7 +70,7 @@ export default function Vitrine({ produtos, title, algoliaReturn, page }) {
   return (
     <Box sx={styleContainerBody}>
       {produtos.map((row, idx) => (
-        <CardProdu produ={row} idx={`produto-${row.CODIGO}`} key={`produto-${row.CODIGO}`} algoliaReturn={algoliaReturn} indexPage={idx} />
+        <CardProdu produ={row} idx={`produto-${row.CODIGO}`} key={`produto-${row.CODIGO}`} />
       ))}
     </Box>
   );

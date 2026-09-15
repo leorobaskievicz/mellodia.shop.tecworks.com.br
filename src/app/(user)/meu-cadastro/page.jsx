@@ -229,16 +229,16 @@ function MeuCadastro() {
 
               <Box sx={{ mb: 4 }}>
                 <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
-                  <Typography variant="h5">Dados pessoais</Typography>
+                  <Typography variant="h5">Dados da empresa</Typography>
                 </Box>
 
                 <Paper elevation={0} sx={{ p: 3 }}>
                   <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12}>
                       <TextField
                         fullWidth
-                        label="Nome"
-                        value={state.customer.nome.split(" ")[0]}
+                        label="Razão Social"
+                        value={state.customer.nome || ""}
                         InputProps={{
                           readOnly: true,
                         }}
@@ -248,8 +248,8 @@ function MeuCadastro() {
                     <Grid item xs={12} sm={6}>
                       <TextField
                         fullWidth
-                        label="Sobrenome"
-                        value={state.customer.nome.split(" ")[1] || ""}
+                        label="Nome Fantasia"
+                        value={state.customer.apelido || "-"}
                         InputProps={{
                           readOnly: true,
                         }}
@@ -261,6 +261,17 @@ function MeuCadastro() {
                         fullWidth
                         label={Diversos.validateCNPJ(state.customer.cpf) ? "CNPJ" : "CPF"}
                         value={state.customer.cpf}
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                        variant="outlined"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        fullWidth
+                        label="Inscrição Estadual"
+                        value={state.customer.ie || "ISENTO"}
                         InputProps={{
                           readOnly: true,
                         }}
@@ -316,6 +327,11 @@ function MeuCadastro() {
               <Box sx={{ mb: 4 }}>
                 <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
                   <Typography variant="h5">Endereço de Entrega</Typography>
+                  <Link href="/perfil/editar/endereco" passHref>
+                    <IconButton title="Alterar endereço de entrega">
+                      <EditIcon />
+                    </IconButton>
+                  </Link>
                 </Box>
 
                 {state.pagamento ? (
@@ -405,7 +421,7 @@ function MeuCadastro() {
                     <Typography variant="h6" gutterBottom>
                       Você ainda não cadastrou nenhum endereço de entrega.
                     </Typography>
-                    <Button component={Link} href="/editar/endereco" variant="text" color="primary">
+                    <Button component={Link} href="/perfil/editar/endereco" variant="text" color="primary">
                       Cadastrar agora
                     </Button>
                   </Paper>

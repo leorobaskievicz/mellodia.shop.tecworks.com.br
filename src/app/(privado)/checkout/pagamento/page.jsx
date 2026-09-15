@@ -1717,8 +1717,16 @@ function CheckoutPagamentoContent(props) {
                   Dados da Entrega
                 </Typography>
 
-                <Alert severity="info" sx={{ mb: 2 }}>
-                  Estes são os dados do seu cadastro. Para alterar endereço ou contato, fale com o seu vendedor.
+                <Alert
+                  severity="info"
+                  sx={{ mb: 2 }}
+                  action={
+                    <Button color="inherit" size="small" onClick={() => router.push("/perfil/editar/endereco")}>
+                      Alterar endereço
+                    </Button>
+                  }
+                >
+                  Estes são os dados do seu cadastro.
                 </Alert>
 
                 <Grid container spacing={2}>

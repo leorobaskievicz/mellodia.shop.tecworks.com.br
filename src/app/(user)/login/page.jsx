@@ -125,8 +125,11 @@ function LoginContent(props) {
           loginStep: 2,
         }));
       } catch (e) {
-        // Loja B2B: conta é criada pelo administrador, não existe cadastro aqui.
-        setMsg("error", "Acesso não encontrado", "Não localizamos esse e-mail. Fale com o seu vendedor para liberar o acesso.");
+        // E-mail ainda não cadastrado: leva para o cadastro já com ele preenchido.
+        setState((state) => ({
+          ...state,
+          redirect: `/cadastro?email=${state.email}${state.returnToCheckout ? `&redirect=${encodeURIComponent(state.returnTo)}` : ""}`,
+        }));
       } finally {
         setState((state) => ({ ...state, isLoading: false }));
       }
@@ -289,7 +292,7 @@ function LoginContent(props) {
               >
                 {state.loginStep === 1 ? (
                   <Typography variant="h5" component="h1" align="center">
-                    Olá! Digite o e-mail da sua conta para entrar
+                    Olá! Digite seu e-mail para fazer Login ou se Cadastrar
                   </Typography>
                 ) : (
                   <>

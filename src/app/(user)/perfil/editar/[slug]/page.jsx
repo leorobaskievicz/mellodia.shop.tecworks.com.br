@@ -2,19 +2,20 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import PasswordReset from "@/app/components/PasswordReset";
+import ShippingEdit from "@/app/components/ShippingEdit";
 import withAuth from "@/app/components/withAuth";
 
 /**
- * Loja B2B: cadastro é mantido pelo administrador. E-mail, dados pessoais e
- * endereço ficam só em leitura em /meu-cadastro — aqui sobrou a troca de senha,
- * que é do próprio cliente. Qualquer outro slug volta para o cadastro.
+ * O cliente mantém o próprio endereço de entrega e a senha. Razão social, CNPJ
+ * e Inscrição Estadual são dados fiscais: ficam em leitura no /meu-cadastro e
+ * mudam pelo administrador — qualquer outro slug volta para lá.
  */
 function EditProfile() {
   const params = useParams();
   const router = useRouter();
   const { slug } = params;
 
-  const permitido = slug === "reset-senha";
+  const permitido = slug === "reset-senha" || slug === "endereco";
 
   useEffect(() => {
     if (!permitido) {
@@ -26,7 +27,7 @@ function EditProfile() {
     return null;
   }
 
-  return <PasswordReset />;
+  return slug === "endereco" ? <ShippingEdit /> : <PasswordReset />;
 }
 
 export default withAuth(EditProfile);

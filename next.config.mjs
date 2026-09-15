@@ -37,17 +37,6 @@ const nextConfig = {
   experimental: {
     optimizeCss: true,
   },
-  // Loja B2B: não existe autocadastro. Redirect no servidor (a página
-  // /cadastro só faz o mesmo no cliente, depois de hidratar).
-  redirects: async () => {
-    return [
-      {
-        source: "/cadastro",
-        destination: "/login",
-        permanent: false,
-      },
-    ];
-  },
   headers: async () => {
     return [
       {

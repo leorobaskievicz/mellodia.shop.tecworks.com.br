@@ -96,21 +96,37 @@ function reducer(state, action) {
         favoritos: state.favoritos.filter((item) => Number(item) !== Number(action.payload)),
       };
       break;
-    case "ADICIONAR_AO_CARRINHO":
+    case "ADICIONAR_AO_CARRINHO": {
       const itemExistente = state.carrinho.find((item) => Number(item.CODIGO) === Number(action.payload.CODIGO));
+
+      // Estoque ausente/inválido (null, undefined, NaN, 0 ou negativo) é tratado
+      // como "sem limite conhecido" para não travar o carrinho silenciosamente;
+      // quando o estoque é válido, a quantidade total no carrinho é limitada a ele.
+      const estoque = Number(action.payload.ESTOQUE);
+      const limiteEstoque = Number.isFinite(estoque) && estoque > 0 ? estoque : Infinity;
+      const qtdAtual = itemExistente ? itemExistente.qtd : 0;
+      const qtdSolicitada = Number(action.payload.qtd) || 0;
+      const qtdFinal = Math.min(qtdAtual + qtdSolicitada, limiteEstoque);
+
+      if (qtdFinal <= qtdAtual) {
+        // Já está no limite de estoque disponível, não adiciona mais.
+        newState = state;
+        break;
+      }
 
       if (itemExistente) {
         newState = {
           ...state,
-          carrinho: state.carrinho.map((item) => (Number(item.CODIGO) === Number(action.payload.CODIGO) ? { ...item, qtd: item.qtd + action.payload.qtd } : item)),
+          carrinho: state.carrinho.map((item) => (Number(item.CODIGO) === Number(action.payload.CODIGO) ? { ...item, qtd: qtdFinal } : item)),
         };
       } else {
         newState = {
           ...state,
-          carrinho: [...state.carrinho, action.payload],
+          carrinho: [...state.carrinho, { ...action.payload, qtd: qtdFinal }],
         };
       }
       break;
+    }
     case "REMOVER_DO_CARRINHO":
       newState = {
         ...state,

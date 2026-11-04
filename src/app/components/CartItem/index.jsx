@@ -28,11 +28,13 @@ OptimizedImage.displayName = "OptimizedImage";
 const CartItem = memo((props) => {
   const { state: stateApp, dispatch: dispatchApp } = useApp();
   const [quantity, setQuantity] = useState(props.item.qtd);
+  const [stockError, setStockError] = useState("");
 
   const handleQuantityChange = useCallback(
     (event) => {
       const newQuantity = parseInt(event.target.value);
       if (!isNaN(newQuantity) && newQuantity > 0) {
+        setStockError("");
         setQuantity(newQuantity);
         dispatchApp({
           type: "ATUALIZAR_CARRINHO",
@@ -47,24 +49,34 @@ const CartItem = memo((props) => {
   );
 
   const handleIncrement = useCallback(() => {
-    if (quantity + 1 <= Number(props.item.ESTOQUE)) {
-      setQuantity(quantity + 1);
-      dispatchApp({
-        type: "ATUALIZAR_CARRINHO",
-        payload: {
-          ...props.item,
-          qtd: quantity + 1,
-        },
-      });
+    // Alguns produtos vêm sem o campo ESTOQUE (null/undefined/NaN); nesse caso
+    // não há limite conhecido e o incremento não deve ficar travado em silêncio.
+    const estoque = Number(props.item.ESTOQUE);
+    const limiteEstoque = Number.isFinite(estoque) && estoque > 0 ? estoque : Infinity;
 
-      setTimeout(() => {
-        Diversos.sendCartData(stateApp.usuario?.codigo, stateApp.carrinho);
-      }, 1000);
+    if (quantity + 1 > limiteEstoque) {
+      setStockError(`Quantidade máxima em estoque atingida (${limiteEstoque}).`);
+      return;
     }
+
+    setStockError("");
+    setQuantity(quantity + 1);
+    dispatchApp({
+      type: "ATUALIZAR_CARRINHO",
+      payload: {
+        ...props.item,
+        qtd: quantity + 1,
+      },
+    });
+
+    setTimeout(() => {
+      Diversos.sendCartData(stateApp.usuario?.codigo, stateApp.carrinho);
+    }, 1000);
   }, [quantity, props.item, dispatchApp]);
 
   const handleDecrement = useCallback(() => {
     if (quantity - 1 > 0) {
+      setStockError("");
       setQuantity(quantity - 1);
       dispatchApp({
         type: "ATUALIZAR_CARRINHO",
@@ -230,6 +242,8 @@ const CartItem = memo((props) => {
                     size="small"
                     value={quantity}
                     onChange={handleQuantityChange}
+                    error={Boolean(stockError)}
+                    helperText={stockError}
                     inputProps={{
                       min: 1,
                       max: props.item.ESTOQUE,

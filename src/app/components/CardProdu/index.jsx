@@ -53,6 +53,7 @@ OptimizedImage.displayName = "OptimizedImage";
 export default function CardProdu({ children, produ, idx, sx }) {
   const router = useRouter();
   const { state, dispatch } = useApp();
+  const [stockLimitReached, setStockLimitReached] = useState(false);
 
   if (!produ) {
     return null;
@@ -93,6 +94,20 @@ export default function CardProdu({ children, produ, idx, sx }) {
   const handleClickAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
+
+    // Mesma regra do reducer: estoque ausente/inválido não bloqueia, mas estoque
+    // válido não deve permitir adicionar além do que já está no carrinho.
+    const estoque = Number(produ.ESTOQUE);
+    const limiteEstoque = Number.isFinite(estoque) && estoque > 0 ? estoque : Infinity;
+    const itemCarrinho = state.carrinho.find((item) => Number(item.CODIGO) === Number(produ.CODIGO));
+    const qtdAtual = itemCarrinho ? itemCarrinho.qtd : 0;
+
+    if (qtdAtual + 1 > limiteEstoque) {
+      setStockLimitReached(true);
+      return;
+    }
+
+    setStockLimitReached(false);
 
     let prepro = 0;
 
@@ -272,14 +287,14 @@ export default function CardProdu({ children, produ, idx, sx }) {
       {produ.ESTOQUE > 0 ? (
         <Button
           variant="contained"
-          color="primary"
+          color={stockLimitReached ? "warning" : "primary"}
           size="small"
           fullWidth
           onClick={handleClickAddToCart}
           sx={{ ...styleComprarBtn, width: "93%", my: 1, mx: "auto", height: "35px", position: "absolute", bottom: 0, left: 0, right: 0 }}
         >
           <ShoppingBagOutlinedIcon sx={{ fontSize: "1rem", mr: 0.5 }} />
-          Comprar
+          {stockLimitReached ? "Estoque máximo atingido" : "Comprar"}
         </Button>
       ) : (
         <Button

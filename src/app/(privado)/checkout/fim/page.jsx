@@ -26,6 +26,7 @@ export default function CheckoutFim() {
   });
 
   useEffect(() => {
+    console.log("[checkout/fim] pedido recebido:", state.pedido);
 
     dispatch({ type: "UNSET_ULTIMO_PEDIDO" });
     dispatch({ type: "LIMPAR_CARRINHO" });
@@ -68,7 +69,7 @@ export default function CheckoutFim() {
 
     setTimeout(() => {
       Diversos.sendCartData(appState.usuario?.codigo, appState.carrinho);
-      session_id = window.crypto.randomUUID();
+      const session_id = window.crypto.randomUUID();
       localStorage.setItem("session_id", session_id);
     }, 1000);
 
@@ -139,16 +140,23 @@ export default function CheckoutFim() {
                   </Typography>
 
                   {state.pedido.boleto_url ? (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      href={state.pedido.boleto_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      sx={{ mb: 2 }}
-                    >
-                      Abrir boleto
-                    </Button>
+                    <>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        href={state.pedido.boleto_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        sx={{ mb: 2 }}
+                      >
+                        Abrir boleto
+                      </Button>
+                      {state.pedido.boleto_vencimento && (
+                        <Typography variant="body2" sx={{ mb: 2 }}>
+                          Vencimento: {state.pedido.boleto_vencimento}
+                        </Typography>
+                      )}
+                    </>
                   ) : (
                     <Typography variant="body2" sx={{ mb: 2 }}>
                       O boleto não pôde ser emitido agora. Nossa equipe entrará em contato para enviá-lo.

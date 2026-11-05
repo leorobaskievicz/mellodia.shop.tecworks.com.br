@@ -131,7 +131,7 @@ function CheckoutPagamentoContent(props) {
       sobrenome: appState.usuario ? appState?.usuario?.nome?.split(" ")?.pop() ?? "" : "",
       email: appState.usuario ? appState?.usuario?.email ?? "" : "",
       cpf: appState.usuario ? appState?.usuario?.cpf ?? "" : "",
-      celular: appState.usuario ? appState?.usuario?.telefone ?? "" : "",
+      celular: appState.usuario ? appState?.usuario?.telefone || appState?.usuario?.celular || "" : "",
       cep: appState.usuario && appState?.usuario?.codigo ? "" : appState.cep ?? "",
       rua: "",
       numero: "",
@@ -379,7 +379,7 @@ function CheckoutPagamentoContent(props) {
             cpf: data.msg.cpf ?? "",
             cep: data.msg.cep ?? "",
             rua: data.msg.rua ?? "",
-            celular: data.msg.telefone ?? "",
+            celular: data.msg.telefone || data.msg.celular || "",
             numero: data.msg.numero ? String(data.msg.numero) : "",
             complemento: data.msg.complemento ?? "",
             bairro: data.msg.bairro ?? "",
@@ -1051,17 +1051,46 @@ function CheckoutPagamentoContent(props) {
         // número). Falha aqui não desfaz o pedido: o cliente vê o aviso e a loja
         // reemite pelo painel.
         if (state.formFormaPgtoCodigo === 2 && !tmpOrder.boleto_url) {
-          try {
-            const dataBoleto = await api.post(`/order/boleto/1`, { pedido: data.msg.PEDIDO }, true);
+          const boletoParam = { pedido: data.msg.PEDIDO, PEDIDO: data.msg.PEDIDO };
+          const maxTentativas = 4;
+          let dataBoleto = null;
+          let ultimoErro = null;
 
-            if (!dataBoleto || !dataBoleto.status || !dataBoleto.msg) {
-              throw new Error(dataBoleto && dataBoleto.msg ? dataBoleto.msg : "Não foi possível emitir o boleto.");
+          for (let tentativa = 1; tentativa <= maxTentativas; tentativa++) {
+            try {
+              // O pedido pode demorar um instante para ficar disponível na api de
+              // boletos logo após ser criado, então tentamos algumas vezes com espera.
+              if (tentativa > 1) {
+                await new Promise((resolve) => setTimeout(resolve, 1500 * tentativa));
+              }
+
+              console.log(`[boleto] tentativa ${tentativa} request ->`, `/order/boleto/${data.msg.PEDIDO}`, boletoParam);
+
+              dataBoleto = await api.post(`/order/boleto/${data.msg.PEDIDO}`, boletoParam, true);
+
+              console.log(`[boleto] tentativa ${tentativa} response <-`, dataBoleto);
+
+              if (!dataBoleto || !dataBoleto.status || !dataBoleto.msg) {
+                throw new Error(dataBoleto && dataBoleto.msg ? dataBoleto.msg : "Não foi possível emitir o boleto.");
+              }
+
+              ultimoErro = null;
+              break;
+            } catch (eBoleto) {
+              ultimoErro = eBoleto;
+              console.warn(`[boleto] tentativa ${tentativa} falhou:`, eBoleto.message);
             }
+          }
 
-            tmpOrder.boleto_url = String(dataBoleto.msg).split(";")[0];
-          } catch (eBoleto) {
-            console.error("Erro ao emitir boleto:", eBoleto);
+          if (ultimoErro) {
+            console.error("Erro ao emitir boleto:", ultimoErro);
             setMsg("warning", "Pedido criado", "Seu pedido foi registrado, mas o boleto não pôde ser emitido agora. Nossa equipe vai enviar o boleto para você.");
+          } else {
+            const boletoPartes = String(dataBoleto.msg).split(";");
+            console.log("[boleto] partes da resposta:", boletoPartes);
+
+            tmpOrder.boleto_url = boletoPartes[0];
+            tmpOrder.boleto_vencimento = boletoPartes[1] ?? null;
           }
         }
 
